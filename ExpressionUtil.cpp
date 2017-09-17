@@ -1,11 +1,18 @@
 #include <algorithm>
 #include "ExpressionUtil.h"
 
-extern const std::vector<std::string>
-unaryOperators = { "u-", "sin", "cos", "tan", "asin", "acos", "atan" };
 
-extern const std::vector<std::string>
-binaryOperators = { "+", "-", "*", "/", "^", "=" };
+extern const std::vector<std::string> rightAssociativeOperators = {
+    "u-", "sin", "cos", "tan", "asin", "acos", "atan", "^"
+};
+
+extern const std::vector<std::string> unaryOperators = {
+    "u-", "sin", "cos", "tan", "asin", "acos", "atan"
+};
+
+extern const std::vector<std::string> binaryOperators = {
+    "+", "-", "*", "/", "^", "="
+};
 // binaryOperators = { "+", "-", "*", "/", "%", "^", "=" };
 
 static std::vector<std::string> operTmp;

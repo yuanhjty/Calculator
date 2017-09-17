@@ -6,9 +6,9 @@ int main() {
     Calculator* calc = new Calculator;
     std::string expression;  // To get input from cmd
 
-    std::cout << ">> This is yCalculator\n"
-              << ">> Plese enter expressions to be evaluated\n"
-              << ">> or enter 'Q' to quit.\n>> \n";
+    std::cout << "toy-calculator 0.1\n"
+              << "Type expressions to be evaluated\n"
+              << "Type 'q' to quit.\n\n";
 
     while (true) {
         std::cout << ">> ";     // Output prompt
@@ -23,6 +23,7 @@ int main() {
         try {
             calc->setInfix(expression);
             calc->setPostfix();
+            // std::cout << calc->getPostfix() << std::endl;  // for debug
             calc->evaluate();
         } catch (std::logic_error err) {
             std::cout << ">> " << err.what() << std::endl;

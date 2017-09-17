@@ -155,10 +155,12 @@ void Expression::setPostfix() {
                     throw InfixError(errMsg + exprSlice);
             }
 
-            while (!operatorStack.empty() &&
-                   !isPrior(token, operatorStack.top())) {
-                *_postfixPtr += operatorStack.top() + " ";
-                operatorStack.pop();
+            if (!operatorStack.empty() &&
+                    !(token == operatorStack.top() && isRightAssociative(token))) {
+                while (!isPrior(token, operatorStack.top())) {
+                    *_postfixPtr += operatorStack.top() + " ";
+                    operatorStack.pop();
+                }
             }
 
             operatorStack.push(token);

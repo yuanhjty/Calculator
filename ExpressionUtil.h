@@ -16,6 +16,7 @@ enum class OP {
 };
 
 
+extern const std::vector<std::string> rightAssociativeOperators;
 extern const std::vector<std::string> unaryOperators;
 extern const std::vector<std::string> binaryOperators;
 extern const std::vector<std::string> operators;
@@ -43,9 +44,15 @@ inline bool isOperand(const std::string& token) {
     return std::regex_match(token, operandRegex);
 }
 
-inline bool isPrior(const std::string& token1, const std::string& token2) {
-    return operatorPriority.find(token1)->second >
-            operatorPriority.find(token2)->second;
+inline bool isPrior(const std::string& lhs, const std::string& rhs) {
+    return operatorPriority.find(lhs)->second >
+            operatorPriority.find(rhs)->second;
+}
+
+inline bool isRightAssociative(const std::string& token) {
+    return std::find(rightAssociativeOperators.cbegin(),
+                     rightAssociativeOperators.cend(), token)!=
+            rightAssociativeOperators.end();
 }
 
 #endif // CONSTANTS_H

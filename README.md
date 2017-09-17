@@ -15,10 +15,10 @@ Have fun! And look forward to your advice.
 
 ```
 $ ./Calculator
->> This is yCalculator
->> Plese enter expressions to be evaluated
->> or enter 'Q' to quit.
->>
+toy-calculator 0.1
+Type expressions to be evaluated
+Type 'q' to quit.
+
 >> 22+5*3^(10-8)
 >>   ________________________________________
 >>
