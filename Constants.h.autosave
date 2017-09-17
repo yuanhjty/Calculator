@@ -1,0 +1,12 @@
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
+#include <vector>
+#include <map>
+#include <string>
+
+extern const std::vector<std::string> operators;
+extern const std::map<std::string, int> operatorPriority;
+extern const std::string digits;
+
+#endif // CONSTANTS_H

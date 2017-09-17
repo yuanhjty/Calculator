@@ -1,0 +1,14 @@
+#include "Constants.h"
+
+
+extern const std::vector<std::string> operators =
+{ "+", "-", "*", "/", "%", "^", "=", "u-",
+  "sin", "cos", "tan", "asin", "acos", "atan" };
+
+extern const std::map<std::string, int> operatorPriority = {
+    {"(",   0}, {"=",   1}, {"+",    4}, {"-",    4}, {"*",    5},
+    {"/",   5}, {"%",   5}, {"^",    6}, {"u-",   7}, {"sin",  7},
+    {"cos", 7}, {"tan", 7}, {"asin", 7}, {"acos", 7}, {"atan", 7}
+};
+
+extern const std::string digits = "0123456789.";
