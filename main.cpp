@@ -1,6 +1,6 @@
 #include "Manager.h"
-#include "Command.h"
 #include "Calculator.h"
+#include "Util.h"
 
 #include <iostream>
 #include <memory>
@@ -11,15 +11,15 @@
 int main(int argc, char *argv[])
 {
     // Create a scientific calculator by default and initialize it.
-    std::shared_ptr<Calculator> scientificCalculator(new ScientificCalculator);
-    scientificCalculator->init();
+    std::shared_ptr<Calculator> calculator(new ScientificCalculator);
+    calculator->init();
 
-    // Use the scientific calculator as current calculator.
-    std::shared_ptr<Calculator> currentCalculator = scientificCalculator;
-
-    // Create the commander.
+    // Create the manager.
     std::shared_ptr<Manager> manager(new Manager);
+    manager->setCalculator(calculator);
 
+    // Print welcom and help
+    printWelcom();
 
     // main loop
     while (true) {
@@ -28,60 +28,21 @@ int main(int argc, char *argv[])
         std::string line;
         std::getline(std::cin, line);   // Get input(could be a command or infix expression).
 
-        if (!cin.good()) {
+        if (!std::cin.good()) {
             std::cout << "Sorry! It seems something wrong, please try again!" << std::endl;
             continue;
         }
+
+        line = trimEndsWhites(line);
         if (line.empty())
             continue;
         if (line == "q" || line == "Q")
             break;
 
-        // core logic
-        auto it = commands.find(line);  // CommandExpression is not in commands.
-        if (it == commands.end()) {     // If true, the input will be treated as an expression.
-            // Create expression command and let the assistant execute the command.
-            std::shared_ptr<CommandExpression>
-                    commandExpression(new CommandExpression);
-            commandExpression->setCalculator(currentCalculator);
-            commandExpression->setInfixExpressoin(line);
+        manager->process(line);
 
-            manager->setCommand(commandExpression);
-            manager->executeCommand();
-
-            // Show result.
-            std::cout << ">> result = " << currentCalculator->getResult() << std::endl;
-        } else {                        // The input is one of the non-expression commands.
-            switch (it->second) {
-            case C_CONVERT_NUMBER_BASE:
-                std::shared_ptr<CommandConvertNumberBase>
-                        commandConvertNumberBase(new CommandConvertNumberBase);
-                commandConvertNumberBase->setCalculator(currentCalculator);
-                commandConvertNumberBase->setNumberBase(10);
-
-                manager->setCommand(commandConvertNumberBase);
-                manager->executeCommand();
-                break;
-            case C_SWITCH_CALCULATOR_TYPE:
-                std::shared_ptr<CommandSwitchCalculatorType>
-                        commandSwitchCalculatorType(new CommandSwitchCalculatorType);
-                commandSwitchCalculatorType->setCalculator(currentCalculator);
-                break;
-            case C_EVALUATE:
-                std::shared_ptr<CommandEvaluate> commandEvaluate(new CommandEvaluate);
-                commandEvaluate->setCalculator(currentCalculator);
-
-                manager->setCommand(commandEvaluate);
-                manager->executeCommand();
-
-                // Show result.
-                std::cout << ">> result = " << currentCalculator->getResult() << std::endl;
-                break;
-            default:
-                std::cerr << "Undefined input" << std::endl;
-                break;
-            }
-        }
+        printResult(calculator->getMessage(), calculator->getResult());
+    }
 
     return 0;
 }

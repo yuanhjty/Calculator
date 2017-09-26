@@ -15,19 +15,27 @@ class Calculator
 {
 protected:
     std::string m_result;
+    std::string m_message;
 
 public:
     virtual ~Calculator() = default;
 
     virtual void init() = 0;
-    virtual std::string scanInput(const std::string& input) = 0;
+    virtual void scanInput(const std::string& input) = 0;
     virtual void evaluate() = 0;
     virtual void reset() = 0;
 
-    std::string getResult() const {
-        return m_result;
-    }
+    std::string getResult() const;
+    std::string getMessage() const;
 };
+
+inline std::string Calculator::getResult() const {
+    return m_result;
+}
+
+inline std::string Calculator::getMessage() const {
+    return m_message;
+}
 
 
 ///
@@ -42,6 +50,7 @@ private:
     std::string m_infixExpression;
 
 public:
+    ScientificCalculator() = default;
     ScientificCalculator(
             const std::shared_ptr<Scanner>& scanner,
             const std::shared_ptr<Parser>& parser,
@@ -49,37 +58,45 @@ public:
             );
 
     // setter
-    void setScanner(std::shared_ptr<Scanner> scanner) {
-        m_scanner = scanner;
-    }
-
-    void setParser(std::shared_ptr<Parser> parser) {
-        m_parser = parser;
-    }
-
-    void setExpression(std::shared_ptr<Expression> expression) {
-        m_expression = expression;
-    }
+    void setScanner(std::shared_ptr<Scanner> scanner);
+    void setParser(std::shared_ptr<Parser> parser);
+    void setExpression(std::shared_ptr<Expression> expression);
 
     // initializer
     void init() override;
 
     // functional metheds
-    void scanInput(const std::string& input) override {
-        m_infixExpression = m_scanner->scan(input);
-    }
-
+    void scanInput(const std::string& input) override;
     void evaluate() override;
-
-    void reset() override {
-        m_infixExpression.clear();
-    }
+    void reset() override;
 
 private:
-    void buildExpression() {
-        m_expression = m_parser->parse(m_infixExpression);
-    }
+    void buildExpression();
 };
+
+inline void ScientificCalculator::setScanner(std::shared_ptr<Scanner> scanner) {
+    m_scanner = scanner;
+}
+
+inline void ScientificCalculator::setParser(std::shared_ptr<Parser> parser) {
+    m_parser = parser;
+}
+
+inline void ScientificCalculator::setExpression(std::shared_ptr<Expression> expression) {
+    m_expression = expression;
+}
+
+inline void ScientificCalculator::scanInput(const std::string &input) {
+    m_infixExpression = m_scanner->scan(input);
+}
+
+inline void ScientificCalculator::reset() {
+    m_infixExpression.clear();
+}
+
+inline void ScientificCalculator::buildExpression() {
+    m_expression = m_parser->parse(m_infixExpression);
+}
 
 
 ///

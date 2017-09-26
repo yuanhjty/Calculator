@@ -7,14 +7,14 @@ SOURCES += main.cpp \
     Calculator.cpp \
     Scanner.cpp \
     Parser.cpp \
-    Command.cpp \
     Expression.cpp \
-    Manager.cpp
+    Manager.cpp \
+    Util.cpp
 
 HEADERS += \
     Calculator.h \
     Scanner.h \
     Parser.h \
-    Command.h \
     Expression.h \
-    Manager.h
+    Manager.h \
+    Util.h

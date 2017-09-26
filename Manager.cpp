@@ -1,51 +1,55 @@
 #include "Manager.h"
 
 
-void Manager::process(const std::string &input)
+std::map<std::string, COMMAND> Manager::commands =
 {
-    std::string command = input.substr(
-                0, input.find_first_of(" \t", input.find_first_not_of(" \t")));
+    {"c-binary"  , C_BINARY  }, {"c-octal" , C_OCTAL }, {"c-decimal"    , C_DECIMAL    }, {"c-hex" , C_HEX },
+    {"c-weight"  , C_WEIGHT  }, {"c-length", C_LENGTH}, {"c-volume"     , C_VOLUME     }, {"c-area", C_AREA},
+    {"c-velocity", C_VELOCITY}, {"c-time"  , C_TIME  }, {"c-temperature", C_TEMPERATURE},
+    {"c-science" , C_SCIENCE },
+    {"c-evaluate", C_EVALUATE}
+};
 
-    auto it = commands.find(command);  // CommandExpression is not in commands.
-    if (it == commands.end()) {     // If true, the input will be treated as an expression.
-        // Create expression command and let the assistant execute the command.
-        std::shared_ptr<CommandExpression>
-                commandExpression(new CommandExpression);
-        commandExpression->setCalculator(currentCalculator);
-        commandExpression->setInfixExpressoin(line);
+void Manager::executeCommand(const std::string &command)
+{
+    if (command.empty())
+        return;
 
-        setCommand(commandExpression);
-        executeCommand();
-    } else {                        // The input is one of the non-expression commands.
+    auto it = commands.find(command);
+    if (it == commands.end()) { // If true, the input will be treated as an expression.
+        evaluate();
+    } else {
         switch (it->second) {
+        case C_BINARY:
+        case C_OCTAL:
+        case C_DECIMAL:
+        case C_WEIGHT:
+        case C_LENGTH:
+        case C_VOLUME:
+        case C_AREA:
+        case C_VELOCITY:
+        case C_TIME:
+        case C_TEMPERATURE:
+        case C_SCIENCE:
         case C_EVALUATE:
-            std::shared_ptr<CommandEvaluate> commandEvaluate(new CommandEvaluate);
-            commandEvaluate->setCalculator(currentCalculator);
-
-            setCommand(commandEvaluate);
-            executeCommand();
-
-            break;
-        case C_CONVERT_NUMBER_BASE:
-            std::shared_ptr<CommandConvertNumberBase>
-                    commandConvertNumberBase(new CommandConvertNumberBase);
-            commandConvertNumberBase->setCalculator(currentCalculator);
-            commandConvertNumberBase->setNumberBase(10);
-
-            setCommand(commandConvertNumberBase);
-            executeCommand();
-            break;
-        case C_SWITCH_CALCULATOR_TYPE:
-            std::shared_ptr<CommandSwitchCalculatorType>
-                    commandSwitchCalculatorType(new CommandSwitchCalculatorType);
-            commandSwitchCalculatorType->setCalculator(currentCalculator);
-
-            setCommand(commandSwitchCalculatorType);
-            executeCommand();
+            evaluate();
             break;
         default:
-            std::cerr << "Undefined input" << std::endl;
+            std::cerr << "Invalid input" << std::endl;
             break;
         }
     }
 }
+
+void Manager::evaluate()
+{
+    m_calculator->scanInput(m_input);
+    m_calculator->evaluate();
+}
+
+void Manager::process(const std::string &input)
+{
+    setInput(input);
+    executeCommand(getCommand());
+}
+
