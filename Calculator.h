@@ -8,14 +8,11 @@
 #include <string>
 #include <memory>
 
-///
-/// \brief The Calculator class
-///
+
+/////////////////////////////////
+// The Calculator class
 class Calculator
 {
-protected:
-    std::string m_result;
-
 public:
     virtual ~Calculator() = default;
 
@@ -24,40 +21,30 @@ public:
     virtual void evaluate() = 0;
     virtual void reset() = 0;
 
-    std::string getResult() const;
-    virtual std::string getMessage() const = 0;
+    virtual std::shared_ptr<std::string> getResult() const = 0;
+    virtual std::shared_ptr<std::string> getMessage() const = 0;
 };
 
-inline std::string Calculator::getResult() const {
-    return m_result;
-}
 
-
-///
-/// \brief The ScientificCalculator class
-///
+/////////////////////////////////
+// The ScientificCalculator class
 class ScientificCalculator : public Calculator
 {
 private:
     std::shared_ptr<Scanner> m_scanner;
     std::shared_ptr<Parser> m_parser;
     std::shared_ptr<Expression> m_expression;
-    std::string m_infixExpression;
+    std::shared_ptr<std::string> m_infixExpression;
+
+private:
+    // set members
+    void setScanner(const std::shared_ptr<Scanner>& scanner);
+    void setParser(const std::shared_ptr<Parser>& parser);
+    void setInfixExpression(const std::shared_ptr<std::string>& infixExpression);
+    void setExpression(const std::shared_ptr<Expression>& expression);
 
 public:
-    ScientificCalculator() = default;
-    ScientificCalculator(
-            const std::shared_ptr<Scanner>& scanner,
-            const std::shared_ptr<Parser>& parser,
-            const std::shared_ptr<Expression>& expression
-            );
-
-    // setter
-    void setScanner(std::shared_ptr<Scanner> scanner);
-    void setParser(std::shared_ptr<Parser> parser);
-    void setExpression(std::shared_ptr<Expression> expression);
-
-    // initializer
+    // initialize object
     void init() override;
 
     // functional metheds
@@ -65,51 +52,49 @@ public:
     void evaluate() override;
     void reset() override;
 
-    // send some messages to users when necessary
-    std::string getMessage() const override;
-
-private:
-    void buildExpression();
+    // get result and message
+    std::shared_ptr<std::string> getMessage() const override;
+    std::shared_ptr<std::string> getResult() const override;
 };
 
-inline void ScientificCalculator::setScanner(std::shared_ptr<Scanner> scanner) {
+
+// set members
+inline void ScientificCalculator::setScanner(
+        const std::shared_ptr<Scanner>& scanner) {
     m_scanner = scanner;
 }
 
-inline void ScientificCalculator::setParser(std::shared_ptr<Parser> parser) {
+inline void ScientificCalculator::setParser(
+        const std::shared_ptr<Parser>& parser) {
     m_parser = parser;
 }
 
-inline void ScientificCalculator::setExpression(std::shared_ptr<Expression> expression) {
+inline void ScientificCalculator::setInfixExpression(
+        const std::shared_ptr<std::string> &infixExpression) {
+    m_infixExpression = infixExpression;
+}
+
+inline void ScientificCalculator::setExpression(
+        const std::shared_ptr<Expression>& expression) {
     m_expression = expression;
 }
 
-inline void ScientificCalculator::scanInput(const std::string &input) {
-    m_infixExpression = m_scanner->scan(input);
-}
 
+// reset infix expression
 inline void ScientificCalculator::reset() {
-    m_infixExpression.clear();
+    m_infixExpression->clear();
 }
 
-inline std::string ScientificCalculator::getMessage() const {
+
+// get message
+inline std::shared_ptr<std::string> ScientificCalculator::getMessage() const {
     return m_infixExpression;
 }
 
-inline void ScientificCalculator::buildExpression() {
-    m_expression = m_parser->parse(m_infixExpression);
+// get result
+inline std::shared_ptr<std::string> ScientificCalculator::getResult() const {
+    return m_expression->showValue();
 }
-
-
-///
-/// \brief The ConversionCalculator class
-///
-class ConversionCalculator : public Calculator
-{
-public:
-    void init();
-    void evaluate() override;
-};
 
 
 #endif // CALCULATOR_H

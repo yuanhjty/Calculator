@@ -12,9 +12,10 @@ std::string trimEndsWhites(const std::string &str) {
     return str.substr(first, n);
 }
 
-void printResult(const std::string &message, const std::string &result) {
+void printResult(const std::shared_ptr<std::string>& message,
+                 const std::shared_ptr<std::string>& result) {
     std::cout << ">>   " << std::string(40, '_')
-              << "\n>>\n>>   " << message << "\n>>\n>>   = " << result
+              << "\n>>\n>>   " << *message << "\n>>\n>>   = " << *result
               << "\n>>   " << std::string(40, '_') << "\n>>\n";
 }
 

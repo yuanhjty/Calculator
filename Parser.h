@@ -9,12 +9,28 @@
 
 class Parser
 {
+protected:
+    std::shared_ptr<ExpressionTree> m_expressionTree;
+
 public:
-    Parser();
+    virtual ~Parser() = default;
+    virtual void init();
+    virtual void parse(const std::shared_ptr<std::string>& infixExpression);
 
-    void init();
+    std::shared_ptr<ExpressionTree> getExpressionTree() const;
 
-    std::shared_ptr<Expression> parse(const std::string& infixExpression);
+private:
+    void setExpressionTree(const std::shared_ptr<ExpressionTree>& expressionTree);
+
 };
+
+inline std::shared_ptr<ExpressionTree> Parser::getExpressionTree() const {
+    return m_expressionTree;
+}
+
+inline void Parser::setExpressionTree(const std::shared_ptr<ExpressionTree> &expressionTree) {
+    m_expressionTree = expressionTree;
+}
+
 
 #endif // PARSER_H

@@ -1,16 +1,17 @@
 #include "Scanner.h"
 
-Scanner::Scanner()
-{
-
-}
 
 void Scanner::init()
 {
 
 }
 
-std::string Scanner::scan(const std::string &input)
-{
-    return input;
+void Scanner::scan(const std::string &input) {
+    std::shared_ptr<std::string> expression(new std::string);
+
+    expression->append(input);  // for framework test
+
+    setExpression(expression);
 }
+
+

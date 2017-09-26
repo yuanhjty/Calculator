@@ -1,17 +1,15 @@
 #include "Parser.h"
 
-Parser::Parser()
-{
+
+void Parser::init() {
 
 }
 
-void Parser::init()
-{
+void Parser::parse(const std::shared_ptr<std::string>& infixExpression) {
+//    std::shared_ptr<ExpressionTree> expressionTree;
 
+    std::shared_ptr<ExpressionTree> expressionTree(new ExpressionTree); // for framework test
+
+    setExpressionTree(expressionTree);
 }
 
-std::shared_ptr<Expression> Parser::parse(const std::string &infixExpression)
-{
-    std::shared_ptr<Expression> expression(new Expression);
-    return expression;
-}

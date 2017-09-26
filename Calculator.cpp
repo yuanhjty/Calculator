@@ -1,43 +1,29 @@
 #include "Calculator.h"
 
 
-ScientificCalculator::ScientificCalculator(
-        const std::shared_ptr<Scanner> &scanner,
-        const std::shared_ptr<Parser> &parser,
-        const std::shared_ptr<Expression> &expression)
-{
-
-}
-
 void ScientificCalculator::init()
 {
     std::shared_ptr<Scanner> scanner(new Scanner);
     std::shared_ptr<Parser> parser(new Parser);
-    std::shared_ptr<Expression> expression(new Expression);
 
     scanner->init();
     parser->init();
-    expression->init();
 
-    m_scanner = scanner;
-    m_parser = parser;
-    m_expression = expression;
+    setScanner(scanner);
+    setParser(parser);
 }
 
 void ScientificCalculator::evaluate() {
-    buildExpression();
+    m_parser->parse(m_infixExpression);
+
+    std::shared_ptr<Expression> expression(
+                new Expression(m_parser->getExpressionTree()));
+    setExpression(expression);
+
     m_expression->evaluate();
-
-    m_result = m_expression->getResult();
 }
 
-
-void ConversionCalculator::init()
-{
-
-}
-
-void ConversionCalculator::evaluate()
-{
-
+void ScientificCalculator::scanInput(const std::string &input) {
+    m_scanner->scan(input);
+    setInfixExpression(m_scanner->getExpression());
 }
