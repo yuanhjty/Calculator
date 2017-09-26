@@ -29,7 +29,6 @@ void ScientificCalculator::evaluate() {
     m_expression->evaluate();
 
     m_result = m_expression->getResult();
-    m_message = m_infixExpression;
 }
 
 

@@ -15,7 +15,6 @@ class Calculator
 {
 protected:
     std::string m_result;
-    std::string m_message;
 
 public:
     virtual ~Calculator() = default;
@@ -26,15 +25,11 @@ public:
     virtual void reset() = 0;
 
     std::string getResult() const;
-    std::string getMessage() const;
+    virtual std::string getMessage() const = 0;
 };
 
 inline std::string Calculator::getResult() const {
     return m_result;
-}
-
-inline std::string Calculator::getMessage() const {
-    return m_message;
 }
 
 
@@ -70,6 +65,9 @@ public:
     void evaluate() override;
     void reset() override;
 
+    // send some messages to users when necessary
+    std::string getMessage() const override;
+
 private:
     void buildExpression();
 };
@@ -92,6 +90,10 @@ inline void ScientificCalculator::scanInput(const std::string &input) {
 
 inline void ScientificCalculator::reset() {
     m_infixExpression.clear();
+}
+
+inline std::string ScientificCalculator::getMessage() const {
+    return m_infixExpression;
 }
 
 inline void ScientificCalculator::buildExpression() {

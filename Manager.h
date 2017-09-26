@@ -31,7 +31,6 @@ public:
 
 private:
     void setInput(const std::string& input);
-
     std::string getCommand();
     void executeCommand(const std::string& command);
     void evaluate();

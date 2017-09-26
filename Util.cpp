@@ -2,9 +2,14 @@
 
 
 std::string trimEndsWhites(const std::string &str) {
-    auto pos = str.find_first_not_of(" \t");
-    auto n = str.find_last_not_of(" \t") - pos + 1;
-    return str.substr(pos, n);
+    auto first = str.find_first_not_of(" \t");
+    if (first == std::string::npos)
+        return str.substr(0, 0);
+
+    auto last = str.find_last_not_of(" \t");
+    auto n = last == std::string::npos ? str.size() - first : last - first + 1;
+
+    return str.substr(first, n);
 }
 
 void printResult(const std::string &message, const std::string &result) {
