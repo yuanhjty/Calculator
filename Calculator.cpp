@@ -1,29 +1,30 @@
 #include "Calculator.h"
 
 
-void ScientificCalculator::init()
-{
-    std::shared_ptr<Scanner> scanner(new Scanner);
-    std::shared_ptr<Parser> parser(new Parser);
+Calculator::Calculator() :
+    m_lexemePattern(new std::string),
+    m_scannedExpression(new std::string),
+    m_validExpression(new std::string),
+    m_result(new std::string),
+    m_history(new std::vector<std::pair<std::string, std::string>>) {}
 
-    scanner->init();
-    parser->init();
-
-    setScanner(scanner);
-    setParser(parser);
+void Calculator::clear() {
+    m_scannedExpression->clear();
+    m_validExpression->clear();
+    m_result->clear();
 }
 
-void ScientificCalculator::evaluate() {
-    m_parser->parse(m_infixExpression);
-
-    std::shared_ptr<Expression> expression(
-                new Expression(m_parser->getExpressionTree()));
-    setExpression(expression);
-
-    m_expression->evaluate();
+void Calculator::reset() {
+    clear();
+    m_history->clear();
 }
 
-void ScientificCalculator::scanInput(const std::string &input) {
-    m_scanner->scan(input);
-    setInfixExpression(m_scanner->getExpression());
+std::pair<std::string, std::string> Calculator::getHistory(int index) {
+    int hSize = m_history->size();
+
+    // index range should be [-hSize, -1]
+    index = index > -1 ? -1 : index;            // now index range is (-infinity, -1]
+    index = index < -hSize ? -hSize : index;    // now index range is [-hSize, -1]
+
+    return m_history->at(hSize + index);
 }

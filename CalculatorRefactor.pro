@@ -3,18 +3,21 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += main.cpp \
-    Calculator.cpp \
+SOURCES += \
     Scanner.cpp \
     Parser.cpp \
-    Expression.cpp \
-    Manager.cpp \
-    Util.cpp
+    Util.cpp \
+    CmdCalculator.cpp \
+    ScientificCalculator.cpp \
+    ExpressionTree.cpp \
+    Calculator.cpp \
+    CalculatorManager.cpp
 
 HEADERS += \
     Calculator.h \
     Scanner.h \
     Parser.h \
-    Expression.h \
-    Manager.h \
-    Util.h
+    Util.h \
+    ScientificCalculator.h \
+    ExpressionTree.h \
+    CalculatorManager.h

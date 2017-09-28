@@ -1,32 +1,40 @@
 #ifndef SCANNER_H
 #define SCANNER_H
 
+#include "Util.h"
+
 #include <string>
 #include <memory>
+#include <regex>
 
-class Scanner
-{
-protected:
+
+//
+// Define class Scanner
+//
+class Scanner {
+private:
+    std::shared_ptr<std::string> m_lexemePattern;
     std::shared_ptr<std::string> m_expression;
 
 public:
-    virtual ~Scanner() = default;
-    virtual void init();
-    virtual void scan(const std::string& input);
-
-    std::shared_ptr<std::string> getExpression() const;
-
-protected:
-    void setExpression(const std::shared_ptr<std::string>& expression);
+    void setLexemePattern(const std::shared_ptr<std::string>& lexemePattern);
+    void setExpression(const std::shared_ptr<std::string>& infixExpression);
+    void scan(const std::shared_ptr<std::string>& input);
 };
 
 
-inline std::shared_ptr<std::string> Scanner::getExpression() const {
-    return m_expression;
+//
+// Implement methods
+//
+// setLexemePattern
+inline void Scanner::setLexemePattern(const std::shared_ptr<std::string>& lexemePattern) {
+    m_lexemePattern = lexemePattern;
 }
 
-inline void Scanner::setExpression(const std::shared_ptr<std::string>& expression) {
-    m_expression = expression;
+// setExpression
+inline void Scanner::setExpression(const std::shared_ptr<std::string>& infixExpression) {
+    m_expression = infixExpression;
 }
+
 
 #endif // SCANNER_H

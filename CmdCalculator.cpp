@@ -1,4 +1,4 @@
-#include "Manager.h"
+#include "CalculatorManager.h"
 #include "Calculator.h"
 #include "Util.h"
 
@@ -8,18 +8,11 @@
 #include <algorithm>
 
 
-int main(int argc, char *argv[])
-{
-    // Create a scientific calculator by default and initialize it.
-    std::shared_ptr<Calculator> calculator(new ScientificCalculator);
-    calculator->init();
+int main() {
+    std::shared_ptr<CalculatorManager> calculatorManager(
+                new CalculatorManager);
 
-    // Create the manager.
-    std::shared_ptr<Manager> manager(new Manager);
-    manager->setCalculator(calculator);
-
-    // Print welcom and help
-    printWelcom();
+    Util::printWelcome();
 
     // main loop
     while (true) {
@@ -33,15 +26,15 @@ int main(int argc, char *argv[])
             continue;
         }
 
-        line = trimEndsWhites(line);
+        line = Util::trimEndsSpaces(line);
         if (line.empty())
             continue;
         if (line == "q" || line == "Q")
             break;
 
-        manager->process(line);
+        calculatorManager->processInput(line);
 
-        printResult(calculator->getMessage(), calculator->getResult());
+        Util::printResult(calculatorManager->getExpression(), calculatorManager->getResult());
     }
 
     return 0;

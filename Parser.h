@@ -1,35 +1,31 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include "Expression.h"
+#include "ExpressionTree.h"
 
 #include <memory>
 #include <string>
 
 
-class Parser
-{
-protected:
-    std::shared_ptr<ExpressionTree> m_expressionTree;
+//
+// Define class Parser
+//
+class Parser {
+private:
+    std::shared_ptr<Expression> m_expression;
 
 public:
-    virtual ~Parser() = default;
-    virtual void init();
-    virtual void parse(const std::shared_ptr<std::string>& infixExpression);
-
-    std::shared_ptr<ExpressionTree> getExpressionTree() const;
-
-private:
-    void setExpressionTree(const std::shared_ptr<ExpressionTree>& expressionTree);
-
+    void setExpression(const std::shared_ptr<Expression>& expression);
+    void parse(const std::shared_ptr<std::string>& infixExpression);
 };
 
-inline std::shared_ptr<ExpressionTree> Parser::getExpressionTree() const {
-    return m_expressionTree;
-}
 
-inline void Parser::setExpressionTree(const std::shared_ptr<ExpressionTree> &expressionTree) {
-    m_expressionTree = expressionTree;
+//
+// Implement methods
+//
+// setExpressionTree
+inline void Parser::setExpression(const std::shared_ptr<Expression> &expression) {
+    m_expression = expression;
 }
 
 
