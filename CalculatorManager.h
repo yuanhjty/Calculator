@@ -11,9 +11,7 @@
 #include <map>
 
 
-//
 // Define enum COMMAND
-//
 enum COMMAND
 {
     // To convert number base in programmer calculator.
@@ -31,13 +29,12 @@ enum COMMAND
     C_HELP,
 
     // Other commands
-    C_FINISH, C_RESET, C_CLEAR,
+//    C_FINISH, C_RESET, C_CLEAR,
+    C_RESET,
 };
 
 
-//
 // Define class CalculatorManager
-//
 class CalculatorManager {
 private:
     std::shared_ptr<Calculator> m_calculator;
@@ -49,41 +46,34 @@ private:
 public:
     CalculatorManager();
     void processInput(const std::string& input);
-    std::string getResult() const;
-    std::string getExpression() const;
+    std::string showResult() const;
+    std::string showHistory(int index) const;   // index expected: -1, -2, -3, ...
 
 private:
     void updateInput(const std::string& input);
     std::string parseCommand();
     void executeCommand(const std::string& command);
     void evaluate();
-    void finish();
-    void clearCalculator();
-    void resetCalculate();
+    void resetCalculator();
     void switchCalculator(const std::shared_ptr<Calculator>& calculator);
 };
 
 
-//
-// Implement private methods
-//
 // updateInput
 inline void CalculatorManager::updateInput(const std::string& input) {
     *m_input = Util::trimEndsSpaces(input);
 }
 
-// finishScan
-inline void CalculatorManager::finish() {
-    m_calculator->updateHistory();
+inline std::string CalculatorManager::showResult() const {
+    return m_calculator->showResult();
 }
 
-// clearCalculator
-inline void CalculatorManager::clearCalculator() {
-    m_calculator->clear();
+inline std::string CalculatorManager::showHistory(int index) const {
+    m_calculator->showHistory(index);
 }
 
 // resetCalculator
-inline void CalculatorManager::resetCalculate() {
+inline void CalculatorManager::resetCalculator() {
     m_calculator->reset();
 }
 

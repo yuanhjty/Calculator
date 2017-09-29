@@ -12,7 +12,10 @@ int main() {
     std::shared_ptr<CalculatorManager> calculatorManager(
                 new CalculatorManager);
 
-    Util::printWelcome();
+//    Util::printWelcome();
+    std::cout << "toy-calculator 0.1\n"
+              << "Type expressions to be evaluated\n"
+              << "Type 'q' to quit.\n\n";
 
     // main loop
     while (true) {
@@ -34,7 +37,10 @@ int main() {
 
         calculatorManager->processInput(line);
 
-        Util::printResult(calculatorManager->getExpression(), calculatorManager->getResult());
+//        Util::printResult(calculatorManager->getExpression(), calculatorManager->getResult());
+        std::cout << "   " << std::string(40, '_')
+                  << "\n   " << calculatorManager->showResult()
+                  << "\n   " << std::string(40, '_') << "\n\n";
     }
 
     return 0;

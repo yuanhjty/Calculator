@@ -3,7 +3,7 @@
 
 
 #include "Calculator.h"
-#include "ExpressionTree.h"
+#include "Expression.h"
 #include "Scanner.h"
 #include "Parser.h"
 #include "Util.h"
@@ -23,27 +23,35 @@ protected:
 
 public:
     ScientificCalculator();
+
+protected:
+    void configureScanner();
+    void configureParser();
+
+public:
     void scanInput(const std::shared_ptr<std::string>& input) override;
     void evaluate() override;
+    std::string showResult() const override;
+    std::string showHistory(int index) const override;  // index = -1, -2, -3, ...
 
 protected:
     void configureLexemePattern(const std::string& lexemePattern) override;
-    void configureScanner();
-    void configureParser();
-    void updateResult() override;
+    void updateResult(const std::string& value) override;
+    std::string formatResult(const std::pair<std::string, std::string>& result) const;
 };
 
 
 //
-// Implement methods
+// override methods
 //
+// scanInput
 inline void ScientificCalculator::scanInput(const std::shared_ptr<std::string>& input) {
     m_scanner->scan(input);
 }
 
-// updateResult
-inline void ScientificCalculator::updateResult() {
-    *m_result = Util::toString(m_Expression->value());
+// showResult
+inline std::string ScientificCalculator::showResult() const {
+    return formatResult(*m_result);
 }
 
 

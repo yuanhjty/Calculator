@@ -9,9 +9,12 @@ SOURCES += \
     Util.cpp \
     CmdCalculator.cpp \
     ScientificCalculator.cpp \
-    ExpressionTree.cpp \
     Calculator.cpp \
-    CalculatorManager.cpp
+    CalculatorManager.cpp \
+    BinaryOperator.cpp \
+    UnaryOperator.cpp \
+    Function.cpp \
+    Expression.cpp
 
 HEADERS += \
     Calculator.h \
@@ -19,5 +22,18 @@ HEADERS += \
     Parser.h \
     Util.h \
     ScientificCalculator.h \
+    CalculatorManager.h \
+    Expression.h \
     ExpressionTree.h \
-    CalculatorManager.h
+    BinaryOperator.h \
+    UnaryOperator.h \
+    Function.h \
+    Operand.h
+
+DISTFILES += \
+    build/Desktop_Qt_5_6_2_MSVC2015_64bit/debug/CalculatorRefactor.ilk \
+    build/Desktop_Qt_5_6_2_MSVC2015_64bit/debug/CalculatorRefactor.pdb \
+    build/Desktop_Qt_5_6_2_MSVC2015_64bit/debug/CalculatorRefactor.vc.pdb \
+    build/Desktop_Qt_5_6_2_MSVC2015_64bit/debug/CalculatorRefactor.exe \
+    .gitignore \
+    commit-description.txt

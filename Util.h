@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 #include <memory>
-
+#include <climits>
 
 //
 // Define class Util
@@ -13,10 +13,16 @@
 class Util {
 public:
     static std::string trimEndsSpaces(const std::string& str);
-    static void printResult(const std::string& expression, const std::string& result);
-    static void printWelcome();
-    static void printHelp();
+
+//    static void printResult(const std::string& expression, const std::string& result);
+//    static void printWelcome();
+//    static void printHelp();
+
     static std::string toString(double value);
+
+    static bool isDblToLLongValid(double dValue) {
+        return ((long)dValue == dValue);
+    }
 };
 
 

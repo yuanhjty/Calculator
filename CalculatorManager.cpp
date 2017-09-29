@@ -21,7 +21,8 @@ std::map<std::string, COMMAND> CalculatorManager::commands = {
     {"help", C_HELP},
 
     // Other commands
-    {"finish",C_FINISH}, {"reset", C_RESET}, {"clear", C_CLEAR},
+//    {"finish",C_FINISH}, {"reset", C_RESET}, {"clear", C_CLEAR},
+    {"reset", C_RESET},
 };
 
 
@@ -40,13 +41,14 @@ void CalculatorManager::processInput(const std::string& input) {
 }
 
 // getResult
-std::string CalculatorManager::getResult() const {
-    return *(m_calculator->getResult());
-}
+//std::string CalculatorManager::getResult() const {
+//    return *(m_calculator->getResult());
+//}
 
-std::string CalculatorManager::getExpression() const {
-    return *(m_calculator->getValidExpression());
-}
+// getExpression
+//std::string CalculatorManager::getExpression() const {
+//    return *(m_calculator->getValidExpression());
+//}
 
 
 //
@@ -82,16 +84,9 @@ void CalculatorManager::executeCommand(const std::string &command) {
             evaluate();
             break;
         case C_HELP:
-            Util::printHelp();
-            break;
-        case C_FINISH:
-            finish();
             break;
         case C_RESET:
-            resetCalculate();
-            break;
-        case C_CLEAR:
-            clearCalculator();
+            resetCalculator();
             break;
         default:
             std::cerr << "Invalid input" << std::endl;
@@ -105,5 +100,3 @@ void CalculatorManager::evaluate() {
     m_calculator->scanInput(m_input);
     m_calculator->evaluate();
 }
-
-

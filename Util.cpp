@@ -17,23 +17,23 @@ std::string Util::trimEndsSpaces(const std::string &str) {
 }
 
 // printResult
-void Util::printResult(const std::string& expression, const std::string& result) {
-    std::cout << ">>   " << std::string(40, '_')
-              << "\n>>\n>>   " << expression << "\n>>\n>>   = " << result
-              << "\n>>   " << std::string(40, '_') << "\n>>\n";
-}
+//void Util::printResult(const std::string& expression, const std::string& result) {
+//    std::cout << ">>   " << std::string(40, '_')
+//              << "\n>>\n>>   " << expression << "\n>>\n>>   = " << result
+//              << "\n>>   " << std::string(40, '_') << "\n>>\n";
+//}
 
 // printWelcome
-void Util::printWelcome() {
-    std::cout << "toy-calculator 0.1\n"
-              << "Type expressions to be evaluated\n"
-              << "Type 'q' to quit.\n\n";
-}
+//void Util::printWelcome() {
+//    std::cout << "toy-calculator 0.1\n"
+//              << "Type expressions to be evaluated\n"
+//              << "Type 'q' to quit.\n\n";
+//}
 
 // printHelp
-void Util::printHelp() {
-    // print help messages
-}
+//void Util::printHelp() {
+//    // print help messages
+//}
 
 // toString
 std::string Util::toString(double value) {
@@ -48,7 +48,7 @@ const std::string LexemePattern::numOctal = "[0-7]+";
 const std::string LexemePattern::numDecimal = "\\d+";
 const std::string LexemePattern::numHex = "[[:xdigit:]]+";
 const std::string LexemePattern::opCommon = "[\\+\\-\\*/]";
-const std::string LexemePattern::opBitwise = "[\\+\\-\\*/\\|&\\^~]";
+const std::string LexemePattern::opBitwise = "[\\+\\-\\*/\\|&\\^~%]";
 const std::string LexemePattern::symFunction = "[[:alpha:]]+";
 const std::string LexemePattern::parenthesis = "[\\(\\)]";
 const std::string LexemePattern::space = "\\s";
