@@ -1,11 +1,19 @@
 #include "Parser.h"
 
 
-//
-// Implement public methods.
-//
-// parse
-void Parser::parse(const std::shared_ptr<std::string>& expression) {
+// destructor
+Parser::~Parser() {
+    if (m_expressionTree) delete m_expressionTree;
+}
 
+// parse
+void Parser::parse() {
+    setExpressionTree(generateExpressionTree());
+    updateExpression();
+}
+
+// generateExpressionTree
+ExpressionTree* Parser::generateExpressionTree() {
+    return nullptr;
 }
 

@@ -11,9 +11,8 @@
 #include <map>
 
 
-// Define enum COMMAND
-enum COMMAND
-{
+// The enum COMMAND
+enum COMMAND {
     // To convert number base in programmer calculator.
     C_BINARY, C_OCTAL, C_DECIMAL, C_HEX,
 
@@ -25,51 +24,71 @@ enum COMMAND
     // To evaluate expression.
     C_EVALUATE,
 
-    // To print help messages.
-    C_HELP,
+    // To reset caldulator
+    C_RESET,
 
     // Other commands
-//    C_FINISH, C_RESET, C_CLEAR,
-    C_RESET,
+    C_HELP, C_QUIT, C_CONTINUE, C_COMPLETE
 };
 
 
-// Define class CalculatorManager
+// The class CalculatorManager
 class CalculatorManager {
 private:
     std::shared_ptr<Calculator> m_calculator;
-    std::shared_ptr<std::string> m_input;
+    StringPtr m_input;
+    std::pair<StringPtr,StringPtr> m_result;
 
 private:
     static std::map<std::string, COMMAND> commands;
 
 public:
     CalculatorManager();
-    void processInput(const std::string& input);
-    std::string showResult() const;
-    std::string showHistory(int index) const;   // index expected: -1, -2, -3, ...
+    void setInput(const StringPtr& input);
+    int performTask();
+    std::pair<StringPtr, StringPtr> showResult() const;
+    std::pair<StringPtr, StringPtr> getResult() const;
+    std::pair<StringPtr, StringPtr> getHistory(int index) const;    // index expected: -1, -2, -3, ...
 
 private:
-    void updateInput(const std::string& input);
     std::string parseCommand();
-    void executeCommand(const std::string& command);
+    int executeCommand(const std::string& command);
     void evaluate();
+    void setResult(const std::pair<StringPtr, StringPtr>& result);
+    void updateHistory();
     void resetCalculator();
     void switchCalculator(const std::shared_ptr<Calculator>& calculator);
 };
 
 
-// updateInput
-inline void CalculatorManager::updateInput(const std::string& input) {
-    *m_input = Util::trimEndsSpaces(input);
+// setInput
+inline void CalculatorManager::setInput(const StringPtr& input) {
+    m_input = input;
 }
 
-inline std::string CalculatorManager::showResult() const {
-    return m_calculator->showResult();
+// showResult
+inline std::pair<StringPtr, StringPtr> CalculatorManager::showResult() const {
+    return m_result;
 }
 
-inline std::string CalculatorManager::showHistory(int index) const {
-    m_calculator->showHistory(index);
+// getResult
+inline std::pair<StringPtr, StringPtr> CalculatorManager::getResult() const {
+    return m_calculator->getResult();
+}
+
+// getHistory
+inline std::pair<StringPtr, StringPtr> CalculatorManager::getHistory(int index) const {
+    return m_calculator->getHistory(index);
+}
+
+// setResult
+inline void CalculatorManager::setResult(const std::pair<StringPtr, StringPtr>& result) {
+    m_result = result;
+}
+
+// updateHistory
+inline void CalculatorManager::updateHistory() {
+    m_calculator->updateHistory();
 }
 
 // resetCalculator

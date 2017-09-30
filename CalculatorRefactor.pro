@@ -13,8 +13,7 @@ SOURCES += \
     CalculatorManager.cpp \
     BinaryOperator.cpp \
     UnaryOperator.cpp \
-    Function.cpp \
-    Expression.cpp
+    Function.cpp
 
 HEADERS += \
     Calculator.h \

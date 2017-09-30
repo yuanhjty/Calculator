@@ -14,11 +14,20 @@ private:
 public:
     ~Expression();
     void setExpressionTree(ExpressionTree* expressionTree);
-    std::string evaluate();
+    double evaluate();
 };
+
+
+inline Expression::~Expression() {
+    if (m_expressionTree) delete m_expressionTree;
+}
 
 inline void Expression::setExpressionTree(ExpressionTree *expressionTree) {
     m_expressionTree = expressionTree;
+}
+
+inline double Expression::evaluate() {
+    return m_expressionTree->evaluate();
 }
 
 

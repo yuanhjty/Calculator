@@ -1,6 +1,4 @@
 #include "CalculatorManager.h"
-#include "Calculator.h"
-#include "Util.h"
 
 #include <iostream>
 #include <memory>
@@ -9,37 +7,40 @@
 
 
 int main() {
-    std::shared_ptr<CalculatorManager> calculatorManager(
-                new CalculatorManager);
+    std::shared_ptr<CalculatorManager> calculatorManager(new CalculatorManager);
+    StringPtr input(new std::string);
+    std::pair<StringPtr, StringPtr> result;
+    int command = -1;
 
-//    Util::printWelcome();
+    // print welcome
     std::cout << "toy-calculator 0.1\n"
               << "Type expressions to be evaluated\n"
               << "Type 'q' to quit.\n\n";
 
     // main loop
     while (true) {
-        std::cout << ">> ";             // Output prompt.
+        std::cout << ">> ";     // Print prompt chars.
 
-        std::string line;
-        std::getline(std::cin, line);   // Get input(could be a command or infix expression).
+        std::getline(std::cin, *input);   // Get input(could be a command or infix expression).
 
         if (!std::cin.good()) {
             std::cout << "Sorry! It seems something wrong, please try again!" << std::endl;
+            std::cin.clear();
             continue;
         }
 
-        line = Util::trimEndsSpaces(line);
-        if (line.empty())
+        calculatorManager->setInput(input);
+        command = calculatorManager->performTask();
+
+        if (C_CONTINUE == command)
             continue;
-        if (line == "q" || line == "Q")
+
+        if (C_QUIT == command)
             break;
 
-        calculatorManager->processInput(line);
-
-//        Util::printResult(calculatorManager->getExpression(), calculatorManager->getResult());
+        result = calculatorManager->showResult();
         std::cout << "   " << std::string(40, '_')
-                  << "\n   " << calculatorManager->showResult()
+                  << "\n   " << *result.first << "\n   =" << *result.second
                   << "\n   " << std::string(40, '_') << "\n\n";
     }
 

@@ -3,11 +3,8 @@
 #include <exception>
 
 
-//
-// Implement public methods
-//
 // scan
-void Scanner::scan(const std::shared_ptr<std::string>& input) {
+void Scanner::scan(const StringPtr& input) {
     std::regex rLexeme(*m_lexemePattern);
     std::regex rSpace(LexemePattern::space);
 
@@ -24,6 +21,6 @@ void Scanner::scan(const std::shared_ptr<std::string>& input) {
 
         token = pos++->str();       // token
         if (!std::regex_match(token, rSpace))       // Ignore space tokens.
-            m_expression->append(token + " "); // Separate non space tokens with a space
+            m_scannedExpression->append(token + " "); // Separate non space tokens with a space
     }
 }

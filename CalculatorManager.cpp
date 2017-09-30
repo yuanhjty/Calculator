@@ -1,9 +1,6 @@
 #include "CalculatorManager.h"
 
 
-//
-// Implenent static data members.
-//
 // commands
 std::map<std::string, COMMAND> CalculatorManager::commands = {
     // To convert number base in programmer calculator.
@@ -17,86 +14,85 @@ std::map<std::string, COMMAND> CalculatorManager::commands = {
     // To evaluate expression.
     {"evaluate", C_EVALUATE},
 
-    // To print help messages.
-    {"help", C_HELP},
+    // To reset calculator
+    {"reset", C_RESET},
 
     // Other commands
-//    {"finish",C_FINISH}, {"reset", C_RESET}, {"clear", C_CLEAR},
-    {"reset", C_RESET},
+    {"help", C_HELP}, {"quit", C_QUIT}, {"complete", C_COMPLETE}
 };
 
-
-//
-// Implement public methods.
-//
 // constructor
 CalculatorManager::CalculatorManager() :
     m_calculator(new ScientificCalculator),
-    m_input(new std::string) {}
-
-// processInput
-void CalculatorManager::processInput(const std::string& input) {
-    updateInput(input);
-    executeCommand(parseCommand());
+    m_input(new std::string) {
+    m_result.first = std::make_shared<std::string>();
+    m_result.second = std::make_shared<std::string>();
 }
 
-// getResult
-//std::string CalculatorManager::getResult() const {
-//    return *(m_calculator->getResult());
-//}
+// performTask
+int CalculatorManager::performTask() {
+    return executeCommand(parseCommand());
+}
 
-// getExpression
-//std::string CalculatorManager::getExpression() const {
-//    return *(m_calculator->getValidExpression());
-//}
-
-
-//
-// Implement private methods
-//
 // parseCommand
 std::string CalculatorManager::parseCommand() {
-    return m_input->substr(0, m_input->find_first_of(" \t"));
+    auto firstNotBlankPos = m_input->find_first_not_of(" \t");
+
+    if (std::string::npos == firstNotBlankPos)
+        return std::string();
+
+    return m_input->substr(firstNotBlankPos, m_input->find_first_of(" \t"));
 }
 
 // executeCommand
-void CalculatorManager::executeCommand(const std::string &command) {
-    if (command.empty())
-        return;
+int CalculatorManager::executeCommand(const std::string &command) {
+    const auto it = commands.find(command);
+    int ret = (commands.cend() == it) ? C_EVALUATE : it->second;
 
-    auto it = commands.find(command);
-    if (it == commands.end()) { // If true, the input will be treated as an expression.
+    switch (it->second) {
+    case C_BINARY:
+    case C_OCTAL:
+    case C_DECIMAL:
+    case C_WEIGHT:
+    case C_LENGTH:
+    case C_VOLUME:
+    case C_AREA:
+    case C_VELOCITY:
+    case C_TIME:
+    case C_TEMPERATURE:
+    case C_SCIENCE:
+
+    case C_EVALUATE:
         evaluate();
-    } else {
-        switch (it->second) {
-        case C_BINARY:
-        case C_OCTAL:
-        case C_DECIMAL:
-        case C_WEIGHT:
-        case C_LENGTH:
-        case C_VOLUME:
-        case C_AREA:
-        case C_VELOCITY:
-        case C_TIME:
-        case C_TEMPERATURE:
-        case C_SCIENCE:
-        case C_EVALUATE:
-            evaluate();
-            break;
-        case C_HELP:
-            break;
-        case C_RESET:
-            resetCalculator();
-            break;
-        default:
-            std::cerr << "Invalid input" << std::endl;
-            break;
-        }
+        break;
+
+    case C_COMPLETE:
+        updateHistory();
+        break;
+
+    case C_RESET:
+        resetCalculator();
+        break;
+
+    case C_HELP:
+        // print help messages
+        break;
+
+    case C_CONTINUE:
+    case C_QUIT:
+        break;
+
+    default:
+        std::cerr << "Undefined Command" << std::endl;
+        ret = C_CONTINUE;
+        break;
     }
+    return ret;
 }
 
 // evaluate
 void CalculatorManager::evaluate() {
     m_calculator->scanInput(m_input);
     m_calculator->evaluate();
+    setResult(m_calculator->getResult());
 }

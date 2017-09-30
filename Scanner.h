@@ -8,32 +8,27 @@
 #include <regex>
 
 
-//
-// Define class Scanner
-//
+// The class Scanner
 class Scanner {
 private:
-    std::shared_ptr<std::string> m_lexemePattern;
-    std::shared_ptr<std::string> m_expression;
+    StringPtr m_lexemePattern;
+    StringPtr m_scannedExpression;
 
 public:
-    void setLexemePattern(const std::shared_ptr<std::string>& lexemePattern);
-    void setExpression(const std::shared_ptr<std::string>& infixExpression);
-    void scan(const std::shared_ptr<std::string>& input);
+    void setLexemePattern(const StringPtr& lexemePattern);
+    void setScannedExpression(const StringPtr& infixExpression);
+    void scan(const StringPtr& input);
 };
 
 
-//
-// Implement methods
-//
 // setLexemePattern
-inline void Scanner::setLexemePattern(const std::shared_ptr<std::string>& lexemePattern) {
+inline void Scanner::setLexemePattern(const StringPtr& lexemePattern) {
     m_lexemePattern = lexemePattern;
 }
 
 // setExpression
-inline void Scanner::setExpression(const std::shared_ptr<std::string>& infixExpression) {
-    m_expression = infixExpression;
+inline void Scanner::setScannedExpression(const StringPtr& infixExpression) {
+    m_scannedExpression = infixExpression;
 }
 
 
