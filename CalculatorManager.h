@@ -28,7 +28,7 @@ enum COMMAND {
     C_RESET,
 
     // Other commands
-    C_HELP, C_QUIT, C_CONTINUE, C_COMPLETE
+    C_HELP, C_QUIT, C_CONTINUE, C_COMPLETE, C_UNDIFINED
 };
 
 

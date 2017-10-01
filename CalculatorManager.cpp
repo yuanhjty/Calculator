@@ -19,7 +19,7 @@ std::map<std::string, COMMAND> CalculatorManager::commands = {
 
     // Other commands
     {"help", C_HELP}, {"quit", C_QUIT}, {"complete", C_COMPLETE},
-    {"continue", C_CONTINUE}
+    {"continue", C_CONTINUE}, {"undefined", C_UNDIFINED}
 };
 
 // constructor
@@ -47,7 +47,8 @@ std::string CalculatorManager::parseCommand() {
 
 // executeCommand
 int CalculatorManager::executeCommand(const std::string &command) {
-    int ret = commands.find(command)->second;
+    const auto it = commands.find(command);
+    int ret = (it != commands.cend()) ? it->second : C_UNDIFINED;
 
     switch (ret) {
     case C_BINARY:

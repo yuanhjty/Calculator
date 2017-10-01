@@ -21,8 +21,8 @@ protected:
     std::shared_ptr<Expression> m_expression;
 
     // Unique resources
-    std::unique_ptr<Scanner> m_scanner;
-    std::unique_ptr<Parser> m_parser;
+    std::shared_ptr<Scanner> m_scanner;
+    std::shared_ptr<Parser> m_parser;
 
     std::pair<StringPtr, StringPtr> m_result;
     std::vector<std::pair<StringPtr, StringPtr>> m_history;
