@@ -63,7 +63,7 @@ inline void Calculator::updateHistory() {
 }
 
 // getResult
-std::pair<StringPtr, StringPtr> Calculator::getResult() const {
+inline std::pair<StringPtr, StringPtr> Calculator::getResult() const {
     return m_result;
 }
 

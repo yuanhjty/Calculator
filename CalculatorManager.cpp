@@ -18,7 +18,8 @@ std::map<std::string, COMMAND> CalculatorManager::commands = {
     {"reset", C_RESET},
 
     // Other commands
-    {"help", C_HELP}, {"quit", C_QUIT}, {"complete", C_COMPLETE}
+    {"help", C_HELP}, {"quit", C_QUIT}, {"complete", C_COMPLETE},
+    {"continue", C_CONTINUE}
 };
 
 // constructor
@@ -39,17 +40,16 @@ std::string CalculatorManager::parseCommand() {
     auto firstNotBlankPos = m_input->find_first_not_of(" \t");
 
     if (std::string::npos == firstNotBlankPos)
-        return std::string();
+        return std::string("continue");
 
     return m_input->substr(firstNotBlankPos, m_input->find_first_of(" \t"));
 }
 
 // executeCommand
 int CalculatorManager::executeCommand(const std::string &command) {
-    const auto it = commands.find(command);
-    int ret = (commands.cend() == it) ? C_EVALUATE : it->second;
+    int ret = commands.find(command)->second;
 
-    switch (it->second) {
+    switch (ret) {
     case C_BINARY:
     case C_OCTAL:
     case C_DECIMAL:
