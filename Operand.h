@@ -2,7 +2,7 @@
 #define OPERAND_H
 
 
-#include "ExpressionTree.h"
+#include "Expression.h"
 
 
 class Number : ExpressionTree {

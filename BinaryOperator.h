@@ -2,7 +2,7 @@
 #define BINARY_OPERATOR_H
 
 
-#include "ExpressionTree.h"
+#include "Expression.h"
 
 
 // For real operation

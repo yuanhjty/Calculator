@@ -14,7 +14,6 @@ typedef std::shared_ptr<std::string> StringPtr;
 // The class Util
 class Util {
 public:
-    static std::string trimEndsSpaces(const std::string& str);
     static bool isDblToLLongValid(double dValue);
 };
 

@@ -1,19 +1,27 @@
-#ifndef SCIENTIFIC_CALCULATOR_H
-#define SCIENTIFIC_CALCULATOR_H
+#ifndef SCIENTIFICCALCULATOR_H
+#define SCIENTIFICCALCULATOR_H
 
 
 #include "Calculator.h"
 #include "Expression.h"
-#include "Scanner.h"
 #include "Parser.h"
 #include "Util.h"
 
-#include <string>
 #include <memory>
+#include <string>
 
 
-// The class ScientificCalculator
 class ScientificCalculator : public Calculator {
+protected:
+    std::unique_ptr<Expression> m_expression;
+    std::unique_ptr<Parser> m_parser;
+
+public:
+    ScientificCalculator();
+    void evaluate() override;
+
+protected:
+    virtual std::string valueToString(double value);
 };
 
-#endif // SCIENTIFIC_CALCULATOR_H
+#endif // SCIENTIFICCALCULATOR_H

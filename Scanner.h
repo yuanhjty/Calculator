@@ -11,24 +11,29 @@
 // The class Scanner
 class Scanner {
 private:
-    StringPtr m_lexemePattern;
-    StringPtr m_scannedExpression;
+    std::string m_lexemePattern;
+    std::string m_expression;
 
 public:
-    void setLexemePattern(const StringPtr& lexemePattern);
-    void setScannedExpression(const StringPtr& infixExpression);
-    void scan(const StringPtr& input);
+    void setLexemePattern(const std::string &lexemePattern);
+    std::string getExpression() const;
+    void scan(const std::string &input);
+    void reset();
 };
 
 
 // setLexemePattern
-inline void Scanner::setLexemePattern(const StringPtr& lexemePattern) {
+inline void Scanner::setLexemePattern(const std::string &lexemePattern) {
     m_lexemePattern = lexemePattern;
 }
 
-// setExpression
-inline void Scanner::setScannedExpression(const StringPtr& infixExpression) {
-    m_scannedExpression = infixExpression;
+// getExpression
+inline std::string Scanner::getExpression() const {
+    return m_expression;
+}
+
+inline void Scanner::reset() {
+    m_expression.clear();
 }
 
 

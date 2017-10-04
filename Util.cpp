@@ -1,19 +1,6 @@
 #include "Util.h"
 
 
-// Util
-// trimEndsSpaces
-std::string Util::trimEndsSpaces(const std::string &str) {
-    auto first = str.find_first_not_of(" \t");
-    if (first == std::string::npos)
-        return str.substr(0, 0);
-
-    auto last = str.find_last_not_of(" \t");
-    auto n = last == std::string::npos ? str.size() - first : last - first + 1;
-
-    return str.substr(first, n);
-}
-
 // LexemePattern
 const std::string LexemePattern::numReal = "\\d+(\\.\\d*)?(e\\d+)?";
 const std::string LexemePattern::numBinary = "[01]+";

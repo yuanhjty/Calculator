@@ -2,11 +2,18 @@
 #define EXPRESSION_H
 
 
-#include "ExpressionTree.h"
-
 #include <string>
 
 
+// The class ExpressionTree
+class ExpressionTree {
+public:
+    virtual ~ExpressionTree() = default;
+    virtual double evaluate() = 0;
+};
+
+
+// The class Expression
 class Expression {
 private:
     ExpressionTree *m_expressionTree = nullptr;

@@ -8,26 +8,25 @@ SOURCES += \
     Parser.cpp \
     Util.cpp \
     CmdCalculator.cpp \
-    ScientificCalculator.cpp \
     Calculator.cpp \
-    CalculatorManager.cpp \
     BinaryOperator.cpp \
     UnaryOperator.cpp \
-    Function.cpp
+    Function.cpp \
+    CommandInterpreter.cpp \
+    ScientificCalculator.cpp
 
 HEADERS += \
     Calculator.h \
     Scanner.h \
     Parser.h \
     Util.h \
-    ScientificCalculator.h \
-    CalculatorManager.h \
     Expression.h \
-    ExpressionTree.h \
     BinaryOperator.h \
     UnaryOperator.h \
     Function.h \
-    Operand.h
+    Operand.h \
+    CommandInterpreter.h \
+    ScientificCalculator.h
 
 DISTFILES += \
     build/Desktop_Qt_5_6_2_MSVC2015_64bit/debug/CalculatorRefactor.ilk \

@@ -7,13 +7,6 @@ Parser::~Parser() {
 }
 
 // parse
-void Parser::parse() {
-    setExpressionTree(generateExpressionTree());
-    updateExpression();
+void Parser::parse(const std::string &infixExpression) {
+    m_infixExpression = infixExpression;
 }
-
-// generateExpressionTree
-ExpressionTree* Parser::generateExpressionTree() {
-    return nullptr;
-}
-

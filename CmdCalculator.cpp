@@ -1,4 +1,4 @@
-#include "CalculatorManager.h"
+#include "CommandInterpreter.h"
 
 #include <iostream>
 #include <memory>
@@ -7,10 +7,10 @@
 
 
 int main() {
-    std::shared_ptr<CalculatorManager> calculatorManager(new CalculatorManager);
-    StringPtr input(new std::string);
-    std::pair<StringPtr, StringPtr> result;
-    int command = -1;
+    std::unique_ptr<CommandInterpreter> interpreter(new CommandInterpreter);
+    std::string input;
+    std::pair<std::string, std::string> result;
+    COMMAND command = C_UNDEFINED;
 
     // print welcome
     std::cout << "toy-calculator 0.1\n"
@@ -21,7 +21,7 @@ int main() {
     while (true) {
         std::cout << ">> ";     // Print prompt chars.
 
-        std::getline(std::cin, *input);   // Get input(could be a command or infix expression).
+        std::getline(std::cin, input);   // Get input(could be a command or infix expression).
 
         if (!std::cin.good()) {
             std::cout << "Sorry! It seems something wrong, please try again!" << std::endl;
@@ -29,8 +29,7 @@ int main() {
             continue;
         }
 
-        calculatorManager->setInput(input);
-        command = calculatorManager->performTask();
+        command = interpreter->interpreter(input);
 
         if (C_CONTINUE == command)
             continue;
@@ -38,9 +37,9 @@ int main() {
         if (C_QUIT == command)
             break;
 
-        result = calculatorManager->showResult();
+        result = interpreter->getResult();
         std::cout << "   " << std::string(40, '_')
-                  << "\n   " << *result.first << "\n   =" << *result.second
+                  << "\n   " << result.first << "\n   =" << result.second
                   << "\n   " << std::string(40, '_') << "\n\n";
     }
 
