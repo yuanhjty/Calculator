@@ -36,6 +36,7 @@ public:
 
     static const std::string symFunction;
 
+    static const std::string constant;
     static const std::string parenthesis;
     static const std::string space;
 

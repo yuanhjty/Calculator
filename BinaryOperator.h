@@ -35,9 +35,9 @@ public:
 
 
 // The class Multiple
-class Multiple : public RealBinaryOperator {
+class Multi : public RealBinaryOperator {
 public:
-    Multiple(ExpressionTree* left, ExpressionTree* right);
+    Multi(ExpressionTree* left, ExpressionTree* right);
     double evaluate() override;
 };
 

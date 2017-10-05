@@ -5,18 +5,19 @@
 #include "UnaryOperator.h"
 #include "BinaryOperator.h"
 #include "Function.h"
+#include "Operand.h"
 #include "Util.h"
 
 #include <memory>
 #include <string>
-#include <stack>
+#include <vector>
 
 
 // The class Parser
 class Parser {
 private:
     std::string m_infixExpression;
-    std::string m_postfixExpression;
+    std::vector<ExpressionTree *> m_postfixExpression;
     ExpressionTree *m_expressionTree = nullptr;
 
 public:
@@ -27,6 +28,8 @@ public:
 
 protected:
     virtual void setInfixExpression(const std::string &infixExpression);
+    void generatePostfixExpression();
+    void generateExpressionTree();
 };
 
 

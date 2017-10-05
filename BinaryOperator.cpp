@@ -34,10 +34,10 @@ double BMinus::evaluate() {
 
 
 // Multiple
-Multiple::Multiple(ExpressionTree *left, ExpressionTree *right) :
+Multi::Multi(ExpressionTree *left, ExpressionTree *right) :
     RealBinaryOperator(left, right) {}
 
-double Multiple::evaluate() {
+double Multi::evaluate() {
     return m_left->evaluate() * m_right->evaluate();
 }
 

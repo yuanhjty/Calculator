@@ -26,7 +26,8 @@ HEADERS += \
     Function.h \
     Operand.h \
     CommandInterpreter.h \
-    ScientificCalculator.h
+    ScientificCalculator.h \
+    Operator.h
 
 DISTFILES += \
     build/Desktop_Qt_5_6_2_MSVC2015_64bit/debug/CalculatorRefactor.ilk \

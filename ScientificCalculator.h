@@ -9,6 +9,7 @@
 
 #include <memory>
 #include <string>
+#include <map>
 
 
 class ScientificCalculator : public Calculator {
