@@ -1,15 +1,13 @@
 # toy-calculator
 
-It's a toy calculator program by C++, for novice programmers to play with.  
-  
-Though it seems to be so simple, I'll try to improve the implementation to make it convient to extend.  
+It's a toy calculator program by C++, easy to extend.  
   
 Have fun! And look forward to your advice.
 
 ## Avaliable Operation
 
 >Binary: + - * / ^  
->Unary: - sin cos tan asin acos atan
+>Unary: - sin cos tan asin acos atan ln lg
 
 ## Demo
 
@@ -17,7 +15,7 @@ Have fun! And look forward to your advice.
 $ ./Calculator
 toy-calculator 0.1
 Type expressions to be evaluated
-Type 'q' to quit.
+Type 'quit' to quit.
 
 >> 22+5*3^(10-8)
 >>   ________________________________________
