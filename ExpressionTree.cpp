@@ -10,8 +10,14 @@ BinaryOperator::~BinaryOperator() {
     if (m_right) delete m_right;
 }
 
-void BinaryOperator::build(ExpressionTree *left, ExpressionTree *right) {
-    m_left = left; m_right = right;
+int BinaryOperator::childCount() const {
+    return 2;
+}
+
+void BinaryOperator::build(const std::vector<ExpressionTree*>& param) {
+    if (param.size() != 2)
+        throw std::exception("Inner error: build ExpressionTree failed");
+    m_left = param[1]; m_right = param[0];
 }
 
 
@@ -28,8 +34,8 @@ ASSOCIATIVITY RightAssoOperator::associativity() {
 
 
 // IntegerBinaryOperator
-void IntegerBinaryOperator::build(ExpressionTree *left, ExpressionTree *right) {
-    BinaryOperator::build(left, right);
+void IntegerBinaryOperator::build(const std::vector<ExpressionTree*>& param){
+    BinaryOperator::build(param);
     makeIntegerOperands();
 }
 
@@ -62,8 +68,14 @@ UnaryOperator::~UnaryOperator() {
     if (m_child) delete m_child;
 }
 
-void UnaryOperator::build(ExpressionTree *child) {
-    m_child = child;
+int UnaryOperator::childCount() const {
+    return 1;
+}
+
+void UnaryOperator::build(const std::vector<ExpressionTree*>& param) {
+    if (param.size() != 1)
+        throw std::exception("Inner error: build ExpressionTree failed");
+    m_child = param[0];
 }
 
 
@@ -88,8 +100,8 @@ ASSOCIATIVITY PostfixOperator::associativity() {
 
 
 // IntegerUnaryOperator
-void IntegerUnaryOperator::build(ExpressionTree *child) {
-    UnaryOperator::build(child);
+void IntegerUnaryOperator::build(const std::vector<ExpressionTree*>& param) {
+    UnaryOperator::build(param);
     makeIntegerOperand();
 }
 

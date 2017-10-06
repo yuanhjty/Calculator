@@ -22,87 +22,76 @@ OperatorTable* OperatorTable::getInstance() {
 }
 
 OperatorTable::~OperatorTable() {
-    releaseBinaryOperators();
-    releaseUnaryOperators();
+    releaseOperators();
 }
 
 ExpressionTree *OperatorTable::getOperator(const std::string &token) {
-    std::map<std::string, ExpressionTree*>::const_iterator it;
-    if ((it = m_binaryOperators.find(token)) != m_binaryOperators.cend()
-            || (it = m_unaryOperators.find(token)) != m_unaryOperators.cend())
+    auto it = m_operators.find(token);
+    if (it != m_operators.cend())
         return it->second;
     else
         return nullptr;
 }
 
 OperatorTable::OperatorTable() {
+    initOperators();
     initBinaryOperators();
-    initUnaryOperators();
     initPrefixOperators();
     initPostfixOperators();
 }
 
-void OperatorTable::registerBinaryOperator(const std::string& name, ExpressionTree* binaryOperator) {
-    m_binaryOperators.insert(std::make_pair(name, binaryOperator));
+
+
+void OperatorTable::initOperators() {
+    // binary operaotr
+    // real
+    registerOperator("+", new Plus);
+    registerOperator("-", new BMinus);
+    registerOperator("*", new Multi);
+    registerOperator("/", new Divide);
+    registerOperator("%", new Modulo);
+    registerOperator("^", new Pow);
+
+    // bitwise
+    registerOperator("or", new BitOr);
+    registerOperator("and", new BitAnd);
+    registerOperator("xor", new BitXor);
+
+
+    // unary operator
+    // real
+    registerOperator("!", new Fact);
+    registerOperator("u-", new UMinus);
+    registerOperator("sin", new Sin);
+    registerOperator("cos", new Cos);
+    registerOperator("tan", new Tan);
+    registerOperator("asin", new ASin);
+    registerOperator("acos", new ACos);
+    registerOperator("atan", new ATan);
+    registerOperator("lg", new Lg);
+    registerOperator("ln", new Ln);
+
+    // bitwise
+    registerOperator("not", new BitNot);
 }
 
-void OperatorTable::registerUnaryOperator(const std::string& name, ExpressionTree* unaryOperator) {
-    m_unaryOperators.insert(std::make_pair(name, unaryOperator));
+void OperatorTable::releaseOperators() {
+    for (const auto& item : m_operators) {
+        delete item.second;
+    }
 }
 
 void OperatorTable::initBinaryOperators() {
-    // real
-    registerBinaryOperator("+", new Plus);
-    registerBinaryOperator("-", new BMinus);
-    registerBinaryOperator("*", new Multi);
-    registerBinaryOperator("/", new Divide);
-    registerBinaryOperator("^", new Pow);
-
-    // bitwise
-    registerBinaryOperator("or", new BitOr);
-    registerBinaryOperator("and", new BitAnd);
-    registerBinaryOperator("xor", new BitXor);
-}
-
-void OperatorTable::initUnaryOperators() {
-    // real
-    registerUnaryOperator("!", new Fact);
-    registerUnaryOperator("u-", new UMinus);
-    registerUnaryOperator("sin", new Sin);
-    registerUnaryOperator("cos", new Cos);
-    registerUnaryOperator("tan", new Tan);
-    registerUnaryOperator("asin", new ASin);
-    registerUnaryOperator("acos", new ACos);
-    registerUnaryOperator("atan", new ATan);
-    registerUnaryOperator("lg", new Lg);
-    registerUnaryOperator("ln", new Ln);
-
-    // bitwise, unary
-    registerUnaryOperator("not", new BitNot);
+    m_binaryOperators.insert(
+    {"+", "-", "*", "/", "%", "^", "or", "and", "xor"});
 }
 
 void OperatorTable::initPrefixOperators() {
     m_prefixOperators.insert(
-    {"u-", "sin", "cos", "tan", "asin", "acos",
-     "atan", "lg", "ln", "not"});
+    {"u-", "sin", "cos", "tan", "asin", "acos", "atan", "lg", "ln", "not"});
 }
 
 void OperatorTable::initPostfixOperators() {
     m_postfixOperators.insert({"!"});
-}
-
-//#include <iostream>
-void OperatorTable::releaseBinaryOperators() {
-    for (const auto& item : m_binaryOperators) {
-//        std::cerr << item.first << " " << item.second << std::endl;
-        delete item.second;
-    }
-}
-
-void OperatorTable::releaseUnaryOperators() {
-    for (const auto& item : m_unaryOperators) {
-//        std::cerr << item.first << " " << item.second << std::endl;
-        delete item.second;
-    }
 }
 

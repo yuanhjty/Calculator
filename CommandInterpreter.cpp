@@ -1,5 +1,7 @@
 #include "CommandInterpreter.h"
 
+#include <stdexcept>
+#include <iostream>
 
 // commands
 std::map<std::string, COMMAND> CommandInterpreter::commands = {
@@ -114,7 +116,12 @@ COMMAND CommandInterpreter::executeCommand(const std::string &command) {
     case C_SCIENCE:
 
     case C_EVALUATE:
-        evaluate();
+        try {
+            evaluate();
+        } catch (std::exception e) {
+            std::cerr << e.what() << std::endl;
+        }
+
         break;
 
     case C_COMPLETE:

@@ -1,7 +1,8 @@
 #include "Operand.h"
 
 
-void Number::build(double value) {
+
+Number::Number(double value) {
     m_value = value;
 }
 
@@ -18,5 +19,15 @@ ASSOCIATIVITY Number::associativity() {
 }
 
 ExpressionTree* Number::clone() {
-    return new Number;
+    return new Number(m_value);
 }
+
+int Number::childCount() const {
+    return 0;
+}
+
+void Number::build(const std::vector<ExpressionTree*>& param) {
+    if (!param.empty())
+        throw std::exception("Inner error: build ExpressionTree failed");
+}
+

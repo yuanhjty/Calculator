@@ -6,7 +6,7 @@
 
 // BitNot
 double BitNot::evaluate() {
-    return ~m_integerChild;
+    return double(~m_integerChild);
 }
 
 ExpressionTree *BitNot::clone() {

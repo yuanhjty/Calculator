@@ -5,8 +5,10 @@
 
 // scan
 void Scanner::scan(const std::string &input) {
+    m_expression.clear();
+
     std::regex rLexeme(m_lexemePattern);
-    std::regex rSpace("//s");
+    std::regex rSpace("\\s");
 
     std::sregex_token_iterator pos(input.cbegin(), input.cend(), rLexeme, {-1, 0});
     std::sregex_token_iterator end;
@@ -16,7 +18,7 @@ void Scanner::scan(const std::string &input) {
 
     while (pos != end) {
         delimiter = pos++->str();   // delimiter
-        if (!token.empty())         // Delimiters should be empty since spaces's included in lexemes.
+        if (!delimiter.empty())     // Delimiters should be empty since spaces's included in lexemes.
             throw std::invalid_argument("Invalid Symbol: " + token);
 
         token = pos++->str();       // token

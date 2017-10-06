@@ -1,5 +1,7 @@
 #include "ScientificCalculator.h"
 
+#include <sstream>
+
 // constructor
 ScientificCalculator::ScientificCalculator() :
     Calculator(),
@@ -16,6 +18,8 @@ void ScientificCalculator::evaluate() {
 }
 
 std::string ScientificCalculator::valueToString(double value) {
-    return std::to_string(value);
+    std::ostringstream os;
+    os << value;
+    return os.str();
 }
 

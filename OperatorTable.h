@@ -14,8 +14,8 @@
 
 class OperatorTable {
 private:
-    std::map<std::string, ExpressionTree*> m_binaryOperators;
-    std::map<std::string, ExpressionTree*> m_unaryOperators;
+    std::map<std::string, ExpressionTree*> m_operators;
+    std::set<std::string> m_binaryOperators;
     std::set<std::string> m_prefixOperators;
     std::set<std::string> m_postfixOperators;
 
@@ -35,16 +35,13 @@ public:
 private:
     OperatorTable();
 
-    void registerBinaryOperator(const std::string& name, ExpressionTree* binaryOperator);
-    void registerUnaryOperator(const std::string& name, ExpressionTree* unaryOperator);
+    void registerOperator(const std::string& name, ExpressionTree* op);
+    void initOperators();
+    void releaseOperators();
 
     void initBinaryOperators();
-    void initUnaryOperators();
     void initPrefixOperators();
     void initPostfixOperators();
-
-    void releaseBinaryOperators();
-    void releaseUnaryOperators();
 };
 
 inline bool OperatorTable::isBinaryOperator(const std::string &token) const {
@@ -57,6 +54,10 @@ inline bool OperatorTable::isPrefixOperator(const std::string &token) const {
 
 inline bool OperatorTable::isPostfixOperator(const std::string &token) const {
     return m_postfixOperators.find(token) != m_postfixOperators.cend();
+}
+
+inline void OperatorTable::registerOperator(const std::string &name, ExpressionTree *op) {
+    m_operators.insert(std::make_pair(name, op));
 }
 
 #endif // OPERATORTABLE_H

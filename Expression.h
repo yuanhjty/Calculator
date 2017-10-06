@@ -4,24 +4,21 @@
 
 #include "ExpressionTree.h"
 
+#include <memory>
+
 
 // The class Expression
 class Expression {
 private:
-    ExpressionTree *m_expressionTree = nullptr;
+    std::shared_ptr<ExpressionTree> m_expressionTree = nullptr;
 
 public:
-    ~Expression();
-    void setExpressionTree(ExpressionTree* expressionTree);
+    void setExpressionTree(const std::shared_ptr<ExpressionTree>& expressionTree);
     double evaluate();
 };
 
 
-inline Expression::~Expression() {
-    if (m_expressionTree) delete m_expressionTree;
-}
-
-inline void Expression::setExpressionTree(ExpressionTree *expressionTree) {
+inline void Expression::setExpressionTree(const std::shared_ptr<ExpressionTree>& expressionTree) {
     m_expressionTree = expressionTree;
 }
 

@@ -15,7 +15,7 @@ int main() {
     // print welcome
     std::cout << "toy-calculator 0.1\n"
               << "Type expressions to be evaluated\n"
-              << "Type 'q' to quit.\n\n";
+              << "Type 'quit' to quit.\n\n";
 
     // main loop
     while (true) {
@@ -38,7 +38,7 @@ int main() {
             break;
 
         result = interpreter->getResult();
-        std::cout << "   " << std::string(40, '_')
+        std::cout << "   " << std::string(40, '_') << "\n"
                   << "\n   " << result.first << "\n   =" << result.second
                   << "\n   " << std::string(40, '_') << "\n\n";
     }

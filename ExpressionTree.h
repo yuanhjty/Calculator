@@ -2,6 +2,9 @@
 #define EXPRESSIONTREE_H
 
 
+#include <vector>
+
+
 // The enum PRIORITY
 enum PRIORITY {      // the same as operator priority of c++ language
     PRIO_COMMA,             // ,
@@ -52,6 +55,9 @@ public:
     virtual PRIORITY priority() = 0;
     virtual ASSOCIATIVITY associativity() = 0;
     virtual ExpressionTree* clone() = 0;
+    virtual int childCount() const = 0;
+    virtual void build(const std::vector<ExpressionTree*>& param) = 0;
+                 // TreeNodes in param are contrary to the order of their positions in expression
 };
 
 
@@ -66,7 +72,8 @@ protected:
 
 public:
     ~BinaryOperator();
-    virtual void build(ExpressionTree* left, ExpressionTree* right);
+    int childCount() const override;
+    void build(const std::vector<ExpressionTree *>& param) override;
 };
 
 
@@ -93,7 +100,7 @@ protected:
     long long m_integerRight = 0;
 
 public:
-    void build(ExpressionTree *left, ExpressionTree *right) override;
+    void build(const std::vector<ExpressionTree *> &param) override;
 
 protected:
     void makeIntegerOperands();
@@ -126,7 +133,8 @@ protected:
 
 public:
     ~UnaryOperator();
-    virtual void build(ExpressionTree* child);
+    int childCount() const override;
+    virtual void build(const std::vector<ExpressionTree*>& child);
 };
 
 
@@ -154,7 +162,7 @@ protected:
     long long m_integerChild = 0;
 
 public:
-    void build(ExpressionTree *child) override;
+    void build(const std::vector<ExpressionTree*>& param) override;
 
 protected:
     void makeIntegerOperand();
