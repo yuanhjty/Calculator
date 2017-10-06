@@ -11,5 +11,5 @@ bld/
 [Oo]bj/
 
 
-*.autosave
+*autosave
 [Mm]akefile*
