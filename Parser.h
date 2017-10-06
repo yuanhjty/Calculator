@@ -2,13 +2,10 @@
 #define PARSER_H
 
 #include "Expression.h"
-#include "UnaryOperator.h"
-#include "BinaryOperator.h"
-#include "Function.h"
+#include "OperatorTable.h"
 #include "Operand.h"
 #include "Util.h"
 
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -16,11 +13,13 @@
 // The class Parser
 class Parser {
 private:
+    OperatorTable *m_operatorTable;
     std::string m_infixExpression;
     std::vector<ExpressionTree *> m_postfixExpression;
     ExpressionTree *m_expressionTree = nullptr;
 
 public:
+    Parse();
     virtual ~Parser();
 
     ExpressionTree* getExpressionTree() const;
@@ -28,6 +27,8 @@ public:
 
 protected:
     virtual void setInfixExpression(const std::string &infixExpression);
+    void initOperators();
+    void releaseOperators();
     void generatePostfixExpression();
     void generateExpressionTree();
 };

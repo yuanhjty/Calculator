@@ -1,51 +1,116 @@
 #include "UnaryOperator.h"
 #include "Util.h"
 
+#include <cmath>
 
-// RealUnaryOperator
-RealUnaryOperator::RealUnaryOperator(ExpressionTree *right) :
-    m_right(right) {}
 
-RealUnaryOperator::~RealUnaryOperator() {
-    if (m_right) delete m_right;
+
+// BitNot
+double BitNot::evaluate() {
+    return ~m_integerChild;
+}
+
+ExpressionTree *BitNot::clone() {
+    return new BitNot;
+}
+
+
+// Fact
+// Not implemented yet.
+double Fact::evaluate() {
+    return 0;
+}
+
+ExpressionTree *Fact::clone() {
+    return new Fact;
 }
 
 
 // UMinus
-UMinus::UMinus(ExpressionTree *right) :
-    RealUnaryOperator(right) {}
-
 double UMinus::evaluate() {
-    return -m_right->evaluate();
+    return -m_child->evaluate();
+}
+
+ExpressionTree *UMinus::clone() {
+    return new UMinus;
 }
 
 
-// For integer only operation
-// IntegerUnrayOperator
-IntegerUnaryOperator::IntegerUnaryOperator(ExpressionTree *right) :
-    m_right(right) {
-    makeIntegerOperand();
+// Lg
+double Lg::evaluate() {
+    return std::log10(m_child->evaluate());
 }
 
-IntegerUnaryOperator::~IntegerUnaryOperator() {
-    if (m_right) delete m_right;
-}
-
-void IntegerUnaryOperator::makeIntegerOperand() {
-    double right = m_right->evaluate();
-
-    if (!Util::isDblToLLongValid(right))
-        throw std::logic_error("Integer Overflow");
-
-    m_integerRight = (long long)right;
+ExpressionTree *Lg::clone() {
+    return new Lg;
 }
 
 
-// For bitwise operation
-// BitNot
-BitNot::BitNot(ExpressionTree *right) :
-    IntegerUnaryOperator(right) {}
+// Ln
+double Ln::evaluate() {
+    return std::log(m_child->evaluate());
+}
 
-double BitNot::evaluate() {
-    return ~m_integerRight;
+ExpressionTree *Ln::clone() {
+    return new Ln;
+}
+
+
+// Sin
+double Sin::evaluate() {
+    return std::sin(m_child->evaluate());
+}
+
+ExpressionTree *Sin::clone() {
+    return new Sin;
+}
+
+
+// Cos
+double Cos::evaluate() {
+    return std::cos(m_child->evaluate());
+}
+
+ExpressionTree *Cos::clone() {
+    return new Cos;
+}
+
+
+// Tan
+double Tan::evaluate() {
+    return std::tan(m_child->evaluate());
+}
+
+ExpressionTree *Tan::clone() {
+    return new Tan;
+}
+
+
+// ASin
+double ASin::evaluate() {
+    return std::asin(m_child->evaluate());
+}
+
+ExpressionTree *ASin::clone() {
+    return new ASin;
+}
+
+
+// ACos
+double ACos::evaluate() {
+    return std::acos(m_child->evaluate());
+}
+
+ExpressionTree *ACos::clone() {
+    return new ACos;
+}
+
+
+// ATan
+double ATan::evaluate() {
+    return std::atan(m_child->evaluate());
+}
+
+ExpressionTree *ATan::clone() {
+    return new ATan;
 }

@@ -5,99 +5,84 @@
 #include "Expression.h"
 
 
-// For real operation
-// The class RealBinaryOperator
-class RealBinaryOperator : public ExpressionTree {
-protected:
-    ExpressionTree *m_left;
-    ExpressionTree *m_right;
-
-public:
-    RealBinaryOperator(ExpressionTree* left, ExpressionTree* right);
-    ~RealBinaryOperator();
-};
-
 
 // The class Plus
-class Plus : public RealBinaryOperator {
+class Plus : public LeftAssoOperator {
 public:
-    Plus(ExpressionTree* left, ExpressionTree* right);
     double evaluate() override;
+    PRIORITY priority() override;
+    ExpressionTree* clone() override;
 };
 
 
 // The class BMinus
-class BMinus : public RealBinaryOperator {
+class BMinus : public LeftAssoOperator {
 public:
-    BMinus(ExpressionTree* left, ExpressionTree* right);
     double evaluate() override;
+    PRIORITY priority() override;
+    ExpressionTree* clone() override;
 };
 
 
-// The class Multiple
-class Multi : public RealBinaryOperator {
+// The class Multi
+class Multi : public LeftAssoOperator {
 public:
-    Multi(ExpressionTree* left, ExpressionTree* right);
     double evaluate() override;
+    PRIORITY priority() override;
+    ExpressionTree* clone() override;
 };
 
 
 // The class Divide
-class Divide : public RealBinaryOperator {
+class Divide : public LeftAssoOperator {
 public:
-    Divide(ExpressionTree* left, ExpressionTree* right);
     double evaluate() override;
+    PRIORITY priority() override;
+    ExpressionTree* clone() override;
 };
 
 
-// For integer only operation
-// The class IntegerBinaryOperator
-class IntegerBinaryOperator : public ExpressionTree {
-protected:
-    ExpressionTree *m_left = nullptr;
-    ExpressionTree *m_right = nullptr;
-    long long m_integerLeft = 0;
-    long long m_integerRight = 0;
-
-public:
-    IntegerBinaryOperator(ExpressionTree* left, ExpressionTree* right);
-    ~IntegerBinaryOperator();
-
-private:
-    void makeIntegerOperands();
+// The class Pow
+class Pow : public RightAssoOperator {
+    double evaluate() override;
+    PRIORITY priority() override;
+    ExpressionTree* clone() override;
 };
 
 
 // The class Modulo
-class Modulo : public IntegerBinaryOperator {
+class Modulo : public IntegerLeftAssoOperator {
 public:
-    Modulo(ExpressionTree* left, ExpressionTree* right);
     double evaluate() override;
+    PRIORITY priority() override;
+    ExpressionTree* clone() override;
 };
 
 
-// For bitwise opoeration
 // The class BitAnd
-class BitAnd : public IntegerBinaryOperator {
+class BitAnd : public IntegerLeftAssoOperator {
 public:
-    BitAnd(ExpressionTree* left, ExpressionTree* right);
     double evaluate() override;
+    PRIORITY priority() override;
+    ExpressionTree* clone() override;
 };
 
 
 // The class BitOr
-class BitOr : public IntegerBinaryOperator {
+class BitOr : public IntegerLeftAssoOperator {
 public:
-    BitOr(ExpressionTree* left, ExpressionTree* right);
     double evaluate() override;
+    PRIORITY priority() override;
+    ExpressionTree* clone() override;
 };
 
 
 // The class BitXor
-class BitXor : public IntegerBinaryOperator {
+class BitXor : public IntegerLeftAssoOperator {
 public:
-    BitXor(ExpressionTree* left, ExpressionTree* right);
     double evaluate() override;
+    PRIORITY priority() override;
+    ExpressionTree* clone() override;
 };
 
 

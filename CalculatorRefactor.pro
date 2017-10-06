@@ -11,9 +11,11 @@ SOURCES += \
     Calculator.cpp \
     BinaryOperator.cpp \
     UnaryOperator.cpp \
-    Function.cpp \
     CommandInterpreter.cpp \
-    ScientificCalculator.cpp
+    ScientificCalculator.cpp \
+    ExpressionTree.cpp \
+    Operand.cpp \
+    OperatorTable.cpp
 
 HEADERS += \
     Calculator.h \
@@ -23,11 +25,11 @@ HEADERS += \
     Expression.h \
     BinaryOperator.h \
     UnaryOperator.h \
-    Function.h \
     Operand.h \
     CommandInterpreter.h \
     ScientificCalculator.h \
-    Operator.h
+    ExpressionTree.h \
+    OperatorTable.h
 
 DISTFILES += \
     build/Desktop_Qt_5_6_2_MSVC2015_64bit/debug/CalculatorRefactor.ilk \

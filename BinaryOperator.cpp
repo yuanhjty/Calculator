@@ -4,48 +4,50 @@
 #include <exception>
 
 
-// BinaryOperator
-RealBinaryOperator::RealBinaryOperator(ExpressionTree *left, ExpressionTree *right) :
-    m_left(left), m_right(right) {
-}
-
-RealBinaryOperator::~RealBinaryOperator() {
-    if (m_left) delete m_left;
-    if (m_right) delete m_right;
-}
-
 
 // Plus
-Plus::Plus(ExpressionTree *left, ExpressionTree *right) :
-    RealBinaryOperator(left, right) {}
-
 double Plus::evaluate() {
     return m_left->evaluate() + m_right->evaluate();
 }
 
+PRIORITY Plus::priority() {
+    return PRIO_PLUS;
+}
+
+ExpressionTree *Plus::clone() {
+    return new Plus;
+}
+
 
 // BMinus
-BMinus::BMinus(ExpressionTree *left, ExpressionTree *right) :
-    RealBinaryOperator(left, right) {}
-
 double BMinus::evaluate() {
     return m_left->evaluate() - m_right->evaluate();
 }
 
+PRIORITY BMinus::priority() {
+    return PRIO_PLUS;
+}
 
-// Multiple
-Multi::Multi(ExpressionTree *left, ExpressionTree *right) :
-    RealBinaryOperator(left, right) {}
+ExpressionTree *BMinus::clone() {
+    return new BMinus;
+}
 
+
+// Multi
 double Multi::evaluate() {
     return m_left->evaluate() * m_right->evaluate();
 }
 
+PRIORITY Multi::priority() {
+    return PRIO_MULTI;
+}
+
+ExpressionTree *Multi::clone() {
+    return new Multi;
+}
+
 
 // Divide
-Divide::Divide(ExpressionTree *left, ExpressionTree *right) :
-    RealBinaryOperator(left, right) {}
-
 double Divide::evaluate() {
     double divisor = m_right->evaluate();
     if (0 == divisor)
@@ -54,34 +56,30 @@ double Divide::evaluate() {
     return m_left->evaluate() / divisor;
 }
 
-
-// Integer
-// IntegerBinaryOperator
-IntegerBinaryOperator::IntegerBinaryOperator(ExpressionTree *left, ExpressionTree *right) :
-    m_left(left), m_right(right) {
-    makeIntegerOperands();
+PRIORITY Divide::priority() {
+    return PRIO_MULTI;
 }
 
-IntegerBinaryOperator::~IntegerBinaryOperator() {
-    if (m_left) delete m_left;
-    if (m_right) delete m_right;
+ExpressionTree *Divide::clone() {
+    return new Divide;
 }
 
-void IntegerBinaryOperator::makeIntegerOperands() {
-    double left = m_left->evaluate();
-    double right = m_right->evaluate();
 
-    if (!(Util::isDblToLLongValid(left) && Util::isDblToLLongValid(right)))
-        throw std::logic_error("Integer Overflow");
-
-    m_integerLeft = (long long)left;
-    m_integerRight = (long long)right;
+// Pow
+double Pow::evaluate() {
+    return std::pow(m_left->evaluate(), m_right->evaluate());
 }
+
+PRIORITY Pow::priority() {
+    return PRIO_POW;
+}
+
+ExpressionTree *Pow::clone() {
+    return new Pow;
+}
+
 
 // Modulo
-Modulo::Modulo(ExpressionTree *left, ExpressionTree *right) :
-    IntegerBinaryOperator(left, right) {}
-
 double Modulo::evaluate() {
     if (0 == m_integerRight)
         throw std::logic_error("Division By Zero");
@@ -89,30 +87,52 @@ double Modulo::evaluate() {
     return m_integerLeft % m_integerRight;
 }
 
+PRIORITY Modulo::priority() {
+    return PRIO_MULTI;
+}
 
-// Bitwise operation
+ExpressionTree *Modulo::clone() {
+    return new Modulo;
+}
+
+
 // BitAnd
-BitAnd::BitAnd(ExpressionTree *left, ExpressionTree *right) :
-    IntegerBinaryOperator(left, right) {}
-
 double BitAnd::evaluate() {
     return m_integerLeft & m_integerRight;
 }
 
+PRIORITY BitAnd::priority() {
+    return PRIO_BIT_AND;
+}
+
+ExpressionTree *BitAnd::clone() {
+    return new BitAnd;
+}
+
 
 // BitOr
-BitOr::BitOr(ExpressionTree *left, ExpressionTree *right) :
-    IntegerBinaryOperator(left, right) {}
-
 double BitOr::evaluate() {
     return m_integerLeft | m_integerRight;
 }
 
+PRIORITY BitOr::priority() {
+    return PRIO_BIT_OR;
+}
+
+ExpressionTree *BitOr::clone() {
+    return new BitOr;
+}
+
 
 // BitXor
-BitXor::BitXor(ExpressionTree *left, ExpressionTree *right) :
-    IntegerBinaryOperator(left, right) {}
-
 double BitXor::evaluate() {
     return m_integerLeft ^ m_integerRight;
+}
+
+PRIORITY BitXor::priority() {
+    return PRIO_BIT_XOR;
+}
+
+ExpressionTree *BitXor::clone() {
+    return new BitXor;
 }
