@@ -4,7 +4,6 @@
 #include "Expression.h"
 #include "OperatorTable.h"
 #include "Operand.h"
-#include "Util.h"
 
 #include <string>
 #include <vector>
@@ -19,7 +18,7 @@ private:
     ExpressionTree *m_expressionTree = nullptr;
 
 public:
-    Parse();
+    Parser();
     virtual ~Parser();
 
     ExpressionTree* getExpressionTree() const;
@@ -27,8 +26,6 @@ public:
 
 protected:
     virtual void setInfixExpression(const std::string &infixExpression);
-    void initOperators();
-    void releaseOperators();
     void generatePostfixExpression();
     void generateExpressionTree();
 };

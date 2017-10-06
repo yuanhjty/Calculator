@@ -2,7 +2,7 @@
 #define OPERAND_H
 
 
-#include "Expression.h"
+#include "ExpressionTree.h"
 
 
 class Number : public ExpressionTree {
@@ -11,6 +11,8 @@ protected:
 public:
     void build(double value);
     double evaluate() override;
+    PRIORITY priority() override;
+    ASSOCIATIVITY associativity() override;
     ExpressionTree* clone() override;
 };
 

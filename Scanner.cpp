@@ -6,7 +6,7 @@
 // scan
 void Scanner::scan(const std::string &input) {
     std::regex rLexeme(m_lexemePattern);
-    std::regex rSpace(LexemePattern::space);
+    std::regex rSpace("//s");
 
     std::sregex_token_iterator pos(input.cbegin(), input.cend(), rLexeme, {-1, 0});
     std::sregex_token_iterator end;

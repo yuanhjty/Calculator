@@ -4,14 +4,15 @@
 #include <stack>
 
 
-// destructor
-Parser::Parse() {
-    initOperators();
+// constructor
+Parser::Parser() {
+    m_operatorTable = OperatorTable::getInstance();
 }
 
+// destructor
 Parser::~Parser() {
     if (m_expressionTree) delete m_expressionTree;
-    releaseOperators();
+    if (m_operatorTable) delete m_operatorTable;
 }
 
 // parse
@@ -19,17 +20,6 @@ void Parser::parse(const std::string &infixExpression) {
     setInfixExpression(infixExpression);
     generatePostfixExpression();
     generateExpressionTree();
-}
-
-void Parser::initOperators() {
-    initBinaryOperators();
-    initUnaryOperators();
-
-}
-
-void Parser::releaseOperators() {
-    releaseBinaryOperators();
-    releaseUnaryOperators();
 }
 
 // generatePostfixExpression
@@ -47,24 +37,24 @@ void Parser::generatePostfixExpression() {
 
     while (is >> token) {
         // Token is an unary operator.
-        if ((opIt = unaryOperators.find(token)) != UnaryOperator.cend()) {
-            UnaryOperator *op = opIt->second->clone();
-            if (")" == prevToken || ) {
+//        if ((opIt = unaryOperators.find(token)) != UnaryOperator.cend()) {
+//            UnaryOperator *op = opIt->second->clone();
+//            if (")" == prevToken || ) {
 
-            }
-        }
+//            }
+//        }
 
-        // Token is a binary operator.
-        else if ((opIt = binaryOperators.find(token)) != binaryOperators.cend()) {
+//        // Token is a binary operator.
+//        else if ((opIt = binaryOperators.find(token)) != binaryOperators.cend()) {
 
-        }
+//        }
 
-        // Token is an operand.
-        else {
+//        // Token is an operand.
+//        else {
 
-        }
+//        }
 
-        prevToken = token;
+//        prevToken = token;
     }
 }
 

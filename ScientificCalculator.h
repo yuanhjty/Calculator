@@ -3,13 +3,12 @@
 
 
 #include "Calculator.h"
+#include "LexicalSet.h"
 #include "Expression.h"
 #include "Parser.h"
-#include "Util.h"
 
 #include <memory>
 #include <string>
-#include <map>
 
 
 class ScientificCalculator : public Calculator {

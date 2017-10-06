@@ -5,7 +5,6 @@
 #include "Expression.h"
 
 
-
 // The class BitNot
 class BitNot : public IntegerPrefixOperator {
 public:

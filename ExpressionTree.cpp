@@ -1,5 +1,7 @@
 #include "ExpressionTree.h"
-#include "Util.h"
+
+#include <exception>
+#include <stdexcept>
 
 
 // BinaryOperator
@@ -8,7 +10,7 @@ BinaryOperator::~BinaryOperator() {
     if (m_right) delete m_right;
 }
 
-BinaryOperator::bulid(ExpressionTree *left, ExpressionTree *right) {
+void BinaryOperator::build(ExpressionTree *left, ExpressionTree *right) {
     m_left = left; m_right = right;
 }
 
@@ -70,7 +72,7 @@ PRIORITY PrefixOperator::priority() {
     return PRIO_PREFIX;
 }
 
-POSITION PrefixOperator::associativity() {
+ASSOCIATIVITY PrefixOperator::associativity() {
     return ASSO_RIGHT;
 }
 
@@ -80,7 +82,7 @@ PRIORITY PostfixOperator::priority() {
     return PRIO_POSTFIX;
 }
 
-POSITION PostfixOperator::associativity() {
+ASSOCIATIVITY PostfixOperator::associativity() {
     return ASSO_LEFT;
 }
 
@@ -94,7 +96,7 @@ void IntegerUnaryOperator::build(ExpressionTree *child) {
 void IntegerUnaryOperator::makeIntegerOperand() {
     double child = m_child->evaluate();
 
-    if (!Util::isDblToLLongValid(right))
+    if (!Util::isDblToLLongValid(child))
         throw std::logic_error("Integer Overflow");
 
     m_integerChild = (long long)child;
@@ -106,7 +108,7 @@ PRIORITY IntegerPrefixOperator::priority() {
     return PRIO_PREFIX;
 }
 
-POSITION IntegerPrefixOperator::associativity() {
+ASSOCIATIVITY IntegerPrefixOperator::associativity() {
     return ASSO_RIGHT;
 }
 
@@ -116,6 +118,6 @@ PRIORITY IntegerPostfixOperator::priority() {
     return PRIO_POSTFIX;
 }
 
-POSITION IntegerPostfixOperator::associativity() {
+ASSOCIATIVITY IntegerPostfixOperator::associativity() {
     return ASSO_LEFT;
 }

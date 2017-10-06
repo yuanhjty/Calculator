@@ -33,6 +33,13 @@ enum  ASSOCIATIVITY {
     ASSO_LEFT, ASSO_RIGHT
 };
 
+// The class Util
+class Util {
+public:
+    static bool isDblToLLongValid(double dValue) {
+        return ((long)dValue == dValue);
+    }
+};
 
 
 
@@ -49,14 +56,13 @@ public:
 
 
 
-
 // For binary operation ////////////////////////////////////
 // For real operation //////////////////////////////
 // The class BinaryOperator
 class BinaryOperator : public ExpressionTree {
 protected:
-    ExpressionTree *m_left;
-    ExpressionTree *m_right;
+    ExpressionTree *m_left = nullptr;
+    ExpressionTree *m_right = nullptr;
 
 public:
     ~BinaryOperator();
@@ -108,7 +114,6 @@ public:
 };
 // For integer only operation //////////////////////
 // For binary operation ////////////////////////////////////
-
 
 
 

@@ -1,7 +1,8 @@
 #include "BinaryOperator.h"
-#include "Util.h"
 
 #include <exception>
+#include <stdexcept>
+#include <cmath>
 
 
 
@@ -51,7 +52,7 @@ ExpressionTree *Multi::clone() {
 double Divide::evaluate() {
     double divisor = m_right->evaluate();
     if (0 == divisor)
-        throw std::logic_error("Division by zero error");
+        throw std::exception("Division by zero error");
 
     return m_left->evaluate() / divisor;
 }
@@ -84,7 +85,7 @@ double Modulo::evaluate() {
     if (0 == m_integerRight)
         throw std::logic_error("Division By Zero");
 
-    return m_integerLeft % m_integerRight;
+    return (double)(m_integerLeft % m_integerRight);
 }
 
 PRIORITY Modulo::priority() {
@@ -98,7 +99,7 @@ ExpressionTree *Modulo::clone() {
 
 // BitAnd
 double BitAnd::evaluate() {
-    return m_integerLeft & m_integerRight;
+    return (double)(m_integerLeft & m_integerRight);
 }
 
 PRIORITY BitAnd::priority() {
@@ -112,7 +113,7 @@ ExpressionTree *BitAnd::clone() {
 
 // BitOr
 double BitOr::evaluate() {
-    return m_integerLeft | m_integerRight;
+    return (double)(m_integerLeft | m_integerRight);
 }
 
 PRIORITY BitOr::priority() {
@@ -126,7 +127,7 @@ ExpressionTree *BitOr::clone() {
 
 // BitXor
 double BitXor::evaluate() {
-    return m_integerLeft ^ m_integerRight;
+    return (double)(m_integerLeft ^ m_integerRight);
 }
 
 PRIORITY BitXor::priority() {

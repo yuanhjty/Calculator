@@ -6,7 +6,6 @@ CONFIG -= qt
 SOURCES += \
     Scanner.cpp \
     Parser.cpp \
-    Util.cpp \
     CmdCalculator.cpp \
     Calculator.cpp \
     BinaryOperator.cpp \
@@ -15,13 +14,13 @@ SOURCES += \
     ScientificCalculator.cpp \
     ExpressionTree.cpp \
     Operand.cpp \
-    OperatorTable.cpp
+    OperatorTable.cpp \
+    LexicalSet.cpp
 
 HEADERS += \
     Calculator.h \
     Scanner.h \
     Parser.h \
-    Util.h \
     Expression.h \
     BinaryOperator.h \
     UnaryOperator.h \
@@ -29,7 +28,8 @@ HEADERS += \
     CommandInterpreter.h \
     ScientificCalculator.h \
     ExpressionTree.h \
-    OperatorTable.h
+    OperatorTable.h \
+    LexicalSet.h
 
 DISTFILES += \
     build/Desktop_Qt_5_6_2_MSVC2015_64bit/debug/CalculatorRefactor.ilk \

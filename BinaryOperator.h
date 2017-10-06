@@ -5,7 +5,6 @@
 #include "Expression.h"
 
 
-
 // The class Plus
 class Plus : public LeftAssoOperator {
 public:

@@ -1,10 +1,8 @@
 #ifndef SCANNER_H
 #define SCANNER_H
 
-#include "Util.h"
 
 #include <string>
-#include <memory>
 #include <regex>
 
 

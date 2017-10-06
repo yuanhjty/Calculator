@@ -1,7 +1,6 @@
 #ifndef COMMAND_INTERPRETER
 #define COMMAND_INTERPRETER
 
-
 #include "Calculator.h"
 #include "ScientificCalculator.h"
 

@@ -5,7 +5,7 @@ ScientificCalculator::ScientificCalculator() :
     Calculator(),
     m_expression(new Expression),
     m_parser(new Parser) {
-    setLexemePattern(LexemePattern::scientificReal);
+    setLexemePattern(LexicalSet::getScientificRealSet());
 }
 
 // evaluate
