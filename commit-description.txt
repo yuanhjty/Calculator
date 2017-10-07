@@ -1,7 +1,6 @@
 f x.y.z
-f	框架
-x	主框架版本
-y	次框架版本
-z	奇数：未完成
-	偶数：完成
+f	frame
+x	major frame version
+y	minor frame version
+z	If z is odd, it's just temporarily saved.
 	

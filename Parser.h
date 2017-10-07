@@ -14,14 +14,14 @@
 // The class Parser
 class Parser {
 private:
-    OperatorTable *m_operatorTable = nullptr;
     std::string m_infixExpression;
     std::vector<ExpressionTree*> m_postfixExpression;
+
+    OperatorTable *m_operatorTable;
     std::shared_ptr<ExpressionTree> m_expressionTree;
 
 public:
     Parser();
-    virtual ~Parser();
 
     std::shared_ptr<ExpressionTree> getExpressionTree() const;
     void parse(const std::string &infixExpression);

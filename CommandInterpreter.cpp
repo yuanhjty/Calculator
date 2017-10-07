@@ -31,10 +31,15 @@ CommandInterpreter::CommandInterpreter() :
 
 // interpreter
 COMMAND CommandInterpreter::interpreter(const std::string& input) {
-    m_input = input;
-    return executeCommand(parseCommand());
+    setInput(input);
+    try {
+        return executeCommand(parseCommand());
+    } catch (std::logic_error e) {
+        setResult(std::make_pair(std::string(), e.what()));
+    }
 }
 
+// setInput
 void CommandInterpreter::setInput(const std::string &input) {
     auto firstNotBlankPos = input.find_first_not_of(" \t");
     if (std::string::npos == firstNotBlankPos) {
@@ -61,7 +66,7 @@ std::string CommandInterpreter::parseCommand() const {
 }
 
 // parseParameter
-std::string CommandInterpreter::parseParameter() const {
+std::string CommandInterpreter::parseArgument() const {
     auto firstBlankPos = m_input.find_first_of(" \t");
     if (std::string::npos == firstBlankPos)
         return std::string();
@@ -70,11 +75,11 @@ std::string CommandInterpreter::parseParameter() const {
 
 // historyIndex
 int CommandInterpreter::parseHistoryIndex() const {
-    std::string parameter = parseParameter();
+    std::string argument = parseArgument();
     size_t idx;
-    int ret = std::stoi(parameter, &idx);
-    if (idx != parameter.size())
-        throw std::logic_error("Invalid Parameter");
+    int ret = std::stoi(argument, &idx);
+    if (idx != argument.size())
+        throw std::logic_error("error: invalid argument: " + argument);
     return ret;
 }
 
@@ -116,12 +121,7 @@ COMMAND CommandInterpreter::executeCommand(const std::string &command) {
     case C_SCIENCE:
 
     case C_EVALUATE:
-        try {
-            evaluate();
-        } catch (std::exception e) {
-            std::cerr << e.what() << std::endl;
-        }
-
+        evaluate();
         break;
 
     case C_COMPLETE:
@@ -129,12 +129,7 @@ COMMAND CommandInterpreter::executeCommand(const std::string &command) {
         break;
 
     case C_VIEW_HISTORY:
-        try {
-            setResult(m_calculator->getHistory(parseHistoryIndex()));
-        } catch (std::logic_error e) {
-            setResult(std::make_pair(std::string(), e.what()));
-            ret = C_CONTINUE;
-        }
+        setResult(m_calculator->getHistory(parseHistoryIndex()));
         break;
 
     case C_QUIT_HISTORY:

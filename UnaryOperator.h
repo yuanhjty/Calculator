@@ -6,7 +6,7 @@
 
 
 // The class BitNot
-class BitNot : public IntegerPrefixOperator {
+class BitNot : public PrefixOperator {
 public:
     double evaluate() override;
     ExpressionTree* clone() override;

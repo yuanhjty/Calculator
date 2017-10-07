@@ -4,6 +4,22 @@
 #include <stdexcept>
 
 
+
+// Util
+long long Util::toInteger(double value) {
+    if (!isDblToLLongValid(value))
+        throw std::logic_error("error: integer overflow");
+    return (long long)value;
+}
+
+double Util::toFloat(long long value) {
+    if (!isLLongToDblValid(value))
+        throw std::logic_error("error: integer overflow");
+    return (double)value;
+}
+
+
+
 // BinaryOperator
 BinaryOperator::~BinaryOperator() {
     if (m_left) delete m_left;
@@ -16,7 +32,7 @@ int BinaryOperator::childCount() const {
 
 void BinaryOperator::build(const std::vector<ExpressionTree*>& param) {
     if (param.size() != 2)
-        throw std::exception("Inner error: build ExpressionTree failed");
+        throw std::exception("inner error: build ExpressionTree failed");
     m_left = param[1]; m_right = param[0];
 }
 
@@ -33,35 +49,6 @@ ASSOCIATIVITY RightAssoOperator::associativity() {
 }
 
 
-// IntegerBinaryOperator
-void IntegerBinaryOperator::build(const std::vector<ExpressionTree*>& param){
-    BinaryOperator::build(param);
-    makeIntegerOperands();
-}
-
-void IntegerBinaryOperator::makeIntegerOperands() {
-    double left = m_left->evaluate();
-    double right = m_right->evaluate();
-
-    if (!(Util::isDblToLLongValid(left) && Util::isDblToLLongValid(right)))
-        throw std::logic_error("Integer Overflow");
-
-    m_integerLeft = (long long)left;
-    m_integerRight = (long long)right;
-}
-
-
-// IntegerLeftAssoOperator
-ASSOCIATIVITY IntegerLeftAssoOperator::associativity() {
-    return ASSO_LEFT;
-}
-
-
-// IntegerRightAssoOperator
-ASSOCIATIVITY IntegerRightAssoOperator::associativity() {
-    return ASSO_RIGHT;
-}
-
 
 // UnaryOperator
 UnaryOperator::~UnaryOperator() {
@@ -74,7 +61,7 @@ int UnaryOperator::childCount() const {
 
 void UnaryOperator::build(const std::vector<ExpressionTree*>& param) {
     if (param.size() != 1)
-        throw std::exception("Inner error: build ExpressionTree failed");
+        throw std::exception("inner error: build ExpressionTree failed");
     m_child = param[0];
 }
 
@@ -95,41 +82,5 @@ PRIORITY PostfixOperator::priority() {
 }
 
 ASSOCIATIVITY PostfixOperator::associativity() {
-    return ASSO_LEFT;
-}
-
-
-// IntegerUnaryOperator
-void IntegerUnaryOperator::build(const std::vector<ExpressionTree*>& param) {
-    UnaryOperator::build(param);
-    makeIntegerOperand();
-}
-
-void IntegerUnaryOperator::makeIntegerOperand() {
-    double child = m_child->evaluate();
-
-    if (!Util::isDblToLLongValid(child))
-        throw std::logic_error("Integer Overflow");
-
-    m_integerChild = (long long)child;
-}
-
-
-// IntegerPrefixOperator
-PRIORITY IntegerPrefixOperator::priority() {
-    return PRIO_PREFIX;
-}
-
-ASSOCIATIVITY IntegerPrefixOperator::associativity() {
-    return ASSO_RIGHT;
-}
-
-
-// IntegerPostfixOperator
-PRIORITY IntegerPostfixOperator::priority() {
-    return PRIO_POSTFIX;
-}
-
-ASSOCIATIVITY IntegerPostfixOperator::associativity() {
     return ASSO_LEFT;
 }

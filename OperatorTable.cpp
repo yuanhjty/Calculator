@@ -35,12 +35,7 @@ ExpressionTree *OperatorTable::getOperator(const std::string &token) {
 
 OperatorTable::OperatorTable() {
     initOperators();
-    initBinaryOperators();
-    initPrefixOperators();
-    initPostfixOperators();
 }
-
-
 
 void OperatorTable::initOperators() {
     // binary operaotr
@@ -79,19 +74,5 @@ void OperatorTable::releaseOperators() {
     for (const auto& item : m_operators) {
         delete item.second;
     }
-}
-
-void OperatorTable::initBinaryOperators() {
-    m_binaryOperators.insert(
-    {"+", "-", "*", "/", "%", "^", "or", "and", "xor"});
-}
-
-void OperatorTable::initPrefixOperators() {
-    m_prefixOperators.insert(
-    {"u-", "sin", "cos", "tan", "asin", "acos", "atan", "lg", "ln", "not"});
-}
-
-void OperatorTable::initPostfixOperators() {
-    m_postfixOperators.insert({"!"});
 }
 

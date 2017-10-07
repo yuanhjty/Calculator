@@ -40,8 +40,15 @@ enum  ASSOCIATIVITY {
 class Util {
 public:
     static bool isDblToLLongValid(double dValue) {
-        return ((long)dValue == dValue);
+        return ((double)((long long)dValue) == dValue);
     }
+
+    static bool isLLongToDblValid(long long llValue) {
+        return ((long long)((double)llValue)) == llValue;
+    }
+
+    static long long toInteger(double value);
+    static double toFloat(long long value);
 };
 
 
@@ -63,7 +70,6 @@ public:
 
 
 // For binary operation ////////////////////////////////////
-// For real operation //////////////////////////////
 // The class BinaryOperator
 class BinaryOperator : public ExpressionTree {
 protected:
@@ -89,43 +95,11 @@ class RightAssoOperator : public BinaryOperator {
 public:
     ASSOCIATIVITY associativity() override;
 };
-// For real operation //////////////////////////////
-
-
-// For integer only operation //////////////////////
-// The class IntegerBinaryOperator
-class IntegerBinaryOperator : public BinaryOperator {
-protected:
-    long long m_integerLeft = 0;
-    long long m_integerRight = 0;
-
-public:
-    void build(const std::vector<ExpressionTree *> &param) override;
-
-protected:
-    void makeIntegerOperands();
-};
-
-
-// The class IntegerLeftAssoOperator
-class IntegerLeftAssoOperator : public IntegerBinaryOperator {
-public:
-    ASSOCIATIVITY associativity() override;
-};
-
-
-// The class IntegerRightAssoOperator
-class IntegerRightAssoOperator : public IntegerBinaryOperator {
-public:
-    ASSOCIATIVITY associativity() override;
-};
-// For integer only operation //////////////////////
 // For binary operation ////////////////////////////////////
 
 
 
 // For unary operation /////////////////////////////////////
-// For real operation //////////////////////////////
 // The class UnaryOperator
 class UnaryOperator : public ExpressionTree {
 protected:
@@ -152,38 +126,6 @@ public:
     PRIORITY priority() override;
     ASSOCIATIVITY associativity() override;
 };
-// For real operation //////////////////////////////
-
-
-// For integer only operation //////////////////////
-// The class IntegerUnaryOperator
-class IntegerUnaryOperator : public UnaryOperator {
-protected:
-    long long m_integerChild = 0;
-
-public:
-    void build(const std::vector<ExpressionTree*>& param) override;
-
-protected:
-    void makeIntegerOperand();
-};
-
-
-// The class IntegerPrefixOperator
-class IntegerPrefixOperator : public IntegerUnaryOperator {
-public:
-    PRIORITY priority() override;
-    ASSOCIATIVITY associativity() override;
-};
-
-
-// The class IntegerPostfixOperator
-class IntegerPostfixOperator : public IntegerUnaryOperator {
-public:
-    PRIORITY priority() override;
-    ASSOCIATIVITY associativity() override;
-};
-// For integer only operation //////////////////////
 // For unary operation /////////////////////////////////////
 
 #endif // EXPRESSIONTREE_H

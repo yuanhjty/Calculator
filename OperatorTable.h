@@ -26,6 +26,10 @@ public:
     static OperatorTable* getInstance();
     ~OperatorTable();
 
+    void setBinaryOperators(const std::set<std::string>& binaryOperators);
+    void setPrefixOperators(const std::set<std::string>& prefixOperators);
+    void setPostfixOperators(const std::set<std::string>& postfixOperators);
+
     ExpressionTree* getOperator(const std::string& token);
     bool isBinaryOperator(const std::string& token) const;
     bool isPrefixOperator(const std::string& token) const;
@@ -38,11 +42,19 @@ private:
     void registerOperator(const std::string& name, ExpressionTree* op);
     void initOperators();
     void releaseOperators();
-
-    void initBinaryOperators();
-    void initPrefixOperators();
-    void initPostfixOperators();
 };
+
+inline void OperatorTable::setBinaryOperators(const std::set<std::string> &binaryOperators) {
+    m_binaryOperators = binaryOperators;
+}
+
+inline void OperatorTable::setPrefixOperators(const std::set<std::string> &prefixOperators) {
+    m_prefixOperators = prefixOperators;
+}
+
+inline void OperatorTable::setPostfixOperators(const std::set<std::string> &postfixOperators) {
+    m_postfixOperators = postfixOperators;
+}
 
 inline bool OperatorTable::isBinaryOperator(const std::string &token) const {
     return m_binaryOperators.find(token) != m_binaryOperators.cend();

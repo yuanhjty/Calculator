@@ -28,6 +28,6 @@ int Number::childCount() const {
 
 void Number::build(const std::vector<ExpressionTree*>& param) {
     if (!param.empty())
-        throw std::exception("Inner error: build ExpressionTree failed");
+        throw std::exception("inner error: build ExpressionTree failed");
 }
 

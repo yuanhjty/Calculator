@@ -10,11 +10,6 @@ Parser::Parser() {
     m_operatorTable = OperatorTable::getInstance();
 }
 
-// destructor
-Parser::~Parser() {
-    if (m_operatorTable) delete m_operatorTable;
-}
-
 // parse
 void Parser::parse(const std::string &infixExpression) {
     setInfixExpression(infixExpression);
@@ -40,7 +35,7 @@ void Parser::buildPostfixExpression() {
             token = "u-";
 
         if (!validPrevToken(token, prevToken))
-            throw std::logic_error("Invalid expression: " + prevToken + " " + token);
+            throw std::logic_error("error: invalid expression: " + prevToken + " " + token);
 
         if (isOperator(token)) {
             exprNode = m_operatorTable->getOperator(token);
@@ -69,7 +64,7 @@ void Parser::buildPostfixExpression() {
                 operatorStack.pop();
             }
             if (operatorStack.empty())
-                throw std::logic_error("Parentheses matching failed: lack of '('.");
+                throw std::logic_error("error: parentheses matching failed: lack of '('.");
             operatorStack.pop();
         }
         else {    // if (isOperand(token))
@@ -78,9 +73,9 @@ void Parser::buildPostfixExpression() {
                 exprNode = new Number(value);
                 m_postfixExpression.push_back(exprNode);
             } catch (std::invalid_argument) {
-                throw std::logic_error("Undefined symbol: " + token);
+                throw std::logic_error("error: undefined symbol: " + token);
             } catch (std::out_of_range) {
-                throw std::logic_error("Floating point number overflow");
+                throw std::logic_error("error: floating point number overflow");
             }
         }
         prevToken = token;
@@ -88,7 +83,7 @@ void Parser::buildPostfixExpression() {
     // Check if the last token is valid.
     if (isPrefixOperator(token) || isBinaryOperator(token)
             || "(" == token)
-        throw std::logic_error("Invalid expression: end with " + token);
+        throw std::logic_error("error: invalid expression: " + token);
 
     while (!operatorStack.empty()) {
         exprNode = m_operatorTable->getOperator(operatorStack.top());
@@ -111,7 +106,7 @@ void Parser::buildExpressionTree() {
 
         while (childCount--) {
             if (exprTreeStack.empty())
-                throw std::logic_error("Invalid expression");
+                throw std::logic_error("error: invalid expression: lack of operand");
             param.push_back(exprTreeStack.top());
             exprTreeStack.pop();
         }
@@ -120,7 +115,7 @@ void Parser::buildExpressionTree() {
     }
 
     if (exprTreeStack.size() != 1)
-        throw std::logic_error("Invalid expression");
+        throw std::logic_error("error: invalid expression: lack of operand");
 
     m_expressionTree.reset(exprTreeStack.top());
     exprTreeStack.pop();

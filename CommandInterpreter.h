@@ -49,7 +49,7 @@ private:
     void setInput(const std::string &input);
     void setResult(const std::pair<std::string, std::string> &result);
     std::string parseCommand() const;
-    std::string parseParameter() const;
+    std::string parseArgument() const;
     int parseHistoryIndex() const;
     void evaluate();
     void reset();

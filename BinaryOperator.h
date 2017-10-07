@@ -50,7 +50,7 @@ class Pow : public RightAssoOperator {
 
 
 // The class Modulo
-class Modulo : public IntegerLeftAssoOperator {
+class Modulo : public LeftAssoOperator {
 public:
     double evaluate() override;
     PRIORITY priority() override;
@@ -59,7 +59,7 @@ public:
 
 
 // The class BitAnd
-class BitAnd : public IntegerLeftAssoOperator {
+class BitAnd : public LeftAssoOperator {
 public:
     double evaluate() override;
     PRIORITY priority() override;
@@ -68,7 +68,7 @@ public:
 
 
 // The class BitOr
-class BitOr : public IntegerLeftAssoOperator {
+class BitOr : public LeftAssoOperator {
 public:
     double evaluate() override;
     PRIORITY priority() override;
@@ -77,7 +77,7 @@ public:
 
 
 // The class BitXor
-class BitXor : public IntegerLeftAssoOperator {
+class BitXor : public LeftAssoOperator {
 public:
     double evaluate() override;
     PRIORITY priority() override;

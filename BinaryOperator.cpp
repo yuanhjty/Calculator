@@ -52,7 +52,7 @@ ExpressionTree *Multi::clone() {
 double Divide::evaluate() {
     double divisor = m_right->evaluate();
     if (0 == divisor)
-        throw std::exception("Division by zero error");
+        throw std::logic_error("error: divid-by-zero");
 
     return m_left->evaluate() / divisor;
 }
@@ -82,10 +82,11 @@ ExpressionTree *Pow::clone() {
 
 // Modulo
 double Modulo::evaluate() {
-    if (0 == m_integerRight)
-        throw std::logic_error("Division By Zero");
+    long long divisor = Util::toInteger(m_right->evaluate());
+    if (0 == divisor)
+        throw std::logic_error("error: divid-by-zero");
 
-    return (double)(m_integerLeft % m_integerRight);
+    return Util::toFloat((Util::toInteger(m_left->evaluate()) % divisor));
 }
 
 PRIORITY Modulo::priority() {
@@ -99,7 +100,8 @@ ExpressionTree *Modulo::clone() {
 
 // BitAnd
 double BitAnd::evaluate() {
-    return (double)(m_integerLeft & m_integerRight);
+    return Util::toFloat((Util::toInteger(m_left->evaluate())
+                          & Util::toInteger(m_right->evaluate())));
 }
 
 PRIORITY BitAnd::priority() {
@@ -113,7 +115,8 @@ ExpressionTree *BitAnd::clone() {
 
 // BitOr
 double BitOr::evaluate() {
-    return (double)(m_integerLeft | m_integerRight);
+    return Util::toFloat((Util::toInteger(m_left->evaluate())
+                          | Util::toInteger(m_right->evaluate())));
 }
 
 PRIORITY BitOr::priority() {
@@ -127,7 +130,8 @@ ExpressionTree *BitOr::clone() {
 
 // BitXor
 double BitXor::evaluate() {
-    return (double)(m_integerLeft ^ m_integerRight);
+    return Util::toFloat((Util::toInteger(m_left->evaluate())
+                          ^ Util::toInteger(m_right->evaluate())));
 }
 
 PRIORITY BitXor::priority() {

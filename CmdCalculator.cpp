@@ -38,9 +38,11 @@ int main() {
             break;
 
         result = interpreter->getResult();
-        std::cout << "   " << std::string(40, '_') << "\n"
-                  << "\n   " << result.first << "\n   =" << result.second
-                  << "\n   " << std::string(40, '_') << "\n\n";
+        std::string resultIndicator = result.first.empty() ? "" : "= ";
+        std::cout << "   " << std::string(40, '_') << "\n\n"
+                  << "   " << result.first << "\n\n"
+                  << "   " << resultIndicator << result.second << "\n"
+                  << "   " << std::string(40, '_') << "\n\n";
     }
 
     return 0;
