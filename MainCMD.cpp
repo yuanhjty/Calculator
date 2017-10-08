@@ -29,7 +29,10 @@ int main() {
             continue;
         }
 
-        command = interpreter->interpreter(input);
+        command = interpreter->interpret(input);
+
+        if (C_EVALUATE == command)
+            interpreter->interpret("complete");
 
         if (C_CONTINUE == command)
             continue;

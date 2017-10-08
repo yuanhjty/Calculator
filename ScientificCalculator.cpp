@@ -10,7 +10,7 @@ ScientificCalculator::ScientificCalculator() :
     m_parser(new Parser) ,
     m_operatorTable(OperatorTable::getInstance()) {
     setOperators();
-    setLexemePattern(LexicalSet::getScientificRealSet());
+    setLexemePattern(LexicalSet::getRealExprLexicalSet());
 }
 
 ScientificCalculator::~ScientificCalculator() {

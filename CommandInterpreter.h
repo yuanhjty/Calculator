@@ -42,7 +42,7 @@ private:
 
 public:     // public interface
     CommandInterpreter();
-    COMMAND interpreter(const std::string &input);
+    COMMAND interpret(const std::string &input);
     std::pair<std::string, std::string> getResult() const;
 
 private:

@@ -1,6 +1,5 @@
 #include "ExpressionTree.h"
 
-#include <exception>
 #include <stdexcept>
 
 
@@ -32,7 +31,7 @@ int BinaryOperator::childCount() const {
 
 void BinaryOperator::build(const std::vector<ExpressionTree*>& param) {
     if (param.size() != 2)
-        throw std::exception("inner error: build ExpressionTree failed");
+        throw std::runtime_error("inner error: build ExpressionTree failed");
     m_left = param[1]; m_right = param[0];
 }
 
@@ -61,7 +60,7 @@ int UnaryOperator::childCount() const {
 
 void UnaryOperator::build(const std::vector<ExpressionTree*>& param) {
     if (param.size() != 1)
-        throw std::exception("inner error: build ExpressionTree failed");
+        throw std::runtime_error("inner error: build ExpressionTree failed");
     m_child = param[0];
 }
 

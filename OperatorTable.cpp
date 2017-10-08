@@ -45,7 +45,7 @@ void OperatorTable::initOperators() {
     registerOperator("*", new Multi);
     registerOperator("/", new Divide);
     registerOperator("%", new Modulo);
-    registerOperator("^", new Pow);
+    registerOperator("^", new Power);
 
     // bitwise
     registerOperator("or", new BitOr);

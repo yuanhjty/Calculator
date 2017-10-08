@@ -5,7 +5,7 @@
 #include "Scanner.h"
 
 #include <string>
-#include <vector>
+#include <deque>
 #include <memory>
 
 
@@ -14,7 +14,9 @@ class Calculator {
 protected:
     std::unique_ptr<Scanner> m_scanner;
     std::pair<std::string, std::string> m_result;
-    std::vector<std::pair<std::string, std::string>> m_history;
+    std::deque<std::pair<std::string, std::string>> m_history;
+
+    static const int historySize = 1000;
 
 public:
     Calculator();

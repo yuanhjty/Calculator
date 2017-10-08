@@ -67,16 +67,16 @@ ExpressionTree *Divide::clone() {
 
 
 // Pow
-double Pow::evaluate() {
+double Power::evaluate() {
     return std::pow(m_left->evaluate(), m_right->evaluate());
 }
 
-PRIORITY Pow::priority() {
+PRIORITY Power::priority() {
     return PRIO_POW;
 }
 
-ExpressionTree *Pow::clone() {
-    return new Pow;
+ExpressionTree *Power::clone() {
+    return new Power;
 }
 
 

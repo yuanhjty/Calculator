@@ -42,7 +42,7 @@ public:
 
 
 // The class Pow
-class Pow : public RightAssoOperator {
+class Power : public RightAssoOperator {
     double evaluate() override;
     PRIORITY priority() override;
     ExpressionTree* clone() override;

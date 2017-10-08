@@ -26,7 +26,7 @@ std::pair<std::string, std::string> Calculator::getHistory(int index) const {
     index = index > -1 ? -1 : index;            // now index range is (-infinity, -1]
     index = index < -hSize ? -hSize : index;    // now index range is [-hSize, -1]
 
-    return m_history[index];
+    return m_history[hSize + index];
 }
 
 // updateResult
@@ -37,5 +37,7 @@ void Calculator::setResult(const std::string &expression, const std::string &val
 
 // updateHistory
 void Calculator::updateHistory() {
+    if (historySize == m_history.size())
+        m_history.pop_front();
     m_history.push_back(m_result);
 }

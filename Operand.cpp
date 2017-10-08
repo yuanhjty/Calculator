@@ -1,5 +1,7 @@
 #include "Operand.h"
 
+#include <stdexcept>
+
 
 
 Number::Number(double value) {
@@ -28,6 +30,6 @@ int Number::childCount() const {
 
 void Number::build(const std::vector<ExpressionTree*>& param) {
     if (!param.empty())
-        throw std::exception("inner error: build ExpressionTree failed");
+        throw std::runtime_error("inner error: build ExpressionTree failed");
 }
 

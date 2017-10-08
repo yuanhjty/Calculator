@@ -6,7 +6,6 @@ CONFIG -= qt
 SOURCES += \
     Scanner.cpp \
     Parser.cpp \
-    CmdCalculator.cpp \
     Calculator.cpp \
     BinaryOperator.cpp \
     UnaryOperator.cpp \
@@ -15,7 +14,8 @@ SOURCES += \
     ExpressionTree.cpp \
     Operand.cpp \
     OperatorTable.cpp \
-    LexicalSet.cpp
+    LexicalSet.cpp \
+    MainCMD.cpp
 
 HEADERS += \
     Calculator.h \

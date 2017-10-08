@@ -64,7 +64,7 @@ void Parser::buildPostfixExpression() {
                 operatorStack.pop();
             }
             if (operatorStack.empty())
-                throw std::logic_error("error: parentheses matching failed: lack of '('.");
+                throw std::logic_error("error: parentheses matching failed: '(' missing");
             operatorStack.pop();
         }
         else {    // if (isOperand(token))
@@ -106,7 +106,7 @@ void Parser::buildExpressionTree() {
 
         while (childCount--) {
             if (exprTreeStack.empty())
-                throw std::logic_error("error: invalid expression: lack of operand");
+                throw std::logic_error("error: invalid expression: operand missing");
             param.push_back(exprTreeStack.top());
             exprTreeStack.pop();
         }
@@ -115,7 +115,7 @@ void Parser::buildExpressionTree() {
     }
 
     if (exprTreeStack.size() != 1)
-        throw std::logic_error("error: invalid expression: lack of operand");
+        throw std::logic_error("error: invalid expression: operand missing");
 
     m_expressionTree.reset(exprTreeStack.top());
     exprTreeStack.pop();

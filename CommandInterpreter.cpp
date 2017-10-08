@@ -13,16 +13,9 @@ std::map<std::string, COMMAND> CommandInterpreter::commands = {
     {"velocity", C_VELOCITY}, {"time", C_TIME}, {"temperature", C_TEMPERATURE},
     {"science", C_SCIENCE},
 
-    // To evaluate expression.
-    {"evaluate", C_EVALUATE},
-
-    // To reset calculator
-    {"reset", C_RESET},
-
     // Other commands
-    {"help", C_HELP}, {"quit", C_QUIT}, {"complete", C_COMPLETE},
-    {"continue", C_CONTINUE}, {"undefined", C_UNDEFINED},
-    {"viewHistory", C_VIEW_HISTORY}, {"quitHistory", C_QUIT_HISTORY}
+    {"help", C_HELP}, {"quit", C_QUIT}, {"complete", C_COMPLETE}, {"reset", C_RESET},
+    {"history", C_VIEW_HISTORY}, {"continue", C_CONTINUE}, {"undefined", C_UNDEFINED}
 };
 
 // constructor
@@ -30,13 +23,15 @@ CommandInterpreter::CommandInterpreter() :
     m_calculator(new ScientificCalculator) {}
 
 // interpreter
-COMMAND CommandInterpreter::interpreter(const std::string& input) {
+COMMAND CommandInterpreter::interpret(const std::string& input) {
     setInput(input);
+    COMMAND ret;
     try {
-        return executeCommand(parseCommand());
+        ret = executeCommand(parseCommand());
     } catch (std::logic_error e) {
         setResult(std::make_pair(std::string(), e.what()));
     }
+    return ret;
 }
 
 // setInput
@@ -62,7 +57,7 @@ std::string CommandInterpreter::parseCommand() const {
     if (std::string::npos == firstBlankPos)
         return m_input;
 
-    return m_input.substr(0, firstBlankPos + 1);
+    return m_input.substr(0, firstBlankPos);
 }
 
 // parseParameter
@@ -77,7 +72,20 @@ std::string CommandInterpreter::parseArgument() const {
 int CommandInterpreter::parseHistoryIndex() const {
     std::string argument = parseArgument();
     size_t idx;
-    int ret = std::stoi(argument, &idx);
+    int ret = 0;
+
+    if (argument.empty())
+        throw std::logic_error("error: argument missing "
+                               "(a negative integer is needed as argument)");
+
+    try {
+        ret = std::stoi(argument, &idx);
+    } catch (std::invalid_argument) {
+        throw std::logic_error("error: invalid argument: " + argument);
+    } catch (std::out_of_range) {
+        throw std::logic_error("error: invalid argument: out of range");
+    }
+
     if (idx != argument.size())
         throw std::logic_error("error: invalid argument: " + argument);
     return ret;
@@ -119,6 +127,7 @@ COMMAND CommandInterpreter::executeCommand(const std::string &command) {
     case C_TIME:
     case C_TEMPERATURE:
     case C_SCIENCE:
+        break;
 
     case C_EVALUATE:
         evaluate();
