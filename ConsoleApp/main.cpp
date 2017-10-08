@@ -1,4 +1,4 @@
-#include "CommandInterpreter.h"
+#include "../Calculator/CommandInterpreter.h"
 
 #include <iostream>
 #include <memory>
