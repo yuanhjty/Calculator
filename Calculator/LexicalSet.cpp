@@ -2,16 +2,13 @@
 
 
 const std::string LexicalSet::numReal = "\\d+(\\.\\d*)?(e\\-?\\d+)?";
-//const std::string LexicalSet::numReal = "[[:digit:]]+(\\.[[:digit:]]*)?(e\\-?[[:digit:]]+)?";
 const std::string LexicalSet::numBinary = "[01]+";
 const std::string LexicalSet::numOctal = "[0-7]+";
 const std::string LexicalSet::numDecimal = "\\d+(e\\d+)?";
-//const std::string LexicalSet::numDecimal = "[[:digit:]]+(e[[:digit:]]+)?";
 const std::string LexicalSet::numHex = "[[:xdigit:]]+";
 
-//const std::string LexicalSet::opReal = "[\\+\\-\\*/\\^!]";
-const std::string LexicalSet::opReal = "[/!\\+\\-\\^\\*]";
-const std::string LexicalSet::opInteger = "[\\+\\-\\*/%]|or|and|xor|not";
+const std::string LexicalSet::opReal = "[%/\\+\\-\\^\\*]";
+const std::string LexicalSet::opInteger = "[%/\\+\\-\\*]|or|and|xor|not";
 
 const std::string LexicalSet::symbol = "[[:alpha:]]+";
 const std::string LexicalSet::parenthesis = "[\\(\\)]";

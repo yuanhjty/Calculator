@@ -30,6 +30,7 @@ public:
     void updateHistory();
     void reset();
 
+    virtual void init() = 0;
     virtual void evaluate() = 0;
 
 protected:

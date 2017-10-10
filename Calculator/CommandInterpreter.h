@@ -23,12 +23,12 @@ enum COMMAND {
     // To evaluate expression.
     C_EVALUATE,
 
-    // To reset caldulator
-    C_RESET,
+    // To return exception state.
+    C_EXCEPTION,
 
     // Other commands
     C_HELP, C_QUIT, C_CONTINUE, C_COMPLETE, C_UNDEFINED,
-    C_VIEW_HISTORY, C_QUIT_HISTORY
+    C_HISTORY, C_RESET
 };
 
 

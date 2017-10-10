@@ -10,11 +10,11 @@ SOURCES += main.cpp \
     ../Calculator/ExpressionTree.cpp \
     ../Calculator/LexicalSet.cpp \
     ../Calculator/Operand.cpp \
-    ../Calculator/OperatorTable.cpp \
     ../Calculator/Parser.cpp \
     ../Calculator/Scanner.cpp \
     ../Calculator/ScientificCalculator.cpp \
-    ../Calculator/UnaryOperator.cpp
+    ../Calculator/UnaryOperator.cpp \
+    ../Calculator/SymbolTable.cpp
 
 HEADERS += \
     ../Calculator/BinaryOperator.h \
@@ -24,8 +24,9 @@ HEADERS += \
     ../Calculator/ExpressionTree.h \
     ../Calculator/LexicalSet.h \
     ../Calculator/Operand.h \
-    ../Calculator/OperatorTable.h \
     ../Calculator/Parser.h \
     ../Calculator/Scanner.h \
     ../Calculator/ScientificCalculator.h \
-    ../Calculator/UnaryOperator.h
+    ../Calculator/UnaryOperator.h \
+    ../Calculator/SymbolTable.h \
+    ../Calculator/ExpressionException.h

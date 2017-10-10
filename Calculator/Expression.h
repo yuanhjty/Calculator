@@ -10,7 +10,7 @@
 // The class Expression
 class Expression {
 private:
-    std::shared_ptr<ExpressionTree> m_expressionTree = nullptr;
+    std::shared_ptr<ExpressionTree> m_expressionTree;
 
 public:
     void setExpressionTree(const std::shared_ptr<ExpressionTree>& expressionTree);

@@ -5,27 +5,28 @@
 #include "Calculator.h"
 #include "LexicalSet.h"
 #include "Expression.h"
-#include "OperatorTable.h"
+#include "SymbolTable.h"
 #include "Parser.h"
 
-#include <memory>
 #include <string>
+#include <memory>
 
 
 class ScientificCalculator : public Calculator {
 protected:
-    std::unique_ptr<Expression> m_expression;
-    std::unique_ptr<Parser> m_parser;
-    OperatorTable *m_operatorTable;
+    std::shared_ptr<SymbolTable> m_symbolTable;
+    Expression *m_expression;
+    Parser *m_parser;
 
 public:
     ScientificCalculator();
     virtual ~ScientificCalculator();
+    void init() override;
     void evaluate() override;
 
 protected:
+    virtual void initSymbolTable();
     virtual std::string valueToString(double value);
-    virtual void setOperators();
 };
 
 #endif // SCIENTIFICCALCULATOR_H

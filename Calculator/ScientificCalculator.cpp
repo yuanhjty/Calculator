@@ -6,21 +6,25 @@
 // constructor
 ScientificCalculator::ScientificCalculator() :
     Calculator(),
+    m_symbolTable(new SymbolTable),
     m_expression(new Expression),
-    m_parser(new Parser) ,
-    m_operatorTable(OperatorTable::getInstance()) {
-    setOperators();
-    setLexemePattern(LexicalSet::getRealExprLexicalSet());
+    m_parser(new Parser) {
+    m_parser->setSymbolTable(m_symbolTable);
 }
 
 ScientificCalculator::~ScientificCalculator() {
-    if (m_operatorTable) delete m_operatorTable;
+    if (m_expression) delete m_expression;
+    if (m_parser) delete m_parser;
+}
+
+void ScientificCalculator::init() {
+    initSymbolTable();
+    setLexemePattern(LexicalSet::getRealExprLexicalSet());
 }
 
 // evaluate
 void ScientificCalculator::evaluate() {
-    m_parser->parse(m_scanner->getExpression());
-    m_expression->setExpressionTree(m_parser->getExpressionTree());
+    m_expression->setExpressionTree(m_parser->parse(m_scanner->getExpression()));
     setResult(m_scanner->getExpression(), valueToString(m_expression->evaluate()));
 }
 
@@ -30,14 +34,36 @@ std::string ScientificCalculator::valueToString(double value) {
     return os.str();
 }
 
-void ScientificCalculator::setOperators() {
-    std::set<std::string> binaryOperators = { "+", "-", "*", "/", "^" };
-    std::set<std::string> prefixOPerators = {
-        "u-", "sin", "cos", "tan", "asin", "acos", "atan", "lg", "ln" };
-    std::set<std::string> postfixOperators = {};
+void ScientificCalculator::initSymbolTable() {
+    m_symbolTable->registerBinaryOperator ("+", new Plus);
+    m_symbolTable->registerBinaryOperator ("-", new BMinus);
+    m_symbolTable->registerBinaryOperator ("*", new Multi);
+    m_symbolTable->registerBinaryOperator ("/", new Divide);
+    m_symbolTable->registerBinaryOperator ("%", new Modulo);
+    m_symbolTable->registerBinaryOperator ("^", new Power);
 
-    m_operatorTable->setBinaryOperators(binaryOperators);
-    m_operatorTable->setPrefixOperators(prefixOPerators);
-    m_operatorTable->setPostfixOperators(postfixOperators);
+    // bitwise
+//    m_symbolTable->registerBinaryOperator ("or", new BitOr);
+//    m_symbolTable->registerBinaryOperator ("and", new BitAnd);
+//    m_symbolTable->registerBinaryOperator ("xor", new BitXor);
+
+    m_symbolTable->registerPrefixOperator ("u-", new UMinus);
+    m_symbolTable->registerPrefixOperator ("sin", new Sin);
+    m_symbolTable->registerPrefixOperator ("cos", new Cos);
+    m_symbolTable->registerPrefixOperator ("tan", new Tan);
+    m_symbolTable->registerPrefixOperator ("asin", new ASin);
+    m_symbolTable->registerPrefixOperator ("acos", new ACos);
+    m_symbolTable->registerPrefixOperator ("atan", new ATan);
+    m_symbolTable->registerPrefixOperator ("lg", new Lg);
+    m_symbolTable->registerPrefixOperator ("ln", new Ln);
+
+    // not implemented
+//    m_symbolTable->registerPrefixOperator ("!", new Fact);
+
+    // bitwise
+//    m_symbolTable->registerPostfixOperator("not", new BitNot);
+
+    m_symbolTable->registerVariable("pi", new ConstPi);
+    m_symbolTable->registerVariable("e", new ConstE);
 }
 

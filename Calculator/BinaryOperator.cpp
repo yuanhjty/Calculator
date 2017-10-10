@@ -1,7 +1,6 @@
 #include "BinaryOperator.h"
+#include "ExpressionException.h"
 
-#include <exception>
-#include <stdexcept>
 #include <cmath>
 
 
@@ -52,7 +51,7 @@ ExpressionTree *Multi::clone() {
 double Divide::evaluate() {
     double divisor = m_right->evaluate();
     if (0 == divisor)
-        throw std::logic_error("error: divid-by-zero");
+        throw OperandError("divid-by-zero");
 
     return m_left->evaluate() / divisor;
 }
@@ -82,11 +81,16 @@ ExpressionTree *Power::clone() {
 
 // Modulo
 double Modulo::evaluate() {
-    long long divisor = Util::toInteger(m_right->evaluate());
+    double divisor = m_right->evaluate();
     if (0 == divisor)
-        throw std::logic_error("error: divid-by-zero");
+        throw OperandError("divid-by-zero");
 
-    return Util::toFloat((Util::toInteger(m_left->evaluate()) % divisor));
+    double dividend = m_left->evaluate();
+
+    double intpart = 0;
+    std::modf(dividend / divisor, &intpart);
+
+    return dividend - intpart * divisor;
 }
 
 PRIORITY Modulo::priority() {

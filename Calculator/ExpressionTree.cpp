@@ -1,19 +1,17 @@
 #include "ExpressionTree.h"
-
-#include <stdexcept>
-
+#include "ExpressionException.h"
 
 
 // Util
 long long Util::toInteger(double value) {
     if (!isDblToLLongValid(value))
-        throw std::logic_error("error: integer overflow");
+        throw std::out_of_range("integer overflow");
     return (long long)value;
 }
 
 double Util::toFloat(long long value) {
     if (!isLLongToDblValid(value))
-        throw std::logic_error("error: integer overflow");
+        throw std::out_of_range("integer overflow");
     return (double)value;
 }
 
@@ -31,7 +29,7 @@ int BinaryOperator::childCount() const {
 
 void BinaryOperator::build(const std::vector<ExpressionTree*>& param) {
     if (param.size() != 2)
-        throw std::runtime_error("inner error: build ExpressionTree failed");
+        throw InnerError("inner error: BinaryOperator build failed due to invalid argument");
     m_left = param[1]; m_right = param[0];
 }
 
@@ -60,7 +58,7 @@ int UnaryOperator::childCount() const {
 
 void UnaryOperator::build(const std::vector<ExpressionTree*>& param) {
     if (param.size() != 1)
-        throw std::runtime_error("inner error: build ExpressionTree failed");
+        throw InnerError("inner error: BinaryOperator build failed due to invalid argument");
     m_child = param[0];
 }
 
