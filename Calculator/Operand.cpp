@@ -15,6 +15,12 @@ int Operand::childCount() const {
     return 0;
 }
 
+void Operand::build(const std::vector<ExpressionTree *> &param) {
+   if(!param.empty())
+        throw InnerError("inner error: Number::build() failed due to invalid argument");
+}
+
+
 
 // Number
 Number::Number() {
@@ -31,18 +37,6 @@ double Number::evaluate() {
 
 ExpressionTree* Number::clone() {
     return new Number(m_value);
-}
-
-void Number::build(const std::vector<ExpressionTree*>& param) {
-    if (!param.empty())
-        throw InnerError("inner error: Number build failed due to invalid argument");
-}
-
-
-// Constant
-void Constant::build(const std::vector<ExpressionTree *> &param) {
-   if(!param.empty())
-        throw InnerError("inner error: Number build failed due to invalid argument");
 }
 
 

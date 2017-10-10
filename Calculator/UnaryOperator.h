@@ -5,6 +5,35 @@
 #include "Expression.h"
 
 
+// The class UnaryOperator
+class UnaryOperator : public ExpressionTree {
+protected:
+    ExpressionTree *m_child = nullptr;
+
+public:
+    ~UnaryOperator();
+    int childCount() const override;
+    virtual void build(const std::vector<ExpressionTree*>& child);
+};
+
+
+// The class PrefixOperator
+class PrefixOperator : public UnaryOperator {
+public:
+    PRIORITY priority() override;
+    ASSOCIATIVITY associativity() override;
+};
+
+
+// The class PostfixOperator
+class PostfixOperator : public UnaryOperator {
+public:
+    PRIORITY priority() override;
+    ASSOCIATIVITY associativity() override;
+};
+
+
+
 // The class BitNot
 class BitNot : public PrefixOperator {
 public:

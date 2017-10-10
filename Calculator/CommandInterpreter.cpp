@@ -4,7 +4,7 @@
 #include <iostream>
 
 // commands
-std::map<std::string, COMMAND> CommandInterpreter::commands = {
+std::unordered_map<std::string, COMMAND> CommandInterpreter::commands = {
     // To convert number base in programmer calculator.
     {"binary", C_BINARY}, {"octal", C_OCTAL}, {"decimal", C_DECIMAL}, {"hex", C_HEX},
 
@@ -29,11 +29,34 @@ COMMAND CommandInterpreter::interpret(const std::string& input) {
     setInput(input);
     COMMAND ret;
     try {
-        ret = executeCommand(parseCommand());
-    } catch (std::logic_error e) {
-        setResult(std::make_pair(std::string(), e.what()));
-        ret = COMMAND::C_EXCEPTION;
+        try {
+            ret = executeCommand(parseCommand());
+        } catch (std::exception& e) {
+            setResult(std::make_pair(std::string(), e.what()));
+            throw;
+        }
+    } catch (LeftBracketMissing e) {
+        ret = E_LBRACKET_MISSING;
+    } catch (RightBracketMissing e) {
+        ret = E_RBRACKET_MISSING;
+    } catch (OperandMissing e) {
+        ret = E_OPERAND_MISSING;
+    } catch (OperatorMissing e) {
+        ret = E_OPERATOR_MISSING;
+    } catch (InvalidSymbol e) {
+        ret = E_INVALID_SYMBOL;
+    } catch (InvalidArgument e) {
+        ret = E_INVALID_ARGUMENT;
+    } catch (DivideByZero e) {
+        ret = E_DIVIDE_BY_ZERO;
+    } catch (NumericOverflow e) {
+        ret = E_NUMERIC_OVERFLOW;
+    } catch (InnerError e) {
+        ret = E_INNER_ERROR;
+    } catch (...) {
+        throw;
     }
+
     return ret;
 }
 
@@ -78,19 +101,19 @@ int CommandInterpreter::parseHistoryIndex() const {
     int ret = 0;
 
     if (argument.empty())
-        throw ArgumentError("argument missing: a negative integer "
+        throw InvalidArgument("argument missing: a negative integer "
                             "is needed as argument for command 'history')");
 
     try {
         ret = std::stoi(argument, &idx);
     } catch (std::invalid_argument) {
-        throw ArgumentError("invalid argument: " + argument);
+        throw InvalidArgument("invalid argument: " + argument);
     } catch (std::out_of_range) {
-        throw ArgumentError("invalid argument: out of range");
+        throw InvalidArgument("invalid argument: out of range");
     }
 
     if (idx != argument.size())
-        throw ArgumentError("invalid argument: " + argument);
+        throw InvalidArgument("invalid argument: " + argument);
     return ret;
 }
 

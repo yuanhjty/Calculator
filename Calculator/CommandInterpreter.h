@@ -6,7 +6,7 @@
 
 #include <memory>
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <exception>
 
 
@@ -24,7 +24,9 @@ enum COMMAND {
     C_EVALUATE,
 
     // To return exception state.
-    C_EXCEPTION,
+    E_OPERAND_MISSING, E_OPERATOR_MISSING, E_LBRACKET_MISSING,
+    E_RBRACKET_MISSING, E_INVALID_SYMBOL, E_INVALID_ARGUMENT,
+    E_DIVIDE_BY_ZERO, E_INNER_ERROR, E_NUMERIC_OVERFLOW,
 
     // Other commands
     C_HELP, C_QUIT, C_CONTINUE, C_COMPLETE, C_UNDEFINED,
@@ -38,7 +40,7 @@ private:
     std::unique_ptr<Calculator> m_calculator;
     std::string m_input;
     std::pair<std::string,std::string> m_result;
-    static std::map<std::string, COMMAND> commands;
+    static std::unordered_map<std::string, COMMAND> commands;
 
 public:     // public interface
     CommandInterpreter();

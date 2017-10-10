@@ -1,6 +1,43 @@
 #include "UnaryOperator.h"
+#include "ExpressionException.h"
 
 #include <cmath>
+
+
+// UnaryOperator
+UnaryOperator::~UnaryOperator() {
+    if (m_child) delete m_child;
+}
+
+int UnaryOperator::childCount() const {
+    return 1;
+}
+
+void UnaryOperator::build(const std::vector<ExpressionTree*>& param) {
+    if (param.size() != 1)
+        throw InnerError("inner error: BinaryOperator::build() failed due to invalid argument");
+    m_child = param[0];
+}
+
+
+// PrefixOperator
+PRIORITY PrefixOperator::priority() {
+    return PRIO_PREFIX;
+}
+
+ASSOCIATIVITY PrefixOperator::associativity() {
+    return ASSO_RIGHT;
+}
+
+
+// PostfixOperator
+PRIORITY PostfixOperator::priority() {
+    return PRIO_POSTFIX;
+}
+
+ASSOCIATIVITY PostfixOperator::associativity() {
+    return ASSO_LEFT;
+}
 
 
 

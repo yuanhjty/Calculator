@@ -18,7 +18,7 @@ public:
     static const std::string opInteger;
 
     static const std::string symbol;
-    static const std::string parenthesis;
+    static const std::string bracket;
     static const std::string space;
 
     static const std::string calCommon;

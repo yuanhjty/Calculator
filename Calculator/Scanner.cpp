@@ -20,7 +20,7 @@ void Scanner::scan(const std::string &input) {
     while (pos != end) {
         delimiter = pos++->str();   // delimiter
         if (!delimiter.empty())     // Delimiters should be empty since spaces's included in lexemes.
-            throw SymbolError("invalid symbol: " + delimiter);
+            throw InvalidSymbol("invalid symbol: " + delimiter);
 
         token = pos++->str();       // token
         if (!std::regex_match(token, rSpace))   // Ignore space tokens.

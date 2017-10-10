@@ -5,6 +5,34 @@
 #include "Expression.h"
 
 
+// The class BinaryOperator
+class BinaryOperator : public ExpressionTree {
+protected:
+    ExpressionTree *m_left = nullptr;
+    ExpressionTree *m_right = nullptr;
+
+public:
+    ~BinaryOperator();
+    int childCount() const override;
+    void build(const std::vector<ExpressionTree *>& param) override;
+};
+
+
+// The class LeftAssoOperator
+class LeftAssoOperator : public BinaryOperator {
+public:
+    ASSOCIATIVITY associativity() override;
+};
+
+
+// The class RightAssoOperator
+class RightAssoOperator : public BinaryOperator {
+public:
+    ASSOCIATIVITY associativity() override;
+};
+
+
+
 // The class Plus
 class Plus : public LeftAssoOperator {
 public:

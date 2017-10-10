@@ -2,13 +2,15 @@
 #define PARSER_H
 
 
-#include "Expression.h"
-#include "SymbolTable.h"
+#include "ExpressionTree.h"
+#include "BinaryOperator.h"
+#include "UnaryOperator.h"
 #include "Operand.h"
+#include "SymbolTable.h"
 
-#include <memory>
 #include <string>
 #include <vector>
+#include <memory>
 
 
 // The class Parser
@@ -16,8 +18,6 @@ class Parser {
 private:
     std::string m_infixExpression;
     std::vector<ExpressionTree*> m_postfixExpression;
-    mutable bool m_isPrefix = true;
-
     std::shared_ptr<SymbolTable> m_symbolTable;
     std::shared_ptr<ExpressionTree> m_expressionTree;
 
@@ -33,9 +33,6 @@ protected:
     void buildExpressionTree();
 
 private:
-//    bool validPrevToken(const std::string& token, const std::string& prevToken) const;
-    void checkValidity(const std::string& token, const std::string& prevToken) const;
-
     bool isPrefixOperator(const std::string& token) const;
     bool isPostfixOperator(const std::string& token) const;
     bool isBinaryOperator(const std::string& token) const;
@@ -82,7 +79,6 @@ inline bool Parser::isOperand(const std::string &token) const {
     return isVariable(token)
             || !(token.empty() || isOperator(token) || "(" == token || ")" == token);
 }
-
 
 
 #endif // PARSER_H

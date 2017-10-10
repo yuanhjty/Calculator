@@ -4,6 +4,35 @@
 #include <cmath>
 
 
+// BinaryOperator
+BinaryOperator::~BinaryOperator() {
+    if (m_left) delete m_left;
+    if (m_right) delete m_right;
+}
+
+int BinaryOperator::childCount() const {
+    return 2;
+}
+
+void BinaryOperator::build(const std::vector<ExpressionTree*>& param) {
+    if (param.size() != 2)
+        throw InnerError("inner error: BinaryOperator::build() failed due to invalid argument");
+    m_left = param[1]; m_right = param[0];
+}
+
+
+// LeftAssoOperator
+ASSOCIATIVITY LeftAssoOperator::associativity() {
+    return ASSO_LEFT;
+}
+
+
+// LeftAssoOperator
+ASSOCIATIVITY RightAssoOperator::associativity() {
+    return ASSO_RIGHT;
+}
+
+
 
 // Plus
 double Plus::evaluate() {
@@ -51,7 +80,7 @@ ExpressionTree *Multi::clone() {
 double Divide::evaluate() {
     double divisor = m_right->evaluate();
     if (0 == divisor)
-        throw OperandError("divid-by-zero");
+        throw DivideByZero("divide-by-zero");
 
     return m_left->evaluate() / divisor;
 }
@@ -83,7 +112,7 @@ ExpressionTree *Power::clone() {
 double Modulo::evaluate() {
     double divisor = m_right->evaluate();
     if (0 == divisor)
-        throw OperandError("divid-by-zero");
+        throw DivideByZero("divide-by-zero");
 
     double dividend = m_left->evaluate();
 

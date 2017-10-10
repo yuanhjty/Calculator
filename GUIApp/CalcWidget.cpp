@@ -33,7 +33,7 @@ void CalcWidget::updateResult()
 void CalcWidget::processDigit(const std::string& digit)
 {
     input.append(digit);
-    if (interpreter.interpret(input) != C_EXCEPTION)
+    if (interpreter.interpret(input) != E_OPERAND_MISSING)
         updateResult();
     else
         input.pop_back();

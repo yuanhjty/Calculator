@@ -3,12 +3,9 @@
 
 
 #include "ExpressionTree.h"
-#include "BinaryOperator.h"
-#include "UnaryOperator.h"
 
 #include <unordered_map>
 #include <string>
-#include <mutex>
 
 
 class SymbolTable {

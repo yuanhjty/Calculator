@@ -6,39 +6,45 @@
 #include <string>
 
 
-class SymbolError : public std::logic_error {
+class LeftBracketMissing : public std::logic_error {
 public:
-    SymbolError(const std::string& msg) : logic_error(msg) {}
+    LeftBracketMissing(const std::string& msg) : logic_error(msg) {}
 };
 
 
-class OperandError : public std::logic_error {
+class RightBracketMissing : public std::logic_error {
 public:
-    OperandError(const std::string& msg) : logic_error(msg) {}
+    RightBracketMissing(const std::string& msg) : logic_error(msg) {}
 };
 
 
-class OperatorError : public std::logic_error {
+class OperandMissing : public std::logic_error {
 public:
-    OperatorError(const std::string& msg) : logic_error(msg) {}
+    OperandMissing(const std::string& msg) : logic_error(msg) {}
 };
 
 
-class ParenthesesError : public std::logic_error {
+class OperatorMissing : public std::logic_error {
 public:
-    ParenthesesError(const std::string& msg) : logic_error(msg) {}
+    OperatorMissing(const std::string& msg) : logic_error(msg) {}
 };
 
 
-class ArgumentError : public std::logic_error {
+class InvalidSymbol : public std::logic_error {
 public:
-    ArgumentError(const std::string& msg) : logic_error(msg) {}
+    InvalidSymbol(const std::string& msg) : logic_error(msg) {}
 };
 
 
-class NotCompleteError : public std::logic_error {
+class InvalidArgument : public std::logic_error {
 public:
-    NotCompleteError(const std::string& msg) : logic_error(msg) {}
+    InvalidArgument(const std::string& msg) : logic_error(msg) {}
+};
+
+
+class DivideByZero : public std::logic_error {
+public:
+    DivideByZero(const std::string& msg) : logic_error(msg) {}
 };
 
 
@@ -46,5 +52,12 @@ class InnerError : public std::runtime_error {
 public:
     InnerError(const std::string& msg) : runtime_error(msg) {}
 };
+
+
+class NumericOverflow : public std::overflow_error {
+public:
+    NumericOverflow(const std::string& msg) : overflow_error(msg) {}
+};
+
 
 #endif // EXPRESSIONEXCEPTION_H

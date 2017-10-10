@@ -11,11 +11,11 @@ const std::string LexicalSet::opReal = "[%/\\+\\-\\^\\*]";
 const std::string LexicalSet::opInteger = "[%/\\+\\-\\*]|or|and|xor|not";
 
 const std::string LexicalSet::symbol = "[[:alpha:]]+";
-const std::string LexicalSet::parenthesis = "[\\(\\)]";
+const std::string LexicalSet::bracket = "[\\(\\)]";
 const std::string LexicalSet::space = "\\s";
 
 const std::string LexicalSet::calCommon =
-        LexicalSet::symbol + "|" + LexicalSet::parenthesis + "|" + LexicalSet::space;
+        LexicalSet::symbol + "|" + LexicalSet::bracket + "|" + LexicalSet::space;
 const std::string LexicalSet::realCalCommon =
         LexicalSet::opReal + "|" + LexicalSet::calCommon;
 const std::string LexicalSet::integerCalCommon =

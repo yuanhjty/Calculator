@@ -10,7 +10,9 @@ public:
     PRIORITY priority() override;
     ASSOCIATIVITY associativity() override;
     int childCount() const override;
+    void build(const std::vector<ExpressionTree*>& param) override;
 };
+
 
 
 class Number : public Operand {
@@ -21,23 +23,18 @@ public:
     Number(double value);
     double evaluate() override;
     ExpressionTree* clone() override;
-    void build(const std::vector<ExpressionTree*>& param) override;
 };
 
 
-class Constant : public Operand {
-    void build(const std::vector<ExpressionTree*>& param) override;
-};
 
-
-class ConstPi : public Constant {
+class ConstPi : public Operand {
 public:
     double evaluate() override;
     ExpressionTree* clone() override;
 };
 
 
-class ConstE : public Constant {
+class ConstE : public Operand {
     double evaluate() override;
     ExpressionTree* clone() override;
 };

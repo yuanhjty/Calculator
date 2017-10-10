@@ -23,7 +23,7 @@ std::shared_ptr<ExpressionTree> Parser::parse(const std::string &infixExpression
 // generatePostfixExpression
 void Parser::buildPostfixExpression() {
     m_postfixExpression.clear();
-    m_isPrefix = true;
+    bool isPrefixOp = true;
 
     std::stack<std::string> operatorStack;
     std::istringstream is(m_infixExpression);
@@ -35,15 +35,11 @@ void Parser::buildPostfixExpression() {
     ExpressionTree *prevOperator = nullptr;
 
     while (is >> token) {
-        if ("-" == token && true == m_isPrefix)
+        if ("-" == token && true == isPrefixOp)
             token = "u-";
 
-//        if (!validPrevToken(token, prevToken))
-//            throw std::logic_error("error: invalid expression: " + prevToken + " " + token);
-
-        checkValidity(token, prevToken);
-
         if (isOperator(token) || isVariable(token)) {
+
             exprNode = m_symbolTable->getExpressionNode(token);
 
             while (!operatorStack.empty() && (operatorStack.top() != "(")) {
@@ -70,7 +66,7 @@ void Parser::buildPostfixExpression() {
                 operatorStack.pop();
             }
             if (operatorStack.empty())
-                throw ParenthesesError("parentheses matching failed: '(' missing");
+                throw LeftBracketMissing("barcket matching failed: '(' missing");
             operatorStack.pop();
         }
         else {    // if (isOperand(token) && !isVariable(token))
@@ -79,19 +75,22 @@ void Parser::buildPostfixExpression() {
                 exprNode = new Number(value);
                 m_postfixExpression.push_back(exprNode);
             } catch (std::invalid_argument) {
-                throw SymbolError("undefined symbol: " + token);
+                throw InvalidSymbol("undefined symbol: " + token);
             } catch (std::out_of_range) {
-                throw std::logic_error("floating point number overflow");
+                throw std::overflow_error("floating point number overflow");
             }
         }
+
+        isPrefixOp = (isBinaryOperator(token) || isPrefixOperator(token)
+                      || "(" == token) ? true : false;
         prevToken = token;
     }
-    // Check if the last token is valid.
-    if (isPrefixOperator(token) || isBinaryOperator(token)
-            || "(" == token)
-        throw NotCompleteError("invalid expression: " + token);
 
     while (!operatorStack.empty()) {
+        const std::string& top = operatorStack.top();
+        if ("(" == top)
+            throw RightBracketMissing("bracket matching failed: ')' missing");
+
         exprNode = m_symbolTable->getExpressionNode(operatorStack.top());
         m_postfixExpression.push_back(exprNode->clone());
         operatorStack.pop();
@@ -101,109 +100,27 @@ void Parser::buildPostfixExpression() {
 
 // generateExpressoinTree
 void Parser::buildExpressionTree() {
-    std::stack<ExpressionTree*> exprTreeStack;
-
+    std::stack<ExpressionTree*> exprNodeStack;
     int childCount = 0;
     std::vector<ExpressionTree*> param;
 
-    for (ExpressionTree* node : m_postfixExpression) {
-        childCount = node->childCount();
+    for (ExpressionTree* exprNode : m_postfixExpression) {
+        childCount = exprNode->childCount();
         param.clear();
 
         while (childCount--) {
-            if (exprTreeStack.empty())
-                throw OperandError("operand missing");
-            param.push_back(exprTreeStack.top());
-            exprTreeStack.pop();
+            if (exprNodeStack.empty())
+                throw OperandMissing("operand missing");
+            param.push_back(exprNodeStack.top());
+            exprNodeStack.pop();
         }
-        node->build(param);
-        exprTreeStack.push(node);
+        exprNode->build(param);
+        exprNodeStack.push(exprNode);
     }
 
-    if (exprTreeStack.size() != 1)
-        throw OperatorError("operator missing");
+    if (exprNodeStack.size() != 1)
+        throw OperatorMissing("operator missing");
 
-    m_expressionTree.reset(exprTreeStack.top());
-    exprTreeStack.pop();
-}
-
-// validPrevToken
-//bool Parser::validPrevToken(const std::string &token,
-//                            const std::string &prevToken) const {
-//    if (isBinaryOperator(token)){
-//        m_isPrefix = true;
-//        if (isPrefixOperator(prevToken) || isBinaryOperator(prevToken)
-//                || "(" == prevToken || prevToken.empty())
-//            return false;
-//    }
-//    else if (isPrefixOperator(token)) {
-//        m_isPrefix = true;
-//        if (isPostfixOperator(prevToken) || isOperand(prevToken)
-//                || ")" == prevToken)
-//            return false;
-//    }
-//    else if (isPostfixOperator(token)) {
-//        m_isPrefix = false;
-//        if (isPrefixOperator(prevToken) || isBinaryOperator(prevToken)
-//                || "(" == prevToken || prevToken.empty())
-//            return false;
-//    }
-//    else if ("(" == token) {
-//        m_isPrefix = true;
-//        if (isPostfixOperator(prevToken) || isOperand(prevToken)
-//                || ")" == prevToken)
-//            return false;
-//    }
-//    else if (")" == token) {
-//        m_isPrefix = false;
-//        if (isPrefixOperator(prevToken) || isBinaryOperator(prevToken)
-//                || "(" == prevToken || prevToken.empty())
-//            return false;
-//    }
-//    else { // if (isOperand(token)
-//        m_isPrefix = false;
-//        if (isPostfixOperator(prevToken) || isOperand(prevToken) || ")" == prevToken)
-//            return false;
-//    }
-//    return true;
-//}
-
-// checkValidity
-void Parser::checkValidity(const std::string &token,
-                            const std::string &prevToken) const {
-    if (isBinaryOperator(token)) {
-        m_isPrefix = true;
-        if (isPrefixOperator(prevToken) || isBinaryOperator(prevToken)
-                || "(" == prevToken || prevToken.empty())
-            throw OperatorError("invalid operator: " + token);
-    }
-    else if (isPrefixOperator(token)) {
-        m_isPrefix = true;
-        if (isPostfixOperator(prevToken) || isOperand(prevToken)
-                || ")" == prevToken)
-            throw OperatorError("invalid operator: " + token);
-    }
-    else if (isPostfixOperator(token)) {
-        m_isPrefix = false;
-        if (isPrefixOperator(prevToken) || isBinaryOperator(prevToken)
-                || "(" == prevToken || prevToken.empty())
-            throw OperatorError("invalid operator: " + token);
-    }
-    else if ("(" == token) {
-        m_isPrefix = true;
-        if (isPostfixOperator(prevToken) || isOperand(prevToken)
-                || ")" == prevToken)
-            throw ParenthesesError("invalid parentheses: " + token);
-    }
-    else if (")" == token) {
-        m_isPrefix = false;
-        if (isPrefixOperator(prevToken) || isBinaryOperator(prevToken)
-                || "(" == prevToken || prevToken.empty())
-            throw ParenthesesError("invalid parentheses: " + token);
-    }
-    else { // if (isOperand(token)
-        m_isPrefix = false;
-        if (isPostfixOperator(prevToken) || isOperand(prevToken) || ")" == prevToken)
-            throw OperandError("invalid operand: " + token);
-    }
+    m_expressionTree.reset(exprNodeStack.top());
+    exprNodeStack.pop();
 }

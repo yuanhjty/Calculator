@@ -53,7 +53,6 @@ public:
 
 
 
-// abstract base class
 // The class ExpressionTree
 class ExpressionTree {
 public:
@@ -67,65 +66,5 @@ public:
                  // TreeNodes in param are contrary to the order of their positions in expression
 };
 
-
-
-// For binary operation ////////////////////////////////////
-// The class BinaryOperator
-class BinaryOperator : public ExpressionTree {
-protected:
-    ExpressionTree *m_left = nullptr;
-    ExpressionTree *m_right = nullptr;
-
-public:
-    ~BinaryOperator();
-    int childCount() const override;
-    void build(const std::vector<ExpressionTree *>& param) override;
-};
-
-
-// The class LeftAssoOperator
-class LeftAssoOperator : public BinaryOperator {
-public:
-    ASSOCIATIVITY associativity() override;
-};
-
-
-// The class RightAssoOperator
-class RightAssoOperator : public BinaryOperator {
-public:
-    ASSOCIATIVITY associativity() override;
-};
-// For binary operation ////////////////////////////////////
-
-
-
-// For unary operation /////////////////////////////////////
-// The class UnaryOperator
-class UnaryOperator : public ExpressionTree {
-protected:
-    ExpressionTree *m_child = nullptr;
-
-public:
-    ~UnaryOperator();
-    int childCount() const override;
-    virtual void build(const std::vector<ExpressionTree*>& child);
-};
-
-
-// The class PrefixOperator
-class PrefixOperator : public UnaryOperator {
-public:
-    PRIORITY priority() override;
-    ASSOCIATIVITY associativity() override;
-};
-
-
-// The class PostfixOperator
-class PostfixOperator : public UnaryOperator {
-public:
-    PRIORITY priority() override;
-    ASSOCIATIVITY associativity() override;
-};
-// For unary operation /////////////////////////////////////
 
 #endif // EXPRESSIONTREE_H
