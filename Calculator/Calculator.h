@@ -11,10 +11,13 @@
 
 // The class Calculator.
 class Calculator {
+public:
+    typedef std::pair<std::string, std::string> Result_Type;
+
 protected:
     std::unique_ptr<Scanner> m_scanner;
-    std::pair<std::string, std::string> m_result;
-    std::deque<std::pair<std::string, std::string>> m_history;
+    Result_Type m_result;
+    std::deque<Result_Type> m_history;
 
     static const int historySize = 1000;
 
@@ -23,8 +26,9 @@ public:
     virtual ~Calculator();
 
     void setLexemePattern(const std::string &lexemePattern);
-    std::pair<std::string, std::string> getResult() const;
-    std::pair<std::string, std::string> getHistory(int index) const;  // index = -1, -2, -3, ...
+    Result_Type getResult() const;
+    Result_Type getHistory(int index) const;  // index = -1, -2, -3, ...
+    const std::deque<Result_Type>* getHistory() const;
 
     void scan(const std::string &input);
     void updateHistory();
@@ -44,8 +48,12 @@ inline void Calculator::setLexemePattern(const std::string& lexemePattern) {
 }
 
 // getResult
-inline std::pair<std::string, std::string> Calculator::getResult() const {
+inline Calculator::Result_Type Calculator::getResult() const {
     return m_result;
+}
+
+inline const std::deque<Calculator::Result_Type>* Calculator::getHistory() const {
+    return &m_history;
 }
 
 // scan

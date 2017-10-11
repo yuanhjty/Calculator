@@ -114,4 +114,18 @@ class ATan : public PrefixOperator {
 };
 
 
+// The class Sqrt
+class Sqrt : public PrefixOperator {
+    double evaluate() override;
+    ExpressionTree* clone() override;
+};
+
+
+// The class Square
+class Square : public PrefixOperator {
+    double evaluate() override;
+    ExpressionTree* clone() override;
+};
+
+
 #endif // UNARY_OPERATOR_H

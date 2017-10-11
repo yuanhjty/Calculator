@@ -54,6 +54,7 @@ COMMAND CommandInterpreter::interpret(const std::string& input) {
     } catch (InnerError e) {
         ret = E_INNER_ERROR;
     } catch (...) {
+        ret = E_UNKNOWN;
         throw;
     }
 

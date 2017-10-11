@@ -30,6 +30,7 @@ void ScientificCalculator::evaluate() {
 
 std::string ScientificCalculator::valueToString(double value) {
     std::ostringstream os;
+    os.precision(15);
     os << value;
     return os.str();
 }
@@ -56,6 +57,8 @@ void ScientificCalculator::initSymbolTable() {
     m_symbolTable->registerPrefixOperator ("atan", new ATan);
     m_symbolTable->registerPrefixOperator ("lg", new Lg);
     m_symbolTable->registerPrefixOperator ("ln", new Ln);
+    m_symbolTable->registerPrefixOperator ("sqrt", new Sqrt);
+    m_symbolTable->registerPrefixOperator ("square", new Square);
 
     // not implemented
 //    m_symbolTable->registerPrefixOperator ("!", new Fact);

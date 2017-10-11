@@ -42,7 +42,7 @@ ExpressionTree* Number::clone() {
 
 // ConstPi
 double ConstPi::evaluate() {
-    return 3.141592653589;
+    return 3.141592653589793;
 }
 
 ExpressionTree *ConstPi::clone() {
@@ -52,7 +52,7 @@ ExpressionTree *ConstPi::clone() {
 
 // ConstE
 double ConstE::evaluate() {
-    return 2.718281828459;
+    return 2.718281828459045;
 }
 
 ExpressionTree *ConstE::clone() {

@@ -1,7 +1,7 @@
 #include "LexicalSet.h"
 
 
-const std::string LexicalSet::numReal = "\\d+(\\.\\d*)?(e\\-?\\d+)?";
+const std::string LexicalSet::numReal = "\\d+(\\.\\d*)?(e[\\+\\-]?\\d+)?";
 const std::string LexicalSet::numBinary = "[01]+";
 const std::string LexicalSet::numOctal = "[0-7]+";
 const std::string LexicalSet::numDecimal = "\\d+(e\\d+)?";

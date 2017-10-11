@@ -150,3 +150,21 @@ double ATan::evaluate() {
 ExpressionTree *ATan::clone() {
     return new ATan;
 }
+
+double Sqrt::evaluate()
+{
+    return std::sqrt(m_child->evaluate());
+}
+
+ExpressionTree *Sqrt::clone() {
+    return new Sqrt;
+}
+
+double Square::evaluate()
+{
+    return std::pow(m_child->evaluate(), 2);
+}
+
+ExpressionTree *Square::clone() {
+    return new Square;
+}

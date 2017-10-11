@@ -23,33 +23,40 @@ enum COMMAND {
     // To evaluate expression.
     C_EVALUATE,
 
-    // To return exception state.
-    E_OPERAND_MISSING, E_OPERATOR_MISSING, E_LBRACKET_MISSING,
-    E_RBRACKET_MISSING, E_INVALID_SYMBOL, E_INVALID_ARGUMENT,
-    E_DIVIDE_BY_ZERO, E_INNER_ERROR, E_NUMERIC_OVERFLOW,
-
     // Other commands
     C_HELP, C_QUIT, C_CONTINUE, C_COMPLETE, C_UNDEFINED,
-    C_HISTORY, C_RESET
-};
+    C_HISTORY, C_RESET,
+
+
+    // boundary of good state and bad state
+    E_CRITICALITY,
+
+    // bad state.
+    E_OPERAND_MISSING, E_OPERATOR_MISSING, E_LBRACKET_MISSING,
+    E_RBRACKET_MISSING, E_INVALID_SYMBOL, E_INVALID_ARGUMENT,
+    E_DIVIDE_BY_ZERO, E_INNER_ERROR, E_NUMERIC_OVERFLOW, E_UNKNOWN,
+    };
 
 
 // The class CalculatorManager
 class CommandInterpreter {
+public:
+    typedef Calculator::Result_Type Result_Type;
 private:
     std::unique_ptr<Calculator> m_calculator;
     std::string m_input;
-    std::pair<std::string,std::string> m_result;
+    Result_Type m_result;
     static std::unordered_map<std::string, COMMAND> commands;
 
 public:     // public interface
     CommandInterpreter();
     COMMAND interpret(const std::string &input);
-    std::pair<std::string, std::string> getResult() const;
+    Result_Type getResult() const;
+    const std::deque<Result_Type>* getHistory() const;
 
 private:
-    void setInput(const std::string &input);
-    void setResult(const std::pair<std::string, std::string> &result);
+    void setInput(const std::string& input);
+    void setResult(const Result_Type& result);
     std::string parseCommand() const;
     std::string parseArgument() const;
     int parseHistoryIndex() const;
@@ -61,12 +68,16 @@ private:
 
 
 // getResult
-inline std::pair<std::string, std::string> CommandInterpreter::getResult() const {
+inline Calculator::Result_Type CommandInterpreter::getResult() const {
     return m_result;
 }
 
+inline const std::deque<Calculator::Result_Type>* CommandInterpreter::getHistory() const {
+    return m_calculator->getHistory();
+}
+
 // setResult
-inline void CommandInterpreter::setResult(const std::pair<std::string, std::string>& result) {
+inline void CommandInterpreter::setResult(const Calculator::Result_Type& result) {
     m_result = result;
 }
 

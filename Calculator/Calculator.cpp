@@ -16,9 +16,9 @@ void Calculator::reset() {
 }
 
 // getHistory
-std::pair<std::string, std::string> Calculator::getHistory(int index) const {
+Calculator::Result_Type Calculator::getHistory(int index) const {
     if (m_history.empty())
-        return std::pair<std::string, std::string>();
+        return Result_Type();
 
     int hSize = (int)m_history.size();
 
