@@ -34,10 +34,10 @@ ExpressionTree *SymbolTable::getExpressionNode(const std::string &token) const {
     if ((it = m_binaryOperators.find(token)) != m_binaryOperators.cend())
         return it->second;
 
-    if ((it = m_prefixOperators.find(token)) != m_binaryOperators.cend())
+    if ((it = m_prefixOperators.find(token)) != m_prefixOperators.cend())
         return it->second;
 
-    if ((it = m_postfixOperators.find(token)) != m_binaryOperators.cend())
+    if ((it = m_postfixOperators.find(token)) != m_postfixOperators.cend())
         return it->second;
 
     return m_variables.find(token)->second;

@@ -12,7 +12,6 @@ void Calculator::reset() {
     m_scanner->reset();
     m_result.first.clear();
     m_result.second.clear();
-    m_history.clear();
 }
 
 // getHistory

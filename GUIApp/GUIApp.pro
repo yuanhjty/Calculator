@@ -5,11 +5,12 @@
 #-------------------------------------------------
 
 QT       += core gui
+RC_ICONS += calculator.ico
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
-TARGET = GUIApp
+TARGET = Calculator
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -38,7 +39,8 @@ SOURCES += \
     ../Calculator/ScientificCalculator.cpp \
     ../Calculator/UnaryOperator.cpp \
     CalcButton.cpp \
-    ../Calculator/SymbolTable.cpp
+    ../Calculator/SymbolTable.cpp \
+    HistoryShower.cpp
 
 HEADERS += \
         CalcWidget.h \
@@ -55,10 +57,12 @@ HEADERS += \
     ../Calculator/UnaryOperator.h \
     CalcButton.h \
     ../Calculator/SymbolTable.h \
-    ../Calculator/ExpressionException.h
+    ../Calculator/ExpressionException.h \
+    HistoryShower.h
 
 FORMS += \
-        CalcWidget.ui
+        CalcWidget.ui \
+    HistoryShower.ui
 
 RESOURCES += \
     images.qrc

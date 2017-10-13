@@ -28,10 +28,12 @@ public:
     void setLexemePattern(const std::string &lexemePattern);
     Result_Type getResult() const;
     Result_Type getHistory(int index) const;  // index = -1, -2, -3, ...
-    const std::deque<Result_Type>* getHistory() const;
+    std::deque<Result_Type>* getHistory();
 
     void scan(const std::string &input);
     void updateHistory();
+    void clearHistory();
+
     void reset();
 
     virtual void init() = 0;
@@ -52,13 +54,18 @@ inline Calculator::Result_Type Calculator::getResult() const {
     return m_result;
 }
 
-inline const std::deque<Calculator::Result_Type>* Calculator::getHistory() const {
+inline std::deque<Calculator::Result_Type>* Calculator::getHistory() {
     return &m_history;
 }
 
 // scan
 inline void Calculator::scan(const std::string &input) {
     m_scanner->scan(input);
+}
+
+// clearHistory
+inline void Calculator::clearHistory() {
+    m_history.clear();
 }
 
 

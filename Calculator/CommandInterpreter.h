@@ -12,6 +12,8 @@
 
 // The enum COMMAND
 enum COMMAND {
+    C_UNDEFINED,
+
     // To convert number base in programmer calculator.
     C_BINARY, C_OCTAL, C_DECIMAL, C_HEX,
 
@@ -24,8 +26,8 @@ enum COMMAND {
     C_EVALUATE,
 
     // Other commands
-    C_HELP, C_QUIT, C_CONTINUE, C_COMPLETE, C_UNDEFINED,
-    C_HISTORY, C_RESET,
+    C_HELP, C_QUIT, C_CONTINUE, C_COMPLETE,
+    C_HISTORY, C_RESET, C_CLEAR_HISTORY,
 
 
     // boundary of good state and bad state
@@ -46,13 +48,15 @@ private:
     std::unique_ptr<Calculator> m_calculator;
     std::string m_input;
     Result_Type m_result;
+    COMMAND lastCalcState = C_UNDEFINED;
+
     static std::unordered_map<std::string, COMMAND> commands;
 
 public:     // public interface
     CommandInterpreter();
     COMMAND interpret(const std::string &input);
     Result_Type getResult() const;
-    const std::deque<Result_Type>* getHistory() const;
+    std::deque<Result_Type>* getHistory() const;
 
 private:
     void setInput(const std::string& input);
@@ -72,7 +76,7 @@ inline Calculator::Result_Type CommandInterpreter::getResult() const {
     return m_result;
 }
 
-inline const std::deque<Calculator::Result_Type>* CommandInterpreter::getHistory() const {
+inline std::deque<Calculator::Result_Type>* CommandInterpreter::getHistory() const {
     return m_calculator->getHistory();
 }
 

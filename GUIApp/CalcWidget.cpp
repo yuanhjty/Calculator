@@ -1,18 +1,60 @@
 #include "CalcWidget.h"
 #include "ui_CalcWidget.h"
+#include "ui_HistoryShower.h"
 
 CalcWidget::CalcWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CalcWidget),
-    interpreter(new CommandInterpreter),
-    history(interpreter->getHistory())
+    historyShower(new HistoryShower),
+    interpreter(new CommandInterpreter)
 {
     ui->setupUi(this);
 
     setWindowTitle("Calculator");
-    resize(400, 600);
 
+    historyShower->setWindowFlags(Qt::FramelessWindowHint | windowFlags());
+
+    // label text auto linefeed
     ui->labelScreenExpr->setWordWrap(true);
+
+    // digit buttons event
+    connect(ui->pushButtonD0, &CalcButton::released, this, &CalcWidget::digitButtonReleased);
+    connect(ui->pushButtonD1, &CalcButton::released, this, &CalcWidget::digitButtonReleased);
+    connect(ui->pushButtonD2, &CalcButton::released, this, &CalcWidget::digitButtonReleased);
+    connect(ui->pushButtonD3, &CalcButton::released, this, &CalcWidget::digitButtonReleased);
+    connect(ui->pushButtonD4, &CalcButton::released, this, &CalcWidget::digitButtonReleased);
+    connect(ui->pushButtonD5, &CalcButton::released, this, &CalcWidget::digitButtonReleased);
+    connect(ui->pushButtonD6, &CalcButton::released, this, &CalcWidget::digitButtonReleased);
+    connect(ui->pushButtonD7, &CalcButton::released, this, &CalcWidget::digitButtonReleased);
+    connect(ui->pushButtonD8, &CalcButton::released, this, &CalcWidget::digitButtonReleased);
+    connect(ui->pushButtonD9, &CalcButton::released, this, &CalcWidget::digitButtonReleased);
+
+    // other buttons event
+    connect(ui->pushButtonOpPlus, &CalcButton::released, this, &CalcWidget::otherButtonReleased);
+    connect(ui->pushButtonOpBMinus, &CalcButton::released, this, &CalcWidget::otherButtonReleased);
+    connect(ui->pushButtonOpMulti, &CalcButton::released, this, &CalcWidget::otherButtonReleased);
+    connect(ui->pushButtonOpDivide, &CalcButton::released, this, &CalcWidget::otherButtonReleased);
+    connect(ui->pushButtonOpMod, &CalcButton::released, this, &CalcWidget::otherButtonReleased);
+    connect(ui->pushButtonOpPow, &CalcButton::released, this, &CalcWidget::otherButtonReleased);
+
+    connect(ui->pushButtonFSin, &CalcButton::released, this, &CalcWidget::otherButtonReleased);
+    connect(ui->pushButtonFCos, &CalcButton::released, this, &CalcWidget::otherButtonReleased);
+    connect(ui->pushButtonFTan, &CalcButton::released, this, &CalcWidget::otherButtonReleased);
+    connect(ui->pushButtonFAsin, &CalcButton::released, this, &CalcWidget::otherButtonReleased);
+    connect(ui->pushButtonFAcos, &CalcButton::released, this, &CalcWidget::otherButtonReleased);
+    connect(ui->pushButtonFAtan, &CalcButton::released, this, &CalcWidget::otherButtonReleased);
+
+    connect(ui->pushButtonFLg, &CalcButton::released, this, &CalcWidget::otherButtonReleased);
+    connect(ui->pushButtonFLn, &CalcButton::released, this, &CalcWidget::otherButtonReleased);
+
+    connect(ui->pushButtonBracketL, &CalcButton::released, this, &CalcWidget::otherButtonReleased);
+    connect(ui->pushButtonBracketR, &CalcButton::released, this, &CalcWidget::otherButtonReleased);
+
+    connect(ui->pushButtonConstPi, &CalcButton::released, this, &CalcWidget::otherButtonReleased);
+
+    // signals from hisoryShower
+    connect(historyShower, &HistoryShower::activateMainWidget, this, &CalcWidget::activateMainWidget);
+    connect(historyShower, &HistoryShower::deleteHistory, this, &CalcWidget::deleteHistory);
 }
 
 
@@ -21,7 +63,6 @@ CalcWidget::~CalcWidget()
     delete ui;
     delete interpreter;
 }
-
 
 bool CalcWidget::isNumberToken(const QString &token)
 {
@@ -80,11 +121,32 @@ void CalcWidget::setStrongAns()
 }
 
 
-// slots
-// commands
+// universal slots
+void CalcWidget::digitButtonReleased()
+{
+    CalcButton *button = (CalcButton*)sender();
+    processDigits(button->text().at(0));
+}
+
+void CalcWidget::otherButtonReleased()
+{
+    CalcButton *button = (CalcButton*)sender();
+    processOthers(button->text());
+}
+
+void CalcWidget::activateMainWidget()
+{
+    ui->groupBoxMain->setEnabled(true);
+}
+
+void CalcWidget::deleteHistory()
+{
+    history->clear();
+}
+
+// special slots
 void CalcWidget::on_pushButtonCmdRst_released()
 {
-    interpreter->interpret("reset");
     input.clear();
     ui->labelScreenExpr->setText("");
     ui->labelScreenAns->setText("0");
@@ -106,18 +168,6 @@ void CalcWidget::on_pushButtonCmdDel_released()
     }
 }
 
-// brackets
-void CalcWidget::on_pushButtonBracketL_released()
-{
-    processOthers("(");
-}
-
-void CalcWidget::on_pushButtonBracketR_released()
-{
-    processOthers(")");
-}
-
-// alphabet 'e'
 void CalcWidget::on_pushButtonAlphaE_released()
 {
     if (!input.isEmpty() && isNumberToken(input.back())) {
@@ -125,65 +175,6 @@ void CalcWidget::on_pushButtonAlphaE_released()
         ui->labelScreenExpr->setText(input.join(' '));
     } else
         processOthers("e");
-}
-
-
-// constant symbols
-void CalcWidget::on_pushButtonConstPi_released()
-{
-    processOthers("pi");
-}
-
-
-// digits
-void CalcWidget::on_pushButtonD1_released()
-{
-    processDigits('1');
-}
-
-void CalcWidget::on_pushButtonD2_released()
-{
-    processDigits('2');
-}
-
-void CalcWidget::on_pushButtonD3_released()
-{
-    processDigits('3');
-}
-
-void CalcWidget::on_pushButtonD4_released()
-{
-    processDigits('4');
-}
-
-void CalcWidget::on_pushButtonD5_released()
-{
-    processDigits('5');
-}
-
-void CalcWidget::on_pushButtonD6_released()
-{
-    processDigits('6');
-}
-
-void CalcWidget::on_pushButtonD7_released()
-{
-    processDigits('7');
-}
-
-void CalcWidget::on_pushButtonD8_released()
-{
-    processDigits('8');
-}
-
-void CalcWidget::on_pushButtonD9_released()
-{
-    processDigits('9');
-}
-
-void CalcWidget::on_pushButtonD0_released()
-{
-    processDigits('0');
 }
 
 void CalcWidget::on_pushButtonDot_released()
@@ -195,8 +186,6 @@ void CalcWidget::on_pushButtonDot_released()
         processOthers("0.");
 }
 
-
-// operators
 void CalcWidget::on_pushButtonOpAssign_released()
 {
     if (!input.isEmpty()) {
@@ -211,16 +200,6 @@ void CalcWidget::on_pushButtonOpAssign_released()
     ui->labelScreenAns->setText(interpreter->getResult().second.c_str());
 }
 
-void CalcWidget::on_pushButtonOpPlus_released()
-{
-    processOthers("+");
-}
-
-void CalcWidget::on_pushButtonOpBMinus_released()
-{
-    processOthers("-");
-}
-
 void CalcWidget::on_pushButtonOpUMinus_released()
 {
     if (!input.isEmpty()) {
@@ -228,71 +207,10 @@ void CalcWidget::on_pushButtonOpUMinus_released()
         if (isNumberToken(token)) {
             input.back().append('-');
             ui->labelScreenExpr->setText(input.join(' '));
-        }
+        } else
+            processOthers("-");
     } else
         processOthers("-");
-}
-
-void CalcWidget::on_pushButtonOpMulti_released()
-{
-    processOthers("*");
-}
-
-void CalcWidget::on_pushButtonOpDivide_released()
-{
-    processOthers("/");
-}
-
-void CalcWidget::on_pushButtonOpMod_released()
-{
-    processOthers("%");
-}
-
-void CalcWidget::on_pushButtonOpPow_released()
-{
-    processOthers("^");
-}
-
-
-// functions
-void CalcWidget::on_pushButtonFSin_released()
-{
-    processOthers("sin");
-}
-
-void CalcWidget::on_pushButtonFCos_released()
-{
-    processOthers("cos");
-}
-
-void CalcWidget::on_pushButtonFTan_released()
-{
-    processOthers("tan");
-}
-
-void CalcWidget::on_pushButtonFAsin_released()
-{
-    processOthers("asin");
-}
-
-void CalcWidget::on_pushButtonFAcos_released()
-{
-    processOthers("acos");
-}
-
-void CalcWidget::on_pushButtonFAtan_released()
-{
-    processOthers("atan");
-}
-
-void CalcWidget::on_pushButtonFLg_released()
-{
-    processOthers("lg");
-}
-
-void CalcWidget::on_pushButtonFLn_released()
-{
-    processOthers("ln");
 }
 
 void CalcWidget::on_pushButtonFSqrt_released()
@@ -303,4 +221,29 @@ void CalcWidget::on_pushButtonFSqrt_released()
 void CalcWidget::on_pushButtonFSquare_released()
 {
     processOthers("^ 2");
+}
+
+void CalcWidget::on_pushButtonHistory_released()
+{
+    // Get current geometry of main window and reference widget.
+    QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+    QRect mainRect = this->geometry();
+    QRect refeRect = ui->groupBoxKeys->geometry();
+
+    // Disable main widget
+    ui->groupBoxMain->setEnabled(false);
+
+    // Set geometry for historyShower and show the widget
+    historyShower->setGeometry(mainRect.x() + refeRect.x(), mainRect.y() + refeRect.y(),
+                               mainRect.width() - refeRect.x(), mainRect.height() - refeRect.y());
+    historyShower->show();
+
+    //  Print history record in historyShower.
+    history = interpreter->getHistory();
+    historyShower->printHistory(history);
+}
+
+void CalcWidget::on_pushButtonMenu_released()
+{
+
 }

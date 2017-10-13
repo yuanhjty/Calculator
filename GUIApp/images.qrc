@@ -2,5 +2,7 @@
     <qresource prefix="/images">
         <file alias="CalcApp-icon">images/icon-CalcApp.png</file>
         <file alias="CalcMenu-icon">images/icon-CalcMenu.png</file>
+        <file alias="CalcHistory-icon">images/icon-CalcHistory.png</file>
+        <file alias="delete-icon">images/icon-delete.png</file>
     </qresource>
 </RCC>
