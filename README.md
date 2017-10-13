@@ -3,10 +3,12 @@
 ## Function
 ### Scientific calculator
 >Operand: scientific notation supported  
->Binary operation: + - * / ^  
->Unary  operation: - sin cos tan asin acos atan ln lg
+>Binary operation: + - * / ^ %  
+>Unary  operation: - sin cos tan asin acos atan ln lg sqrt
 
 ## Demo
+
+### CMDApp Demo
 
 ```
 $ ./Calculator
@@ -48,3 +50,7 @@ Type 'quit' to quit.
 
 >>
 ```
+### GUIApp Demo
+![image](https://github.com/yuanhjty/calculator/tree/master/Demo/demo001.gif)
+![image](https://github.com/yuanhjty/calculator/tree/master/Demo/demo002.gif)
+![image](https://github.com/yuanhjty/calculator/tree/master/Demo/demo003.gif)
