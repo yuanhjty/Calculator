@@ -39,8 +39,7 @@ SOURCES += \
     ../Calculator/ScientificCalculator.cpp \
     ../Calculator/UnaryOperator.cpp \
     CalcButton.cpp \
-    ../Calculator/SymbolTable.cpp \
-    HistoryShower.cpp
+    ../Calculator/SymbolTable.cpp
 
 HEADERS += \
         CalcWidget.h \
@@ -57,12 +56,10 @@ HEADERS += \
     ../Calculator/UnaryOperator.h \
     CalcButton.h \
     ../Calculator/SymbolTable.h \
-    ../Calculator/ExpressionException.h \
-    HistoryShower.h
+    ../Calculator/ExpressionException.h
 
 FORMS += \
-        CalcWidget.ui \
-    HistoryShower.ui
+        CalcWidget.ui
 
 RESOURCES += \
     images.qrc

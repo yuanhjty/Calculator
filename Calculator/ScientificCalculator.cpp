@@ -1,7 +1,6 @@
 #include "ScientificCalculator.h"
 
 #include <sstream>
-#include <set>
 
 // constructor
 ScientificCalculator::ScientificCalculator() :
