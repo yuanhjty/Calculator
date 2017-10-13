@@ -51,6 +51,10 @@ Type 'quit' to quit.
 >>
 ```
 ### GUIApp Demo
-![image](https://github.com/yuanhjty/calculator/tree/master/Demo/demo001.gif)
-![image](https://github.com/yuanhjty/calculator/tree/master/Demo/demo002.gif)
-![image](https://github.com/yuanhjty/calculator/tree/master/Demo/demo003.gif)
+>  
+<div style="float:left;border:solid 1px 000;margin:2px;"><img src="https://github.com/yuanhjty/calculator/blob/master/Demo/demo-01.gif" width="280" height="445"></div>
+<div style="float:left;border:solid 1px 000;margin:2px;"><img src="https://github.com/yuanhjty/calculator/blob/master/Demo/demo-02.gif" width="280" height="445"></div>
+<div style="clear:both;"></div>  
+>  
+<div style="float:left;border:solid 1px 000;margin:2px;"><img src="https://github.com/yuanhjty/calculator/blob/master/Demo/demo-03.gif" width="350" height="445"></div>
+<div style="clear:both;"></div>
