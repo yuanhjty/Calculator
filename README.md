@@ -1,5 +1,8 @@
 # toy-calculator
 
+## Platform and Kits
+Win10 + Qt5.9 + MinGW53_32/MSVC2015_64
+
 ## Function
 ### Scientific calculator
 >Operand: scientific notation supported  
