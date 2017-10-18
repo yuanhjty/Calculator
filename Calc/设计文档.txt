@@ -1,0 +1,139 @@
+1.交互层需求分析
+
+1.1 控制台用户界面
+	1.1.1 功能需求
+		a)输入控制命令，实现控制功能，打印相关信息到控制台
+		b)输入完整表达式，打印计算结果(表达式的值或语法错误信息)到控制台
+		c)从文件获取多个表达式，保存计算结果(表达式的值或语法错误信息)到输出文件
+	
+	1.1.2 控制命令
+		命令格式
+			cmd 具体命令 -参数
+			
+		命令内容		功能				限制
+			---------------------------------------------------------
+			science 	切换到科学计算器	全局有效
+			programmer 	切换到程序员计算器	全局有效
+			length		切换到长度转换器	全局有效
+			area		切换到面积转换器	全局有效
+			volume		切换到体积转换器	全局有效
+			quality		切换到质量转换器	全局有效
+			density		切换到密度转换器	全局有效
+			time		切换到时间转换器	全局有效
+			velocity	切换到速度转换器	全局有效
+			power		切换到功率转换器	全局有效
+			energy		切换到能量转换器	全局有效
+			temperature	切换到温度转换器	全局有效
+			pressure	切换到压强转换器	全局有效
+			data		切换到数据转换器	全局有效
+			----------------------------------------------------------
+			degree		切换角度单位为度	仅在science模式下有效
+			rad			切换角度单位为弧度	仅在science模式下有效
+			float		切换到浮点形式显式	仅在science模式下有效
+			exponent	切换到指数形式显式	仅在science模式下有效
+			-----------------------------------------------------------
+			hex			切换到十六进制显式	仅在programmer模式下有效
+			decimal		切换到十进制显式	仅在programmer模式下有效
+			octal		切换到八进制显式	仅在programmer模式下有效
+			binary		切换到二进制显式	仅在programmer模式下有效
+			-----------------------------------------------------------
+			history 	默认打印5条历史纪录	全局有效
+			history n	打印n条历史纪录		全局有效
+			history a	打印所有历史纪录	全局有效
+			history f file	保存历史纪录到文件file	全局有效
+			history c 	清空历史纪录		全局有效
+			-----------------------------------------------------------
+			file infilename outfilename	从infile获取输入，输出结果到outfile
+			file infilename 			从infile获取输入，输出结构到控制台
+			
+	1.1.3 模块划分
+		主循环模块
+			负责主循环和获取用户输入
+			命令解释器
+			负责解释命令，调用计算模块完成功能，打印结果信息
+			
+			
+1.2 图形用户界面
+	1.2.1 功能概述
+		实现控制台用户界面的所有非文件功能和部分文件功能
+		过滤错误输入
+		自动补全括号
+		实时显式计算结果
+		键盘输入表达式
+		语音输入表达式
+		
+	1.2.2 具体描述
+		a)切换功能和历史纪录操作由界面按钮操作，不同模式切换到不同界面
+		b)当错误输入导致不可通过继续输入或自动补全括号修复时，过滤掉该输入或替换之前的错误输入
+		c)若有多余的未匹配左括号，计算结果时自动补全右括号
+		d)按下等号时完成此次运算，突出显式计算结果，更新历史纪录
+	
+2. 计算层接口分析
+	void evaluate(const string &userExpression)
+		读取userExpression，求值并更新计算层内部状态
+		
+	string result()
+		返回求值结果，若userExpression有语法错误，则返回错误描述，否则返回其值
+	
+	ErrorState errorState()
+		返回userExpression的语法错误状态
+		
+	void updateHistory()
+		更新历史纪录
+		
+	void clearHistory()
+		清空历史纪录
+		
+	const deque<pair> *history()
+		返回所有历史纪录
+		
+
+3. 计算层模块划分：
+    初始化模块(init)
+		可在构造函数中实现
+			初始化符号表(symbolTable: unorded_map<TokenType, ExprNodeType *>)
+			配置scanner[scanner->setLexeme(lexemePattern)]
+			配置parser[parser->setSymbolTable()]		
+
+    扫描模块(Scanner)
+		功能
+			扫描(scan)用户输入的表达式(userExpression: string)
+			生成格式化的表达式(formattedExpression: string)
+			检测userExpression的语法错误
+		接口
+			功能接口
+				void scan(const string &)
+				string formattedExpression()
+			配置接口
+				void setLexeme(const string &lexemePattern)
+				
+			错误信息
+				通过异常抛出
+
+    语法分析模块(Parser)
+		功能
+			输入格式化的中缀表达式(formattedExpression)
+			生成表达式树(ExprNode *)
+			检测formattedExpression中的语法错误
+			
+		接口
+			功能接口
+				ExprNode *parse(const string &formattedExpression)
+		    CalcFlags &operator=(const CalcFlags &other) { _value = other._value; return *this; }
+	
+			配置接口
+				void setSymbolTable(const TableType *symbolTable)
+				
+			错误信息
+				通过异常抛出
+		
+		
+    语法错误处理模块(errorHandler)
+	    在接口void evaluate(const string &userExpression)的实现中捕获所有因语法错误抛出的异常
+		设置错误状态信息
+
+		
+    计算结果处理模块(resultHandler)
+	    计算结果转换为字符串形式存储
+		处理历史纪录(HistoryRecord)
+
