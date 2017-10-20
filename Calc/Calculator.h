@@ -1,15 +1,12 @@
 #ifndef CALCULATOR_H
 #define CALCULATOR_H
 
+#include "Lexeme.h"
 #include "Scanner.h"
 #include "Parser.h"
 #include "CalcResult.h"
 #include "CalcError.h"
-#include "DataConvert.h"
-
-#include <string>
-#include <deque>
-#include <utility>
+#include "NumeralFormat.h"
 
 
 class Calculator {
@@ -18,15 +15,17 @@ public:
     typedef ResultHandler::ResultType ResultType;
 
 public:
-    Calculator(Parser *parser, DataConverter *dataConvert = nullptr);
-    ~Calculator();
+    Calculator(Parser *parser, std::string (*toString)(double));
+    virtual ~Calculator();
 
-    void setDataFormat(DataFormat dataFormat);
+    virtual void setNumeralFormat(NumeralFormat format) = 0;
+
     void evaluate(const std::string &userExpression);
 
     void updateHistory();
     void clearHistory();
 
+    ValueType currentValue() const;
     ResultType currentResult() const;
     const std::deque<ResultType> *history() const;
     ErrorFlags errorState() const;
@@ -35,12 +34,9 @@ protected:
     Scanner *_scanner;
     ResultHandler *_resultHandler;
     Parser *_parser;
-    DataConverter *_dataConvert;
+    std::string (*_toString)(double);
 };
 
-inline void Calculator::setDataFormat(DataFormat dataFormat) {
-    if (_dataConvert) _dataConvert->setDataFormat(dataFormat);
-}
 
 inline void Calculator::updateHistory() {
     _resultHandler->updateHisotry();
@@ -48,6 +44,10 @@ inline void Calculator::updateHistory() {
 
 inline void Calculator::clearHistory() {
     _resultHandler->clearHistory();
+}
+
+inline Calculator::ValueType Calculator::currentValue() const {
+    return _parser->value();
 }
 
 inline Calculator::ResultType Calculator::currentResult() const {

@@ -3,25 +3,30 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += main.cpp \
+SOURCES += \
     ExprNode.cpp \
     Calculator.cpp \
     Scanner.cpp \
-    ScienceCalculator.cpp \
-    Parser.cpp \
     Lexeme.cpp \
     SymbolTable.cpp \
     RealOperator.cpp \
     Operand.cpp \
     CalcError.cpp \
     CalcResult.cpp \
-    DataConvert.cpp
+    BitwiseOperator.cpp \
+    Converter.cpp \
+    TreeParser.cpp \
+    NumeralFormat.cpp \
+    TableParser.cpp \
+    UnitTable.cpp \
+    ExprCalculator.cpp \
+    test.cpp \
+    Interpreter.cpp
 
 HEADERS += \
     ExprNode.h \
     Calculator.h \
     Scanner.h \
-    ScienceCalculator.h \
     Parser.h \
     Lexeme.h \
     SymbolTable.h \
@@ -30,4 +35,11 @@ HEADERS += \
     CalcFlags.h \
     CalcError.h \
     CalcResult.h \
-    DataConvert.h
+    BitwiseOperator.h \
+    Converter.h \
+    TreeParser.h \
+    NumeralFormat.h \
+    UnitTable.h \
+    TableParser.h \
+    ExprCalculator.h \
+    Interpreter.h

@@ -1,18 +1,12 @@
 #include "Calculator.h"
 
-Calculator::Calculator(
-        Parser *parser, DataConverter *dataConvert) :
+Calculator::Calculator(Parser *parser, std::string (*toString)(double)) :
     _scanner(new Scanner),
     _resultHandler(new ResultHandler),
     _parser(parser),
-    _dataConvert(dataConvert) { }
+    _toString(toString) { }
 
 Calculator::~Calculator() {
-    if (_dataConvert) {
-        delete _dataConvert;
-        _dataConvert = nullptr;
-    }
-
     delete _parser;
     _parser = nullptr;
 
@@ -29,7 +23,8 @@ void Calculator::evaluate(const std::string &userExpression) {
         _parser->parse(_scanner->formattedExpression());
         _resultHandler->setCurrentResult(
                     _scanner->formattedExpression(),
-                    DataConverter::toString(_parser->evalueate()));
+                    _toString(_parser->evalueate()));
+        _resultHandler->setErrorState(ERROR_NOERROR);
     } catch (const CalcError &e) {
         _resultHandler->setCurrentResult(
                     _scanner->formattedExpression(), e.what());

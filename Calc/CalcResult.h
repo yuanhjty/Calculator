@@ -14,8 +14,10 @@ public:
 
 public:
     ResultHandler();
-    void setCurrentResult(const std::string &formattedExpression,
+    void setCurrentResult(const std::string &expr,
                           const std::string &value);
+    void updateCurrentValue(const std::string &value);
+    void updateCurrentExpr(const std::string &expr);
     void setErrorState(ErrorFlags errorState);
     void updateHisotry();
     void clearHistory();
@@ -32,6 +34,19 @@ private:
     // static date members
     static const size_t _historySize = 1000;
 };
+
+inline void ResultHandler::setCurrentResult(const std::string &expr, const std::string &value) {
+    _currentResult.first = expr;
+    _currentResult.second = value;
+}
+
+inline void ResultHandler::updateCurrentValue(const std::string &value) {
+    _currentResult.second = value;
+}
+
+inline void ResultHandler::updateCurrentExpr(const std::string &expr) {
+    _currentResult.first = expr;
+}
 
 inline void ResultHandler::setErrorState(ErrorFlags errorState) {
     _errorState = errorState;

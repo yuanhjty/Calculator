@@ -1,6 +1,6 @@
 #include "RealOperator.h"
 #include "CalcError.h"
-#include "DataConvert.h"
+#include "NumeralFormat.h"
 
 #include <cmath>
 
@@ -100,7 +100,7 @@ ExprNode *UMinus::newNode() const {
 
 // Sin 
 ExprNode::ValueType Sin::evaluate() {
-    return std::sin(DataConverter::toRad(_child->evaluate()));
+    return std::sin(NumeralConverter::toRad(_child->evaluate()));
 }
 
 ExprNode *Sin::newNode() const {
@@ -110,7 +110,7 @@ ExprNode *Sin::newNode() const {
 
 // Cos 
 ExprNode::ValueType Cos::evaluate() {
-    return std::cos(DataConverter::toRad(_child->evaluate()));
+    return std::cos(NumeralConverter::toRad(_child->evaluate()));
 }
 
 ExprNode *Cos::newNode() const {
@@ -120,7 +120,7 @@ ExprNode *Cos::newNode() const {
 
 // Tan
 ExprNode::ValueType Tan::evaluate() {
-    return std::tan(DataConverter::toRad(_child->evaluate()));
+    return std::tan(NumeralConverter::toRad(_child->evaluate()));
 }
 
 ExprNode *Tan::newNode() const {
@@ -130,7 +130,7 @@ ExprNode *Tan::newNode() const {
 
 // Asin
 ExprNode::ValueType Asin::evaluate() {
-    return DataConverter::toDeg(std::asin(_child->evaluate()));
+    return NumeralConverter::toDeg(std::asin(_child->evaluate()));
 }
 
 ExprNode *Asin::newNode() const {
@@ -140,7 +140,7 @@ ExprNode *Asin::newNode() const {
 
 // Acos
 ExprNode::ValueType Acos::evaluate() {
-    return DataConverter::toDeg(std::acos(_child->evaluate()));
+    return NumeralConverter::toDeg(std::acos(_child->evaluate()));
 }
 
 ExprNode *Acos::newNode() const {
@@ -150,7 +150,7 @@ ExprNode *Acos::newNode() const {
 
 // Atan
 ExprNode::ValueType Atan::evaluate() {
-    return DataConverter::toDeg(std::atan(_child->evaluate()));
+    return NumeralConverter::toDeg(std::atan(_child->evaluate()));
 }
 
 ExprNode *Atan::newNode() const {

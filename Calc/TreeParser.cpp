@@ -1,6 +1,5 @@
-#include "Parser.h"
+#include "TreeParser.h"
 #include "CalcError.h"
-
 #include <sstream>
 
 
@@ -41,18 +40,22 @@ void TreeParser::buildPostfixExpr(const std::string &infixExpr) {
                 throw SyntaxError("invalid operator: " + token, filterFlag);
             }
 
-            while (!operatorStack.empty() && operatorStack.top() != "(") {
-                precOperator = _symbolTable->exprNode(operatorStack.top());
-                if (currNode->priority() < precOperator->priority()
-                        || (currNode->priority() == precOperator->priority()
-                            && currNode->associativity() == ASSO_LEFT)) {
-                    _postfixExpr.push_back(precOperator->newNode());
-                    operatorStack.pop();
-                } else {
-                    break;
+            if (currNode->nodeType() == TYPE_OPERAND) {
+                _postfixExpr.push_back(currNode->newNode());
+            } else {
+                while (!operatorStack.empty() && operatorStack.top() != "(") {
+                    precOperator = _symbolTable->exprNode(operatorStack.top());
+                    if (currNode->priority() < precOperator->priority()
+                            || (currNode->priority() == precOperator->priority()
+                                && currNode->associativity() == ASSO_LEFT)) {
+                        _postfixExpr.push_back(precOperator->newNode());
+                        operatorStack.pop();
+                    } else {
+                        break;
+                    }
                 }
+                operatorStack.push(token);
             }
-            operatorStack.push(token);
 
             precType = currNode->nodeType();
             isPrefixOperator = (precType == TYPE_BINARY_OPERATOR
@@ -106,15 +109,12 @@ void TreeParser::buildPostfixExpr(const std::string &infixExpr) {
             }
 
             try {
-                double value = std::stod(token);
+                ValueType value = _toValue(token); // may throw exception
                 ExprNode *number = new Number(value);
                 _postfixExpr.push_back(number);
-            } catch (std::invalid_argument) {
+            } catch (...) {
                 destroyPostfixExpr();
-                throw SyntaxError("undefined symbol: " + token, FILTER_IGNORE);
-            } catch (std::out_of_range) {
-                destroyPostfixExpr();
-                throw std::overflow_error("floating point number overflow");
+                throw;
             }
 
             precType = TYPE_OPERAND;

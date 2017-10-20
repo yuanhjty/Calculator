@@ -34,7 +34,7 @@ enum ExprAttr {
     PRIO_EQUAL           = 0x00400,       // == !=
     PRIO_LESS            = 0x00800,       // < > <= >=
 
-    PRIO_SHIFT           = 0x01000,       // >> <<
+    PRIO_BIT_SHIFT       = 0x01000,       // >> <<
     PRIO_PLUS            = 0x02000,       // + -
     PRIO_MULTI           = 0x04000,       // * / %
     PRIO_POW             = 0x08000,       // ^
@@ -102,7 +102,9 @@ protected:
 // The class BinaryOperator
 class BinaryOperator : public ExprNode, public OperandAsPrecursor {
 public:
+    BinaryOperator();
     ~BinaryOperator();
+
     bool isPrecursorValid(ExprAttr precursorType) const override;
     int numberOfChildren() const override;
     void setChildren(const std::vector<ExprNode *>& children) override;
@@ -128,6 +130,10 @@ inline void BinaryOperator::setChildren(const std::vector<ExprNode *> &children)
     assert(_numberOfChildren == children.size());
     _leftChild = children[1];
     _rightChild = children[0];
+}
+
+inline BinaryOperator::BinaryOperator() {
+    _attrs |= TYPE_BINARY_OPERATOR;
 }
 
 
@@ -158,6 +164,7 @@ inline RightAssoBinaryOperator::RightAssoBinaryOperator() {
 class UnaryOperator : public ExprNode {
 public:
     ~UnaryOperator();
+
     int numberOfChildren() const override;
     void setChildren(const std::vector<ExprNode *>& children);
 
@@ -186,7 +193,7 @@ public:
 };
 
 inline PrefixOperator::PrefixOperator() {
-    (_attrs |= ASSO_RIGHT) |= PRIO_PREFIX;
+    ((_attrs |= ASSO_RIGHT) |= PRIO_PREFIX) |= TYPE_PREFIX_OPERATOR;
 }
 
 inline bool PrefixOperator::isPrecursorValid(ExprAttr precursorType) const {
@@ -202,7 +209,7 @@ public:
 };
 
 inline PostfixOperator::PostfixOperator() {
-    (_attrs |= ASSO_LEFT) |= PRIO_POSTFIX;
+    ((_attrs |= ASSO_LEFT) |= PRIO_POSTFIX) |= TYPE_POSTFIX_OPERATOR;
 }
 
 inline bool PostfixOperator::isPrecursorValid(ExprAttr precursorType) const {
@@ -214,6 +221,7 @@ inline bool PostfixOperator::isPrecursorValid(ExprAttr precursorType) const {
 // The class Operand
 class Operand : public ExprNode,  public OperatorAsPrecursor {
 public:
+    Operand();
     bool isPrecursorValid(ExprAttr precursorType) const override;
     int numberOfChildren() const override;
     void setChildren(const std::vector<ExprNode *>& children) override;
@@ -221,6 +229,10 @@ public:
 private:
     const static int _numberOfChildren = 0;
 };
+
+inline Operand::Operand() {
+    _attrs |= TYPE_OPERAND;
+}
 
 inline bool Operand::isPrecursorValid(ExprAttr precursorType) const {
     return ATTR_EMPTY != (ExprAttr)(_validPrecursorTypes & precursorType);

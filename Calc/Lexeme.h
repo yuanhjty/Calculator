@@ -15,6 +15,8 @@ private:
     static const std::string opReal;
     static const std::string opInteger;
 
+    static const std::string unit;
+
     static const std::string symbol;
     static const std::string bracket;
     static const std::string space;
@@ -41,7 +43,11 @@ public:
     }
 
     static std::string hexExprLexeme() {
-        return numHex + "|" + integerCalCommon;
+        return integerCalCommon + "|" + numHex;
+    }
+
+    static std::string convertLexeme() {
+        return numReal + "|" + unit + "|" + space;
     }
 };
 
