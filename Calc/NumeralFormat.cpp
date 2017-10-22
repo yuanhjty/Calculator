@@ -23,11 +23,11 @@ double NumeralConverter::toFloat(long long value) {
 
 // For degree and radian conversion
 double NumeralConverter::degToRad(double degValue) {
-    return degValue / 57.2957795130823208767981;
+    return degValue / 57.2957795130823;
 }
 
 double NumeralConverter::radToDeg(double radValue) {
-    return radValue * 57.2957795130823208767981;
+    return radValue * 57.2957795130823;
 }
 
 double NumeralConverter::noConversion(double value) {
@@ -122,7 +122,10 @@ std::string NumeralConverter::valueTobinaryString(double value) {
         remainders.pop();
     }
 
-    return ret;
+    auto padSize = 4 - ret.size() % 4;
+    std::string pad(padSize % 4, '0');
+
+    return pad + ret;
 }
 
 std::string NumeralConverter::valueToOctalString(double value) {

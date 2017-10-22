@@ -79,7 +79,7 @@ void VolumeConverter::initUnitTable() {
     _unitTable->registerUnit("mL", 1e6);
     _unitTable->registerUnit("cu-cm", 1e6);
     _unitTable->registerUnit("L", 1e3);
-    _unitTable->registerUnit("stere", 1e0);
+    _unitTable->registerUnit("cu-m", 1e0);
     _unitTable->registerUnit("cu-in", 61023.74);
     _unitTable->registerUnit("cu-ft", 35.31467);
     _unitTable->registerUnit("cu-yd", 1.307951);
@@ -94,13 +94,13 @@ void VolumeConverter::initUnitTable() {
 }
 
 
-// QualityConverter
-QualityConverter::QualityConverter() {
+// WeightConverter
+WeightConverter::WeightConverter() {
     initUnitTable();
     static_cast<TableParser *>(_parser)->setUnitTable(_unitTable);
 }
 
-void QualityConverter::initUnitTable() {
+void WeightConverter::initUnitTable() {
     _unitTable->registerUnit("ct", 5e3);
     _unitTable->registerUnit("mg", 1e6);
     _unitTable->registerUnit("cg", 1e5);
@@ -155,7 +155,7 @@ PowerConverter::PowerConverter() {
 
 void PowerConverter::initUnitTable() {
     _unitTable->registerUnit("W", 1);
-    _unitTable->registerUnit("kW", 1e-3);
+    _unitTable->registerUnit("KW", 1e-3);
     _unitTable->registerUnit("hp", 0.001341);
 }
 
@@ -168,7 +168,7 @@ EnergyConverter::EnergyConverter() {
 
 void EnergyConverter::initUnitTable() {
     _unitTable->registerUnit("J", 1);
-    _unitTable->registerUnit("kJ", 1e-3);
+    _unitTable->registerUnit("KJ", 1e-3);
     _unitTable->registerUnit("cal", 0.239006);
 }
 

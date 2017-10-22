@@ -50,9 +50,9 @@ private:
 
 
 //
-class QualityConverter : public Converter {
+class WeightConverter : public Converter {
 public:
-    QualityConverter();
+    WeightConverter();
 
 private:
     void initUnitTable();

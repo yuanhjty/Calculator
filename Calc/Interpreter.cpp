@@ -59,8 +59,8 @@ COMMAND Interpreter::execute(const std::string &command) {
     case CMD_VOLUME:
         switchCalculator(CAL_VOLUME);
         break;
-    case CMD_QUALITY:
-        switchCalculator(CAL_QUALITY);
+    case CMD_WEIGHT:
+        switchCalculator(CAL_WEIGHT);
         break;
     case CMD_TIME:
         switchCalculator(CAL_TIME);
@@ -164,8 +164,8 @@ void Interpreter::switchCalculator(CALCULATOR id) {
         case CAL_VOLUME:
             _calculator = new VolumeConverter;
             break;
-        case CAL_QUALITY:
-            _calculator = new QualityConverter;
+        case CAL_WEIGHT:
+            _calculator = new WeightConverter;
             break;
         case CAL_TIME:
             _calculator = new TimeConverter;
@@ -202,7 +202,7 @@ std::unordered_map<std::string, COMMAND> Interpreter::_commands = {
     {"science", CMD_SCIENCE}, {"programmer",CMD_PROGRAMMER},
     // converter
     {"length", CMD_LENGTH}, {"area", CMD_AREA}, {"volume", CMD_VOLUME},
-    {"quality",CMD_QUALITY}, {"time", CMD_TIME}, {"velocity", CMD_VELOCITY},
+    {"weight",CMD_WEIGHT}, {"time", CMD_TIME}, {"velocity", CMD_VELOCITY},
     {"power", CMD_POWER}, {"energy", CMD_ENERGY}, {"pressure", CMD_PRESSURE},
     {"data", CMD_DATA}, {"angle", CMD_ANGLE},
 
