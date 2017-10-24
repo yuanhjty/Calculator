@@ -4,29 +4,41 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    ../Calculator/BinaryOperator.cpp \
-    ../Calculator/Calculator.cpp \
-    ../Calculator/CommandInterpreter.cpp \
-    ../Calculator/ExpressionTree.cpp \
-    ../Calculator/LexicalSet.cpp \
-    ../Calculator/Operand.cpp \
-    ../Calculator/Parser.cpp \
-    ../Calculator/Scanner.cpp \
-    ../Calculator/ScientificCalculator.cpp \
-    ../Calculator/UnaryOperator.cpp \
-    ../Calculator/SymbolTable.cpp
+    ../Calc/BitwiseOperator.cpp \
+    ../Calc/CalcError.cpp \
+    ../Calc/CalcResult.cpp \
+    ../Calc/Calculator.cpp \
+    ../Calc/Converter.cpp \
+    ../Calc/ExprCalculator.cpp \
+    ../Calc/ExprNode.cpp \
+    ../Calc/Lexeme.cpp \
+    ../Calc/NumeralFormat.cpp \
+    ../Calc/Operand.cpp \
+    ../Calc/RealOperator.cpp \
+    ../Calc/Scanner.cpp \
+    ../Calc/SymbolTable.cpp \
+    ../Calc/TableParser.cpp \
+    ../Calc/TreeParser.cpp \
+    ../Calc/UnitTable.cpp \
+    ../Calc/Interpreter.cpp
 
 HEADERS += \
-    ../Calculator/BinaryOperator.h \
-    ../Calculator/Calculator.h \
-    ../Calculator/CommandInterpreter.h \
-    ../Calculator/Expression.h \
-    ../Calculator/ExpressionTree.h \
-    ../Calculator/LexicalSet.h \
-    ../Calculator/Operand.h \
-    ../Calculator/Parser.h \
-    ../Calculator/Scanner.h \
-    ../Calculator/ScientificCalculator.h \
-    ../Calculator/UnaryOperator.h \
-    ../Calculator/SymbolTable.h \
-    ../Calculator/ExpressionException.h
+    ../Calc/BitwiseOperator.h \
+    ../Calc/CalcError.h \
+    ../Calc/CalcFlags.h \
+    ../Calc/CalcResult.h \
+    ../Calc/Calculator.h \
+    ../Calc/Converter.h \
+    ../Calc/ExprCalculator.h \
+    ../Calc/ExprNode.h \
+    ../Calc/Lexeme.h \
+    ../Calc/NumeralFormat.h \
+    ../Calc/Operand.h \
+    ../Calc/Parser.h \
+    ../Calc/RealOperator.h \
+    ../Calc/Scanner.h \
+    ../Calc/SymbolTable.h \
+    ../Calc/TableParser.h \
+    ../Calc/TreeParser.h \
+    ../Calc/UnitTable.h \
+    ../Calc/Interpreter.h

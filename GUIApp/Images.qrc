@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/images">
+        <file alias="science">images/science.png</file>
+        <file alias="length">images/length.png</file>
+        <file alias="area">images/area.png</file>
+        <file alias="volume">images/volume.png</file>
+        <file alias="weight">images/weight.png</file>
+        <file alias="time">images/time.png</file>
+        <file alias="velocity">images/velocity.png</file>
+        <file alias="energy">images/energy.png</file>
+        <file alias="power">images/power.png</file>
+        <file alias="pressure">images/pressure.png</file>
+        <file alias="angle">images/angle.png</file>
+        <file alias="data">images/data.png</file>
+        <file alias="history">images/history.png</file>
+        <file alias="clear">images/clear.png</file>
+        <file alias="menu">images/menu.png</file>
+        <file alias="programmer">images/programmer.png</file>
+        <file alias="down-arrow">images/down-arrow.png</file>
+        <file alias="backspace">images/backspace.png</file>
+        <file alias="up-arrow">images/up-arrow.png</file>
+    </qresource>
+</RCC>

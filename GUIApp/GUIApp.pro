@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2017-10-08T16:20:51
+# Project created by QtCreator 2017-10-21T09:56:45
 #
 #-------------------------------------------------
 
@@ -9,7 +9,7 @@ RC_ICONS += calculator.ico
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += C++11
 TARGET = Calculator
 TEMPLATE = app
 
@@ -28,38 +28,51 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         CalcWidget.cpp \
-    ../Calculator/BinaryOperator.cpp \
-    ../Calculator/Calculator.cpp \
-    ../Calculator/CommandInterpreter.cpp \
-    ../Calculator/ExpressionTree.cpp \
-    ../Calculator/LexicalSet.cpp \
-    ../Calculator/Operand.cpp \
-    ../Calculator/Parser.cpp \
-    ../Calculator/Scanner.cpp \
-    ../Calculator/ScientificCalculator.cpp \
-    ../Calculator/UnaryOperator.cpp \
-    CalcButton.cpp \
-    ../Calculator/SymbolTable.cpp
+    ../Calc/UnitTable.cpp \
+    ../Calc/Converter.cpp \
+    ../Calc/Lexeme.cpp \
+    ../Calc/NumeralFormat.cpp \
+    ../Calc/TreeParser.cpp \
+    ../Calc/Interpreter.cpp \
+    ../Calc/ExprCalculator.cpp \
+    ../Calc/Calculator.cpp \
+    ../Calc/CalcResult.cpp \
+    ../Calc/TableParser.cpp \
+    ../Calc/BitwiseOperator.cpp \
+    ../Calc/RealOperator.cpp \
+    ../Calc/CalcError.cpp \
+    ../Calc/Scanner.cpp \
+    ../Calc/SymbolTable.cpp \
+    ../Calc/ExprNode.cpp \
+    ../Calc/Operand.cpp
 
 HEADERS += \
         CalcWidget.h \
-    ../Calculator/BinaryOperator.h \
-    ../Calculator/Calculator.h \
-    ../Calculator/CommandInterpreter.h \
-    ../Calculator/Expression.h \
-    ../Calculator/ExpressionTree.h \
-    ../Calculator/LexicalSet.h \
-    ../Calculator/Operand.h \
-    ../Calculator/Parser.h \
-    ../Calculator/Scanner.h \
-    ../Calculator/ScientificCalculator.h \
-    ../Calculator/UnaryOperator.h \
-    CalcButton.h \
-    ../Calculator/SymbolTable.h \
-    ../Calculator/ExpressionException.h
+    ../Calc/Lexeme.h \
+    ../Calc/ExprNode.h \
+    ../Calc/CalcFlags.h \
+    ../Calc/Interpreter.h \
+    ../Calc/Calculator.h \
+    ../Calc/Converter.h \
+    ../Calc/NumeralFormat.h \
+    ../Calc/CalcResult.h \
+    ../Calc/TreeParser.h \
+    ../Calc/Parser.h \
+    ../Calc/TableParser.h \
+    ../Calc/ExprCalculator.h \
+    ../Calc/UnitTable.h \
+    ../Calc/BitwiseOperator.h \
+    ../Calc/CalcError.h \
+    ../Calc/SymbolTable.h \
+    ../Calc/RealOperator.h \
+    ../Calc/Operand.h \
+    ../Calc/Scanner.h
 
 FORMS += \
         CalcWidget.ui
 
+SUBDIRS += \
+    ../Calc/Calc.pro
+
 RESOURCES += \
-    images.qrc
+    Images.qrc
