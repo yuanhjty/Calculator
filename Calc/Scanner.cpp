@@ -5,6 +5,9 @@
 void Scanner::scan(const std::string &userExpression) {
     _formattedExpression.clear();
 
+    if (userExpression.empty())
+        return;
+
     std::sregex_token_iterator pos(userExpression.cbegin(),
                                    userExpression.cend(),
                                    _lexeme, {-1, 0});
@@ -16,7 +19,7 @@ void Scanner::scan(const std::string &userExpression) {
     while (pos != end) {
         delimiter = pos++->str();   // delimiter
         if (!delimiter.empty())     // Delimiters should be empty since spaces's included in lexemes.
-            throw SymbolError("invalid symbol: " + delimiter, FILTER_IGNORE);
+            throw SymbolError("invalid symbol: " + delimiter, REPAIR_IGNORE);
 
         token = pos++->str();       // token
         if (" " != token && "\t" != token)          // Ignore space tokens.

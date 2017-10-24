@@ -35,9 +35,9 @@ void TreeParser::buildPostfixExpr(const std::string &infixExpr) {
             if (!currNode->isPrecursorValid(precType)) {
                 destroyPostfixExpr();
 
-                ErrorFlags filterFlag = (TYPE_BINARY_OPERATOR == precType) ?
-                            FILTER_REPLACE : FILTER_IGNORE;
-                throw SyntaxError("invalid operator: " + token, filterFlag);
+                ErrorFlags repairFlag = (TYPE_BINARY_OPERATOR == precType) ?
+                            REPAIR_REPLACE : REPAIR_IGNORE;
+                throw SyntaxError("invalid operator: " + token, repairFlag);
             }
 
             if (currNode->nodeType() == TYPE_OPERAND) {
@@ -67,7 +67,7 @@ void TreeParser::buildPostfixExpr(const std::string &infixExpr) {
                     || TYPE_POSTFIX_OPERATOR == precType
                     || TYPE_RIGHT_BRACKET == precType) {
                 destroyPostfixExpr();
-                throw SyntaxError("syntax error", FILTER_IGNORE);
+                throw SyntaxError("syntax error", REPAIR_IGNORE);
             }
 
             operatorStack.push(token);
@@ -77,13 +77,13 @@ void TreeParser::buildPostfixExpr(const std::string &infixExpr) {
         else if (")" == token) {
             if (TYPE_BINARY_OPERATOR == precType) {
                 destroyPostfixExpr();
-                throw SyntaxError("syntax error", FILTER_REPLACE);
+                throw SyntaxError("syntax error", REPAIR_REPLACE);
             }
             else if (TYPE_PREFIX_OPERATOR == precType
                      || TYPE_LEFT_BRACKET == precType
                      || TYPE_DUMMY_NODE == precType) {
                 destroyPostfixExpr();
-                throw SyntaxError("syntax error", FILTER_IGNORE);
+                throw SyntaxError("syntax error", REPAIR_IGNORE);
             }
 
             while (!operatorStack.empty() && (operatorStack.top() != "(")) {
@@ -93,7 +93,7 @@ void TreeParser::buildPostfixExpr(const std::string &infixExpr) {
             }
             if (operatorStack.empty()) {
                 destroyPostfixExpr();
-                throw SyntaxError("bracket matching failed: '(' missing", FILTER_IGNORE);
+                throw SyntaxError("bracket matching failed: '(' missing", REPAIR_IGNORE);
             }
 
             operatorStack.pop();    // pop "("
@@ -105,7 +105,7 @@ void TreeParser::buildPostfixExpr(const std::string &infixExpr) {
                     || TYPE_POSTFIX_OPERATOR == precType
                     || TYPE_RIGHT_BRACKET == precType) {
                 destroyPostfixExpr();
-                throw SyntaxError("syntax error", FILTER_IGNORE);
+                throw SyntaxError("syntax error", REPAIR_IGNORE);
             }
 
             try {
@@ -125,10 +125,8 @@ void TreeParser::buildPostfixExpr(const std::string &infixExpr) {
     while (!operatorStack.empty()) {
         const std::string& token = operatorStack.top();
         if ("(" == token) {
+            operatorStack.pop();
             continue;   // The ')' at the end can be omitted.
-                        // This '(' can be considered to match the omitted ')' at the end.
-//            destroyPostfixExpr();
-//            throw SyntaxError("bracket matching failed: ')' missing");
         }
 
         currNode = _symbolTable->exprNode(token);
@@ -141,13 +139,19 @@ void TreeParser::buildExprTree() {
     std::stack<ExprNode *> exprNodeStack;
     std::vector<ExprNode *> param;
 
-    for (const auto &exprNode : _postfixExpr) {
+    for (auto it = _postfixExpr.begin(); it != _postfixExpr.end(); ++it) {
         param.clear();
-        int numberOfChildren = exprNode->numberOfChildren();
+        int numberOfChildren = (*it)->numberOfChildren();
 
         while (numberOfChildren--) {
             if (exprNodeStack.empty()) {
-                destroyPostfixExpr();
+                // Now, current (*it) has associated to all (*it)s in front of current (*it).
+                // Delete current (*it) means delete all (*it)s in front of current (*it).
+                // So delete current (*it) and all (*it)s behind current (*it) to free all memroy.
+                for (; it != _postfixExpr.end(); ++it) {
+                    delete (*it);
+                    (*it) = nullptr;
+                }
                 throw SyntaxError("operand missing", REPAIR_APPEND);
             }
 
@@ -155,19 +159,15 @@ void TreeParser::buildExprTree() {
             exprNodeStack.pop();
         }
 
-        exprNode->setChildren(param);
-        exprNodeStack.push(exprNode);
+        (*it)->setChildren(param);
+        exprNodeStack.push(*it);
     }
 
-    if (1 == exprNodeStack.size())
+    if (1 == exprNodeStack.size()) {
         _exprTree = exprNodeStack.top();
-    else if (exprNodeStack.empty()) {
+    } else if (1 < exprNodeStack.size()) {
         destroyPostfixExpr();
-        throw std::runtime_error("empty expression");
-    }
-    else {
-        destroyPostfixExpr();
-        throw std::runtime_error("unknown error");
+        throw InnerError("unknown error");
     }
 }
 

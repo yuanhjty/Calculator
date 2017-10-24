@@ -43,7 +43,7 @@ public:
     }
 
     static std::string hexExprLexeme() {
-        return integerCalCommon + "|" + numHex;
+        return  "And|" + numHex + "|" + integerCalCommon;
     }
 
     static std::string convertLexeme() {

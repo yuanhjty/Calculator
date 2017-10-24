@@ -28,14 +28,14 @@ inline BMinus::BMinus() {
 }
 
 
-class Multi : public LeftAssoBinaryOperator {
+class Mult : public LeftAssoBinaryOperator {
 public:
-    Multi();
+    Mult();
     ExprNode::ValueType evaluate() override;
     ExprNode *newNode() const override;
 };
 
-inline Multi::Multi() {
+inline Mult::Mult() {
     _attrs |= PRIO_MULTI;
 }
 

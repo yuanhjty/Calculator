@@ -11,13 +11,11 @@
 enum ErrorState {
     ERROR_FIELD = 0xff, ERROR_NOERROR = 0x10,
     ERROR_INNER = 0x02, ERROR_SYMBOL = 0x04,
-    ERROR_SYNTAX = 0X08, ERROR_INCOMPLETE = 0x10,
+    ERROR_SYNTAX = 0X08,
 
-    FILTER_FIELD = 0xff00, FILTER_NOFILTER = 0x0100,
-    FILTER_IGNORE = 0x0200, FILTER_REPLACE = 0x0400,
-
-    REPAIR_FIELD = 0xff0000, REPAIR_NOREPAIR = 0x010000,
-    REPAIR_BACK = 0x020000, REPAIR_APPEND = 0x040000
+    REPAIR_FIELD = 0xff00, REPAIR_NOREPAIR = 0x0100,
+    REPAIR_IGNORE = 0x0200, REPAIR_REPLACE = 0x0400,
+    REPAIR_APPEND = 0x0800
 };
 
 typedef CalcFlags<ErrorState> ErrorFlags;
@@ -25,7 +23,7 @@ typedef CalcFlags<ErrorState> ErrorFlags;
 
 class CalcError : public std::runtime_error {
 public:
-    CalcError(const std::string &msg);
+    CalcError(const std::string &msg, ErrorFlags flg);
     ErrorFlags errorState() const { return _errorState; }
 
 protected:
@@ -35,7 +33,7 @@ protected:
 
 class InnerError : public CalcError {
 public:
-    InnerError(const std::string &msg, ErrorFlags flags);
+    InnerError(const std::string &msg);
 };
 
 

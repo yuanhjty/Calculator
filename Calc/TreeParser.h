@@ -38,8 +38,7 @@ inline void TreeParser::setSymbolTable(SymbolTable *symbolTable) {
 }
 
 inline Parser::ValueType TreeParser::evalueate() {
-    assert(_exprTree != nullptr);
-    return _value = _exprTree->evaluate();
+    return _value = nullptr == _exprTree ? 0 : _exprTree->evaluate();
 }
 
 

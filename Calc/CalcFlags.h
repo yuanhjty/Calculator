@@ -34,6 +34,8 @@ public:
     explicit operator Enum() const { return (Enum)_value; }
     bool operator==(CalcFlags f) const { return _value == f._value; }
     bool operator==(Enum f) const { return _value == (Int)f; }
+    bool operator!=(CalcFlags f) const { return _value != f._value; }
+    bool operator!=(Enum f) const { return _value != (Int)f; }
 
 private:
     Int _value;

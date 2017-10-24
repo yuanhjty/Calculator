@@ -9,14 +9,15 @@
 
 // For integer and float conversion of integer only operators
 long long NumeralConverter::toInteger(double value) {
-    if (!isDblToLLongValid(value))
-        throw std::runtime_error("integer overflow");
-    return (long long)value;
+    double roundValue = value < 0 ? std::ceil(value) : std::floor(value);
+    if (!isDblToLLongValid(roundValue))
+        throw InnerError("integer overflow");
+    return (long long)roundValue;
 }
 
 double NumeralConverter::toFloat(long long value) {
     if (!isLLongToDblValid(value))
-        throw std::runtime_error("integer overflow");
+        throw InnerError("integer overflow");
     return (double)value;
 }
 
@@ -88,9 +89,9 @@ double NumeralConverter::defaultStringToValue(const std::string &token) {
     try {
         value = std::stod(token);
     } catch (std::invalid_argument) {
-        throw SymbolError("undefined symbol: " + token, FILTER_IGNORE);
+        throw SymbolError("undefined symbol: " + token, REPAIR_APPEND);
     } catch (std::out_of_range) {
-        throw std::overflow_error("floating point number overflow");
+        throw InnerError("floating point number overflow");
     }
     return value;
 }
@@ -99,33 +100,26 @@ double NumeralConverter::defaultStringToValue(const std::string &token) {
 // For string and value conversion of programmer claculator
 std::string NumeralConverter::vlaueToIntegerString(double value, int base) {
     std::ostringstream os;
+    os.setf(std::ios::uppercase);
     os << std::setbase(base);
     os << NumeralConverter::toInteger(value);
     return os.str();
 }
 
 std::string NumeralConverter::valueTobinaryString(double value) {
-    long long number = NumeralConverter::toInteger(value);
-    if (0 == number)
-        return std::string("0");
+    return valueTobinaryString(value, " ");
+}
 
-    std::stack<char> remainders;
-    std::string ret;
-
-    while (number) {
-        remainders.push((number & 1) + '0');
-        number >>= 1;
+std::string NumeralConverter::valueTobinaryString(double value, const std::string &delim) {
+    std::string hexStr = vlaueToIntegerString(value, 16);
+    std::string binStr;
+    for (std::size_t i = 0; i < hexStr.size(); ++i) {
+        char dgt = hexStr[i];
+        int idx = ('0' <= dgt && dgt <= '9') ? (dgt - '0') : (dgt - 'A' + 10);
+        binStr.append(hexToBinMap[idx] + delim);
     }
-
-    while(!remainders.empty()) {
-        ret.push_back(remainders.top());
-        remainders.pop();
-    }
-
-    auto padSize = 4 - ret.size() % 4;
-    std::string pad(padSize % 4, '0');
-
-    return pad + ret;
+    binStr.pop_back();
+    return binStr;
 }
 
 std::string NumeralConverter::valueToOctalString(double value) {
@@ -145,9 +139,9 @@ double NumeralConverter::integerStringToValue(const std::string &token, int base
     try {
         value = std::stoll(token, nullptr, base);
     } catch (std::invalid_argument) {
-        throw SymbolError("undefined symbol: " + token, FILTER_IGNORE);
+        throw SymbolError("undefined symbol: " + token, REPAIR_APPEND);
     } catch (std::out_of_range) {
-        throw std::overflow_error("floating point number overflow");
+        throw InnerError("integer overflow");
     }
     return toFloat(value);
 
@@ -168,3 +162,8 @@ double NumeralConverter::decimalStringToValue(const std::string &token) {
 double NumeralConverter::hexStringToValue(const std::string &token) {
     return integerStringToValue(token, 16);
 }
+
+std::string NumeralConverter::hexToBinMap[16] = {
+    "0000", "0001", "0010", "0011", "0100", "0101", "0110", "0111",
+    "1000", "1001", "1010", "1011", "1100", "1101", "1110", "1111"
+};

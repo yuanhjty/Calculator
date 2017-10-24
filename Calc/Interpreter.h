@@ -32,7 +32,7 @@ enum COMMAND {
     CMD_CLEAR,
 
     // Others
-    CMD_COMPLETE, CMD_CONTINUE, CMD_QUIT,
+    CMD_COMPLETE, CMD_EMPTY, CMD_QUIT,
 };
 
 enum CALCULATOR {
@@ -51,14 +51,19 @@ struct CalcHash {
 class Interpreter {
 public:
     typedef Calculator::ResultType ResultType;
+    typedef Calculator::ValueType ValueType;
 
 public:
     Interpreter();
     ~Interpreter();
     COMMAND interpret(const std::string &input);
     ResultType result() const;
+    ValueType value() const;
+    std::string valueStr() const;
     const std::deque<ResultType> *history() const;
     ErrorFlags errorState() const;
+    void clear();
+    void clearHistory();
 
 private:
     void setInput(const std::string &input);
@@ -78,12 +83,29 @@ inline Calculator::ResultType Interpreter::result() const {
     return _calculator->currentResult();
 }
 
+inline Interpreter::ValueType Interpreter::value() const {
+    return _calculator->currentValue();
+}
+
+inline std::string Interpreter::valueStr() const
+{
+    return _calculator->currentValueStr();
+}
+
 inline const std::deque<Interpreter::ResultType> *Interpreter::history() const {
     return _calculator->history();
 }
 
 inline ErrorFlags Interpreter::errorState() const {
     return _calculator->errorState();
+}
+
+inline void Interpreter::clear() {
+    _calculator->clear();
+}
+
+inline void Interpreter::clearHistory() {
+    _calculator->clearHistory();
 }
 
 

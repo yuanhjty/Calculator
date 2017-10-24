@@ -1,7 +1,7 @@
 #include "CalcResult.h"
 
 ResultHandler::ResultHandler() :
-    _currentResult(std::make_pair(std::string(""), std::string(""))),
+    _currentResult(std::make_pair(std::string(""), std::string("0"))),
     _errorState(ERROR_NOERROR) { }
 
 void ResultHandler::updateHisotry() {

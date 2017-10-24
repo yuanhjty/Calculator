@@ -25,13 +25,13 @@ ExprNode *BMinus::newNode() const {
 }
 
 
-// Multi
-ExprNode::ValueType Multi::evaluate() {
+// Mult
+ExprNode::ValueType Mult::evaluate() {
     return _leftChild->evaluate() * _rightChild->evaluate();
 }
 
-ExprNode *Multi::newNode() const {
-    return new Multi;
+ExprNode *Mult::newNode() const {
+    return new Mult;
 }
 
 
@@ -39,7 +39,7 @@ ExprNode *Multi::newNode() const {
 ExprNode::ValueType Divide::evaluate() {
     ExprNode::ValueType divisor = _rightChild->evaluate();
     if (0 == divisor)
-        throw SyntaxError("diveded by zero", FILTER_IGNORE);
+        throw SyntaxError("diveded by zero", REPAIR_IGNORE);
 
     return _leftChild->evaluate() / divisor;
 }
@@ -53,7 +53,7 @@ ExprNode *Divide::newNode() const {
 ExprNode::ValueType Modulo::evaluate() {
     ExprNode::ValueType divisor = _rightChild->evaluate();
     if (0 == divisor)
-        throw SyntaxError("diveded by zero", FILTER_IGNORE);
+        throw SyntaxError("diveded by zero", REPAIR_IGNORE);
 
     ExprNode::ValueType dividend = _leftChild->evaluate();
     ExprNode::ValueType intPart = 0;

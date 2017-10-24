@@ -6,12 +6,19 @@
 
 
 TableParser::TableParser() :
-    _unitTable(nullptr), _srcUnitWeight(0),
-    _dstUnitWeight(0), _srcValue(0) {
+    _unitTable(nullptr), _srcUnitWeight(1),
+    _dstUnitWeight(1), _srcValue(0) {
     setToValue(NumeralConverter::defaultStringToValue);
 }
 
 void TableParser::parse(const std::string &expr) {
+    if (expr.empty()) {
+        _srcUnitWeight = 1;
+        _dstUnitWeight = 1;
+        _srcValue = 1;
+        return;
+    }
+
     std::istringstream is(expr);
     std::string token;
     std::vector<std::string> exprNodes;
@@ -27,8 +34,8 @@ void TableParser::parse(const std::string &expr) {
     _srcValue = _toValue(exprNodes[0]);
 
     if (0 == (_srcUnitWeight = _unitTable->unitWeight(exprNodes[1])))
-        throw SymbolError("undefined unit: " + exprNodes[1], FILTER_IGNORE);
+        throw SymbolError("undefined unit: " + exprNodes[1], REPAIR_APPEND);
 
     if (0 == (_dstUnitWeight = _unitTable->unitWeight(exprNodes[3])))
-        throw SymbolError("undefined unit: " + exprNodes[3], FILTER_IGNORE);
+        throw SymbolError("undefined unit: " + exprNodes[3], REPAIR_APPEND);
 }

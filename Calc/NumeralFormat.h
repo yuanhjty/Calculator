@@ -3,6 +3,7 @@
 
 #include "CalcFlags.h"
 #include <string>
+#include <cmath>
 
 
 enum NumeralFormat {
@@ -44,6 +45,7 @@ public:
     // For string and value conversion of programmer claculator
     static std::string vlaueToIntegerString(double value, int base);
     static std::string valueTobinaryString(double value);
+    static std::string valueTobinaryString(double value, const std::string &delim);
     static std::string valueToOctalString(double value);
     static std::string valueToDecimalString(double value);
     static std::string valueToHexString(double value);
@@ -53,6 +55,9 @@ public:
     static double octalStringToValue(const std::string &token);
     static double decimalStringToValue(const std::string &token);
     static double hexStringToValue(const std::string &token);
+
+private:
+    static std::string hexToBinMap[16];
 };
 
 

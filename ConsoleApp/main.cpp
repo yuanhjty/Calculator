@@ -32,7 +32,7 @@ int main() {
 
         COMMAND cmd = interpreter->interpret(input);
 
-        if (CMD_CONTINUE == cmd)
+        if (CMD_EMPTY == cmd)
             continue;
 
         if (CMD_QUIT == cmd)

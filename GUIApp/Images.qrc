@@ -12,11 +12,12 @@
         <file alias="pressure">images/pressure.png</file>
         <file alias="angle">images/angle.png</file>
         <file alias="data">images/data.png</file>
-        <file alias="delete">images/delete.png</file>
         <file alias="history">images/history.png</file>
         <file alias="clear">images/clear.png</file>
         <file alias="menu">images/menu.png</file>
         <file alias="programmer">images/programmer.png</file>
         <file alias="down-arrow">images/down-arrow.png</file>
+        <file alias="backspace">images/backspace.png</file>
+        <file alias="up-arrow">images/up-arrow.png</file>
     </qresource>
 </RCC>

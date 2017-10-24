@@ -22,7 +22,7 @@ void Converter::setNumeralFormat(NumeralFormat format) {
         break;
 
     default:
-        throw InnerError("inner error: undefined numeral format", REPAIR_NOREPAIR);
+        throw InnerError("inner error: undefined numeral format");
         break;
     }
 }

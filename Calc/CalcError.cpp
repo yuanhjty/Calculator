@@ -1,16 +1,13 @@
 #include "CalcError.h"
 
-CalcError::CalcError(const std::string &msg) :
-    std::runtime_error(msg), _errorState(ERROR_NOERROR) { }
+CalcError::CalcError(const std::string &msg, ErrorFlags flg) :
+    std::runtime_error(msg), _errorState(flg) { }
 
-InnerError::InnerError(const std::string &msg, ErrorFlags flags) :
-    CalcError(msg) { (_errorState |= ERROR_INNER) |= flags; }
+InnerError::InnerError(const std::string &msg) :
+    CalcError(msg, ErrorFlags(ERROR_INNER) | REPAIR_NOREPAIR) { }
 
-SymbolError::SymbolError(const std::string &msg, ErrorFlags flags) :
-    CalcError(msg) { (_errorState |= ERROR_SYMBOL) |= flags; }
+SymbolError::SymbolError(const std::string &msg, ErrorFlags flg) :
+    CalcError(msg, ERROR_SYMBOL) { _errorState |= flg; }
 
-SyntaxError::SyntaxError(const std::string &msg, ErrorFlags flags) :
-    CalcError(msg) { (_errorState  |= ERROR_SYNTAX)|= flags; }
-
-IncompleteError::IncompleteError(const std::string &msg, ErrorFlags flags) :
-    CalcError(msg) { (_errorState  |= ERROR_INCOMPLETE)|= flags; }
+SyntaxError::SyntaxError(const std::string &msg, ErrorFlags flg) :
+    CalcError(msg, ERROR_SYNTAX) { _errorState |= flg; }

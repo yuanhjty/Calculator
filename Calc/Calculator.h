@@ -24,8 +24,10 @@ public:
 
     void updateHistory();
     void clearHistory();
+    void clear();
 
     ValueType currentValue() const;
+    std::string currentValueStr() const;
     ResultType currentResult() const;
     const std::deque<ResultType> *history() const;
     ErrorFlags errorState() const;
@@ -46,8 +48,16 @@ inline void Calculator::clearHistory() {
     _resultHandler->clearHistory();
 }
 
+inline void Calculator::clear() {
+    evaluate("");
+}
+
 inline Calculator::ValueType Calculator::currentValue() const {
     return _parser->value();
+}
+
+inline std::string Calculator::currentValueStr() const {
+    return _toString(_parser->value());
 }
 
 inline Calculator::ResultType Calculator::currentResult() const {

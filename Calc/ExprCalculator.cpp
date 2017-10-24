@@ -48,19 +48,19 @@ void ScienceCalculator::setNumeralFormat(NumeralFormat format) {
         break;
 
     default:
-        throw InnerError("inner error: undefined numeral format", REPAIR_NOREPAIR);
+        throw InnerError("inner error: undefined numeral format");
         break;
     }
 
-    _resultHandler->setCurrentResult(_scanner->formattedExpression(),
-                                     _toString(currentValue()));
+    if ((_resultHandler->errorState() & ERROR_FIELD) == ERROR_NOERROR)
+        _resultHandler->updateCurrentValue(_toString(currentValue()));
 }
 
 void ScienceCalculator::initSymbolTable() {
     // binary operaetors
     _symbolTable->registerSymbol("+", new Plus);
     _symbolTable->registerSymbol("-", new BMinus);
-    _symbolTable->registerSymbol("*", new Multi);
+    _symbolTable->registerSymbol("*", new Mult);
     _symbolTable->registerSymbol("/", new Divide);
     _symbolTable->registerSymbol("%", new Modulo);
     _symbolTable->registerSymbol("^", new Power);
@@ -123,29 +123,29 @@ void ProgrammerCalculator::setNumeralFormat(NumeralFormat format) {
         break;
 
     default:
-        throw InnerError("inner error: undefined numeral format", REPAIR_NOREPAIR);
+        throw InnerError("inner error: undefined numeral format");
         break;
     }
 
-    _resultHandler->setCurrentResult(_scanner->formattedExpression(),
-                                     _toString(currentValue()));
+    if ((_resultHandler->errorState() & ERROR_FIELD) == ERROR_NOERROR)
+        _resultHandler->updateCurrentValue(_toString(currentValue()));
 }
 
 void ProgrammerCalculator::initSymbolTable() {
     // binary operaetors
     _symbolTable->registerSymbol("+", new Plus);
     _symbolTable->registerSymbol("-", new BMinus);
-    _symbolTable->registerSymbol("*", new Multi);
+    _symbolTable->registerSymbol("*", new Mult);
     _symbolTable->registerSymbol("/", new Divide);
-    _symbolTable->registerSymbol("%", new Modulo);
+    _symbolTable->registerSymbol("Mod", new Modulo);
 
-    _symbolTable->registerSymbol("and", new BitAnd);
-    _symbolTable->registerSymbol("or", new BitOr);
-    _symbolTable->registerSymbol("xor", new BitXor);
-    _symbolTable->registerSymbol("lsh", new Lsh);
-    _symbolTable->registerSymbol("rsh", new Rsh);
+    _symbolTable->registerSymbol("And", new BitAnd);
+    _symbolTable->registerSymbol("Or", new BitOr);
+    _symbolTable->registerSymbol("Xor", new BitXor);
+    _symbolTable->registerSymbol("Lsh", new Lsh);
+    _symbolTable->registerSymbol("Rsh", new Rsh);
 
     // unary operators
     _symbolTable->registerSymbol("u-", new UMinus);
-    _symbolTable->registerSymbol("not", new BitNot);
+    _symbolTable->registerSymbol("Not", new BitNot);
 }

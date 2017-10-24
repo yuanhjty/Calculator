@@ -1,17 +1,28 @@
-# toy-calculator
+# Calculator(Git branch: master-2.0)
 
 ## Platform and Kits
 Win10 + Qt5.9 + MinGW53_32/MSVC2015_64
 
 ## Function
 ### Scientific calculator
->Operand: scientific notation supported  
->Binary operation: + - * / ^ %  
->Unary  operation: - sin cos tan asin acos atan ln lg sqrt
+>Number notation: Defalut Scientific Fixed  
+>Angle unit: Degree Radian  
+>Binary operation: + - * / ^(Power) %(Modulo)  
+>Unary  operation: - sin cos tan asin acos atan ln lg sqrt  
+### Programmer calculator
+>Number notation: Hex Octal Decimal Binary
+>Binary operation: + - * / Mod And Or Xor Lsh Rsh  
+>Unary  operation: Not  
+### Converter
+>Length Area Volume Weight Time Velocity  
+>Energy Power Pressure Angle Data  
 
 ## Demo
+>Only for the previous version.  
+>GUIApp of Current version is much more beautiful,  
+>and fully supports the [Function](#Function)  
 
-### CMDApp Demo
+### ConsoleApp
 
 ```
 $ ./Calculator

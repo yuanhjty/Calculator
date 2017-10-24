@@ -30,7 +30,7 @@ void Interpreter::setInput(const std::string &input) {
 
 std::string Interpreter::parseCommand() const {
     if (_input.empty())
-        return std::string("continue");
+        return std::string("empty");
 
     if (_input.find_first_of(" \t") != std::string::npos)
         return std::string("evalute");
@@ -118,6 +118,7 @@ COMMAND Interpreter::execute(const std::string &command) {
         break;
 
     // evaluate
+    case CMD_EMPTY:     // evaluate empty expression
     case CMD_EVALUATE:
         _calculator->evaluate(_input);
         break;
@@ -189,7 +190,7 @@ void Interpreter::switchCalculator(CALCULATOR id) {
             _calculator = new AngleConverter;
             break;
         default:
-            throw InnerError("inner error", REPAIR_NOREPAIR);
+            throw InnerError("inner error: undefined calculator");
             break;
         }
         _calculatorPool.insert(std::make_pair(id, _calculator));
@@ -221,5 +222,5 @@ std::unordered_map<std::string, COMMAND> Interpreter::_commands = {
     {"clear", CMD_CLEAR},
 
     // Others
-    {"complete", CMD_COMPLETE}, {"continue", CMD_CONTINUE}, {"quit", CMD_QUIT},
+    {"complete", CMD_COMPLETE}, {"empty", CMD_EMPTY}, {"quit", CMD_QUIT},
 };
